@@ -1,0 +1,28 @@
+# Log files
+logs
+*.log
+npm-debug.log*
+
+# Next.js build output
+.next
+
+# Electron.js build output
+app
+
+# Dependency directories
+node_modules
+jspm_packages
+
+# Environment variable files
+.env
+.env.development
+.env.production
+
+# Visual Studio Code
+.vscode
+
+# Local history for Visual Studio Code
+.history
+
+# OS-specific files
+.DS_Store

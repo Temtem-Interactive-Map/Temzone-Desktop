@@ -1,0 +1,36 @@
+{
+  "name": "temzone",
+  "version": "0.1.0",
+  "author": {
+    "name": "Temtem Interactive Map"
+  },
+  "license": "MIT",
+  "main": "app/background.js",
+  "private": true,
+  "scripts": {
+    "dev": "nextron",
+    "build": "nextron build",
+    "build:all": "nextron build --all",
+    "build:win32": "nextron build --win --ia32",
+    "build:win64": "nextron build --win --x64",
+    "build:mac": "nextron build --mac --x64",
+    "build:linux": "nextron build --linux",
+    "postinstall": "electron-builder install-app-deps"
+  },
+  "dependencies": {
+    "electron-serve": "^1.1.0",
+    "electron-store": "^8.1.0"
+  },
+  "devDependencies": {
+    "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
+    "@mui/material": "^5.10.15",
+    "electron": "^21.3.1",
+    "electron-builder": "^23.6.0",
+    "leaflet": "^1.9.3",
+    "next": "^13.0.5",
+    "nextron": "^8.2.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  }
+}
