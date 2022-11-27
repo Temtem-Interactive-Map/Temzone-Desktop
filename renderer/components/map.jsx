@@ -13,7 +13,7 @@ export default function Map() {
   const mapCenter = mapSize / 2;
 
   useEffect(() => {
-    var map = L.map("map", {
+    const map = L.map("map", {
       crs: L.CRS.Simple,
       minZoom: 3,
       maxZoom: zoom,
