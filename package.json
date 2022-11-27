@@ -27,6 +27,7 @@
     "@mui/material": "^5.10.15",
     "electron": "^21.3.1",
     "electron-builder": "^23.6.0",
+    "electron-devtools-installer": "^3.2.0",
     "leaflet": "^1.9.3",
     "next": "^13.0.5",
     "nextron": "^8.2.0",

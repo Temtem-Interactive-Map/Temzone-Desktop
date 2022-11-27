@@ -1,8 +1,7 @@
-import Grid from "@mui/material/Grid";
+import { Grid } from "@mui/material";
 import dynamic from "next/dynamic";
-import React from "react";
 
-const Map = dynamic(() => import("../components/map/map"), {
+const Map = dynamic(() => import("../components/map"), {
   ssr: false,
 });
 

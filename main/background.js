@@ -1,13 +1,16 @@
 import { app } from "electron";
+import installExtension, {
+  REACT_DEVELOPER_TOOLS,
+} from "electron-devtools-installer";
 import serve from "electron-serve";
-import { createWindow } from "./helpers";
+import createWindow from "./helpers/create-window";
 
 const isProd = process.env.NODE_ENV === "production";
 
 if (isProd) {
   serve({ directory: "app" });
 } else {
-  app.setPath("userData", `${app.getPath("userData")} (development)`);
+  app.setPath("userData", app.getPath("userData") + " (development)");
 }
 
 (async () => {
@@ -21,8 +24,11 @@ if (isProd) {
   if (isProd) {
     await mainWindow.loadURL("app://./home.html");
   } else {
+    installExtension(REACT_DEVELOPER_TOOLS);
+
     const port = process.argv[2];
-    await mainWindow.loadURL(`http://localhost:${port}/home`);
+    await mainWindow.loadURL("http://localhost:" + port + "/home");
+
     mainWindow.webContents.openDevTools();
   }
 })();
