@@ -6,6 +6,7 @@ npm-debug.log*
 # Next.js build output
 .next
 app
+dist
 
 # Dependency directories
 node_modules
