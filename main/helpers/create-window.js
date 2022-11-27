@@ -74,6 +74,7 @@ export default function createWindow(windowName, options) {
     },
   });
 
+  win.removeMenu();
   win.on("close", saveState);
 
   return win;

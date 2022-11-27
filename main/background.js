@@ -1,4 +1,4 @@
-import { app } from "electron";
+import { app, globalShortcut } from "electron";
 import installExtension, {
   REACT_DEVELOPER_TOOLS,
 } from "electron-devtools-installer";
@@ -30,6 +30,13 @@ if (isProd) {
 
     const port = process.argv[2];
     await mainWindow.loadURL("http://localhost:" + port + "/home");
+
+    globalShortcut.register("CommandOrControl+R", () => {
+      mainWindow.reload();
+    });
+    globalShortcut.register("CommandOrControl+Shift+I", () => {
+      mainWindow.webContents.openDevTools();
+    });
 
     mainWindow.webContents.openDevTools();
   }
