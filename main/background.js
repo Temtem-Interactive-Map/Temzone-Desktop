@@ -22,7 +22,6 @@ if (isProd) {
     height: 600,
     minHeight: 600,
   });
-  mainWindow.maximize();
 
   if (isProd) {
     await mainWindow.loadURL("app://./home.html");
