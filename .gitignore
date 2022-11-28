@@ -5,6 +5,8 @@ npm-debug.log*
 
 # Next.js build output
 .next
+
+# Electron.js build output
 app
 dist
 
