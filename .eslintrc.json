@@ -10,8 +10,8 @@
     }
   },
   "extends": [
-    "plugin:react/recommended",
     "plugin:@next/next/recommended",
+    "plugin:react/recommended",
     "plugin:json/recommended",
     "plugin:yml/standard",
     "standard",
@@ -26,6 +26,7 @@
   },
   "plugins": ["react"],
   "rules": {
+    "@next/next/no-html-link-for-pages": ["error", "renderer/pages"],
     "react/react-in-jsx-scope": "off",
     "react/prop-types": "off",
     "arrow-body-style": "off",
