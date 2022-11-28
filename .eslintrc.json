@@ -30,7 +30,5 @@
     "react/prop-types": "off",
     "arrow-body-style": "off",
     "prefer-arrow-callback": "off"
-    // "no-unused-vars": "warn",
-    // "prefer-const": "warn"
   }
 }
