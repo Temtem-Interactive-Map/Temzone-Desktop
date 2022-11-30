@@ -1,17 +1,18 @@
 import L from "leaflet";
-import "leaflet/dist/leaflet.css";
 import { useEffect } from "react";
 
-export default function Map() {
-  const zoom = 6;
-  const tileSize = 256;
-  const mapSize = tileSize * Math.pow(2, zoom);
-  const mapMinHorizontal = tileSize * 7;
-  const mapMaxHorizontal = mapSize - tileSize * 7;
-  const mapMinVertical = tileSize * 11;
-  const mapMaxVertical = mapSize - tileSize * 11;
-  const mapCenter = mapSize / 2;
+import "leaflet/dist/leaflet.css";
 
+const zoom = 6;
+const tileSize = 256;
+const mapSize = tileSize * Math.pow(2, zoom);
+const mapMinHorizontal = tileSize * 7;
+const mapMaxHorizontal = mapSize - tileSize * 7;
+const mapMinVertical = tileSize * 11;
+const mapMaxVertical = mapSize - tileSize * 11;
+const mapCenter = mapSize / 2;
+
+export default function Map() {
   useEffect(() => {
     const map = L.map("map", {
       crs: L.CRS.Simple,
@@ -48,14 +49,5 @@ export default function Map() {
       .addTo(map);
   }, []);
 
-  return (
-    <div
-      id="map"
-      style={{
-        width: "100%",
-        height: "100%",
-        background: "#20293C",
-      }}
-    />
-  );
+  return <div id="map" className="h-full w-full bg-[#20293C]" />;
 }
