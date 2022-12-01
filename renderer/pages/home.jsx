@@ -1,13 +1,17 @@
 import dynamic from "next/dynamic";
+import Discover from "../components/Discover";
+import Sidebar from "../components/Sidebar";
 
-const Map = dynamic(() => import("../components/map"), {
+const Map = dynamic(() => import("../components/Map"), {
   ssr: false,
 });
 
 export default function Home() {
   return (
-    <div className="h-screen w-full bg-[#393943]">
+    <>
+      <Sidebar />
+      <Discover />
       <Map />
-    </div>
+    </>
   );
 }

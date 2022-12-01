@@ -17,10 +17,10 @@ if (isProd) {
   await app.whenReady();
 
   const mainWindow = createWindow({
-    width: 1024,
-    minWidth: 1024,
-    height: 600,
-    minHeight: 600,
+    width: 1280,
+    height: 720,
+    minWidth: 940,
+    minHeight: 500,
   });
 
   if (isProd) {
@@ -37,8 +37,6 @@ if (isProd) {
     globalShortcut.register("CommandOrControl+Shift+I", () => {
       mainWindow.webContents.openDevTools();
     });
-
-    mainWindow.webContents.openDevTools();
   }
 })();
 

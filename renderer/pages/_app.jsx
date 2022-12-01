@@ -1,6 +1,5 @@
 import Head from "next/head";
 import packageJson from "../../package.json";
-
 import "../styles/globals.css";
 
 export default function App({ Component, pageProps }) {
@@ -9,7 +8,10 @@ export default function App({ Component, pageProps }) {
       <Head>
         <title>{"Temzone " + packageJson.version}</title>
       </Head>
-      <Component {...pageProps} />
+
+      <div className="flex h-screen text-gray-100">
+        <Component {...pageProps} />
+      </div>
     </>
   );
 }

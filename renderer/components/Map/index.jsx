@@ -1,5 +1,5 @@
 import L from "leaflet";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 
 import "leaflet/dist/leaflet.css";
 
@@ -41,13 +41,7 @@ export default function Map() {
       ]),
       maxNativeZoom: zoom,
     }).addTo(map);
-
-    L.control
-      .zoom({
-        position: "bottomright",
-      })
-      .addTo(map);
   }, []);
 
-  return <div id="map" className="h-full w-full bg-[#20293C]" />;
+  return <div id="map" className="w-full bg-[#20293c]" />;
 }
