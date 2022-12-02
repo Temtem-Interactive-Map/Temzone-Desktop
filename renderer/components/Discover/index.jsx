@@ -1,5 +1,6 @@
-export default function Discover() {
-  const markers = Array(100).fill("MARKER");
+export default function Discover({ type }) {
+  const markers = Array(100).fill(type);
+
   return (
     <div
       className="select-none overflow-y-scroll bg-[#303136] scrollbar-hide"

@@ -1,7 +1,6 @@
 import L from "leaflet";
-import React, { useEffect } from "react";
-
 import "leaflet/dist/leaflet.css";
+import { useEffect } from "react";
 
 const zoom = 6;
 const tileSize = 256;
@@ -33,7 +32,7 @@ export default function Map() {
       ])
     );
 
-    L.tileLayer("tiles/{z}/{x}/{y}.png", {
+    L.tileLayer("../tiles/{z}/{x}/{y}.png", {
       noWrap: true,
       bounds: L.latLngBounds([
         map.unproject([0, mapSize], zoom),
@@ -43,5 +42,7 @@ export default function Map() {
     }).addTo(map);
   }, []);
 
-  return <div id="map" className="w-full bg-[#20293c]" />;
+  return (
+    <div id="map" className="flex-grow" style={{ background: "#001e3c" }} />
+  );
 }

@@ -1,6 +1,13 @@
-export default function NavLink({ active, children }) {
+import Link from "next/link";
+import { useRouter } from "next/router";
+
+export default function NavLink({ href, children }) {
+  const router = useRouter();
+  const active = router.asPath === href;
+
   return (
-    <button
+    <Link
+      href={href}
       className="group relative block select-none"
       onDragStart={(e) => e.preventDefault()}
     >
@@ -19,14 +26,14 @@ export default function NavLink({ active, children }) {
         <div
           className={
             (active
-              ? "rounded-2xl bg-[#5965F2]"
-              : "rounded-3xl bg-gray-700 group-hover:rounded-2xl group-hover:bg-[#5965F2]") +
+              ? "rounded-2xl bg-brand"
+              : "rounded-3xl bg-gray-700 group-hover:rounded-2xl group-hover:bg-brand") +
             " flex h-12 w-12 items-center justify-center overflow-hidden transition-all duration-200"
           }
         >
           {children}
         </div>
       </div>
-    </button>
+    </Link>
   );
 }
