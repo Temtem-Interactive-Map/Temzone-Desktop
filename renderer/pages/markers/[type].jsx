@@ -13,8 +13,13 @@ export default function Markers() {
 
   return (
     <>
+      {/* Sidebar menu */}
       <Sidebar />
+
+      {/* Markers */}
       <Discover type={type} />
+
+      {/* Airborne Archipelago map */}
       <Map />
     </>
   );

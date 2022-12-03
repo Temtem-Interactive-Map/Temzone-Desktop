@@ -20,7 +20,7 @@ export default function Map() {
       zoomControl: false,
       keyboard: false,
       preferCanvas: true,
-      maxBoundsViscosity: 0.8,
+      maxBoundsViscosity: 1.0,
       attributionControl: false,
     });
 

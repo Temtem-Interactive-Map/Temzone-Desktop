@@ -8,11 +8,8 @@ export default function NavLink({ href, children }) {
   const [query] = useLanguageQuery();
 
   return (
-    <Link
-      href={{ pathname: href, query }}
-      className="group relative block select-none"
-      onDragStart={(e) => e.preventDefault()}
-    >
+    <div className="group relative block">
+      {/* Left arrow */}
       <div className="absolute -left-3 flex h-full items-center">
         <div
           className={
@@ -24,7 +21,11 @@ export default function NavLink({ href, children }) {
         />
       </div>
 
-      <div className="group-active:translate-y-px">
+      {/* Main button */}
+      <Link
+        href={{ pathname: href, query }}
+        className="group-active:translate-y-px"
+      >
         <div
           className={
             (active
@@ -35,7 +36,7 @@ export default function NavLink({ href, children }) {
         >
           {children}
         </div>
-      </div>
-    </Link>
+      </Link>
+    </div>
   );
 }

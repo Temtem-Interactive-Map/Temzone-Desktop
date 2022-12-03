@@ -8,15 +8,18 @@ export default function Sidebar() {
   const { t } = useTranslation();
 
   return (
-    <aside className="space-y-2 overflow-y-scroll bg-gray-900 p-3 scrollbar-hide">
-      {/* Side bar menu */}
+    <aside
+      className="space-y-2 overflow-y-scroll bg-gray-900 p-3 scrollbar-hide"
+      onDragStart={(e) => e.preventDefault()}
+    >
+      {/* Marker filters */}
       {sidebar.map((item, i) => (
         <NavLink key={i} href={item.href}>
           <Image
             src={item.image}
             alt={t(item.label)}
-            width={40}
-            height={40}
+            width={36}
+            height={36}
             quality={100}
           />
         </NavLink>
@@ -25,13 +28,13 @@ export default function Sidebar() {
       {/* Divider */}
       <hr className="mx-2 rounded border-t-2 border-t-white/[0.06]" />
 
-      {/* Logout button */}
+      {/* Sign out button */}
       <NavLink href="/login">
         <Image
           src={performanceIcon}
-          alt={t("logout")}
-          width={40}
-          height={40}
+          alt={t("sign_out")}
+          width={36}
+          height={36}
           quality={100}
         />
       </NavLink>

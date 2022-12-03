@@ -1,16 +1,11 @@
-export default function Discover({ type }) {
-  const markers = Array(100).fill(type);
+import { markers } from "../../data";
 
+export default function Discover({ type }) {
   return (
-    <div
-      className="select-none overflow-y-scroll bg-[#303136] scrollbar-hide"
-      onDragStart={(e) => e.preventDefault()}
-    >
+    <div className="w-96 overflow-y-scroll bg-gray-800 scrollbar-hide">
       <div className="flex w-full flex-col">
-        {markers.map((marker, i) => (
-          <p key={i}>
-            {marker} {i}
-          </p>
+        {markers[type]?.map((marker) => (
+          <p key={marker}>{marker}</p>
         ))}
       </div>
     </div>

@@ -9,7 +9,7 @@ export default function App({ Component, pageProps }) {
         <title>{"Temzone " + packageJson.version}</title>
       </Head>
 
-      <div className="flex h-screen text-gray-100">
+      <div className="flex h-screen select-none">
         <Component {...pageProps} />
       </div>
     </>

@@ -1,7 +1,11 @@
 {
   "i18n": {
-    "login": "Login",
-    "logout": "Logout",
+    "sign_in": "Sign in",
+    "sign_in_branding": "Sign in to your account",
+    "email_field": "Enter your email",
+    "password_field": "Enter your password",
+    "password_template": "name@company.com",
+    "sign_out": "Sign out",
     "all_markers": "All markers",
     "temtem_markers": "Temtem markers",
     "landmark_markers": "Landmark markers"
