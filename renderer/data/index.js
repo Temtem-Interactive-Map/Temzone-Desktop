@@ -1,6 +1,6 @@
-import keyImage from "../public/images/key.png";
-import landmarkImage from "../public/images/landmark.png";
-import temcardImage from "../public/images/temcard.png";
+import keyIcon from "../public/images/key_icon.png";
+import landmarkIcon from "../public/images/landmark_icon.png";
+import temcardIcon from "../public/images/temcard_icon.png";
 
 export const markers = Object.freeze({
   all: ["temtem", "saipark", "landmark"],
@@ -10,18 +10,18 @@ export const markers = Object.freeze({
 
 export const sidebar = Object.freeze([
   {
-    image: keyImage,
-    label: "All markers",
+    image: keyIcon,
+    label: "all_markers",
     href: "/markers/all",
   },
   {
-    image: temcardImage,
-    label: "Temtem markers",
+    image: temcardIcon,
+    label: "temtem_markers",
     href: "/markers/temtem",
   },
   {
-    image: landmarkImage,
-    label: "Landmark markers",
+    image: landmarkIcon,
+    label: "landmark_markers",
     href: "/markers/landmark",
   },
 ]);

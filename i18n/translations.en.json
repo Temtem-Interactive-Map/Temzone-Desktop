@@ -1,0 +1,9 @@
+{
+  "i18n": {
+    "login": "Login",
+    "logout": "Logout",
+    "all_markers": "All markers",
+    "temtem_markers": "Temtem markers",
+    "landmark_markers": "Landmark markers"
+  }
+}

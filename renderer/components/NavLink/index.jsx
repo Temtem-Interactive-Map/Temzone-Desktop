@@ -1,13 +1,15 @@
+import { useLanguageQuery } from "next-export-i18n";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
 export default function NavLink({ href, children }) {
   const router = useRouter();
-  const active = router.asPath === href;
+  const active = router.asPath.startsWith(href);
+  const [query] = useLanguageQuery();
 
   return (
     <Link
-      href={href}
+      href={{ pathname: href, query }}
       className="group relative block select-none"
       onDragStart={(e) => e.preventDefault()}
     >

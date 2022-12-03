@@ -1,16 +1,20 @@
+import { useTranslation } from "next-export-i18n";
 import Image from "next/image";
-import { IoExitOutline } from "react-icons/io5";
 import { sidebar } from "../../data";
+import performanceIcon from "../../public/images/performance_icon.png";
 import NavLink from "../NavLink";
 
 export default function Sidebar() {
+  const { t } = useTranslation();
+
   return (
     <aside className="space-y-2 overflow-y-scroll bg-gray-900 p-3 scrollbar-hide">
-      {sidebar.map((item) => (
-        <NavLink href={item.href} key={item.label}>
+      {/* Side bar menu */}
+      {sidebar.map((item, i) => (
+        <NavLink key={i} href={item.href}>
           <Image
             src={item.image}
-            alt={item.label}
+            alt={t(item.label)}
             width={40}
             height={40}
             quality={100}
@@ -18,10 +22,18 @@ export default function Sidebar() {
         </NavLink>
       ))}
 
+      {/* Divider */}
       <hr className="mx-2 rounded border-t-2 border-t-white/[0.06]" />
 
+      {/* Logout button */}
       <NavLink href="/login">
-        <IoExitOutline className="h-8 w-8" />
+        <Image
+          src={performanceIcon}
+          alt={t("logout")}
+          width={40}
+          height={40}
+          quality={100}
+        />
       </NavLink>
     </aside>
   );
