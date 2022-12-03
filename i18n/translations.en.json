@@ -1,11 +1,13 @@
 {
   "i18n": {
-    "sign_in": "Sign in",
-    "sign_in_branding": "Sign in to your account",
+    "field_required": "This field is required.",
+    "login": "Log In",
+    "login_branding": "Log in to your account",
+    "login_error": "Email or password is invalid.",
     "email_field": "Enter your email",
+    "email_template": "name@company.com",
     "password_field": "Enter your password",
-    "password_template": "name@company.com",
-    "sign_out": "Sign out",
+    "logout": "Log out",
     "all_markers": "All markers",
     "temtem_markers": "Temtem markers",
     "landmark_markers": "Landmark markers"

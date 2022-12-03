@@ -4,16 +4,25 @@ export default function InputField({
   type = "text",
   placeholder = "",
   required = false,
+  error,
+  props,
 }) {
   return (
     <div>
       {/* Input label */}
       <label
         htmlFor={id}
-        className="mb-2 block text-sm font-medium text-gray-100"
+        className={
+          (error ? "text-red-300" : "text-gray-100") +
+          " mb-2 block text-sm font-medium"
+        }
       >
         {label}
-        {required ? <span className="pl-1 text-red-500">*</span> : null}
+        {error ? (
+          <span className="italic text-red-300"> - {error}</span>
+        ) : (
+          required && <span className="text-red-500"> *</span>
+        )}
       </label>
 
       {/* Input field */}
@@ -22,7 +31,7 @@ export default function InputField({
         type={type}
         placeholder={placeholder}
         className="block w-full rounded-md border border-gray-600 bg-gray-700 p-2.5 text-gray-100 placeholder-gray-400"
-        required={required}
+        {...props}
       />
     </div>
   );

@@ -28,11 +28,11 @@ export default function Sidebar() {
       {/* Divider */}
       <hr className="mx-2 rounded border-t-2 border-t-white/[0.06]" />
 
-      {/* Sign out button */}
+      {/* Logout button */}
       <NavLink href="/login">
         <Image
           src={performanceIcon}
-          alt={t("sign_out")}
+          alt={t("logout")}
           width={36}
           height={36}
           quality={100}
