@@ -5,6 +5,7 @@ import performanceIcon from "../../public/images/performance_icon.png";
 import NavLink from "../NavLink";
 
 export default function Sidebar() {
+  // Internationalization
   const { t } = useTranslation();
 
   return (

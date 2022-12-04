@@ -1,10 +1,11 @@
 import { useLanguageQuery } from "next-export-i18n";
-import Link from "next/link";
 import { useRouter } from "next/router";
 
 export default function NavLink({ href, children }) {
+  // Navigation
   const router = useRouter();
   const active = router.asPath.startsWith(href);
+  // Internationalization
   const [query] = useLanguageQuery();
 
   return (
@@ -22,9 +23,14 @@ export default function NavLink({ href, children }) {
       </div>
 
       {/* Main button */}
-      <Link
-        href={{ pathname: href, query }}
-        className="group-active:translate-y-px"
+      <button
+        className={
+          (active ? "focus:rounded-2xl" : "focus:rounded-3xl") +
+          " focus:outline focus:outline-4 focus:outline-blue-400 group-active:translate-y-px"
+        }
+        onClick={() => {
+          router.push({ pathname: href, query });
+        }}
       >
         <div
           className={
@@ -36,7 +42,7 @@ export default function NavLink({ href, children }) {
         >
           {children}
         </div>
-      </Link>
+      </button>
     </div>
   );
 }

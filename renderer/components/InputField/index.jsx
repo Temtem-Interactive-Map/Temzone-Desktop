@@ -12,6 +12,7 @@ export default function InputField({
       {/* Input label */}
       <label
         htmlFor={id}
+        aria-invalid={error ? "true" : "false"}
         className={
           (error ? "text-red-300" : "text-gray-100") +
           " mb-2 block text-sm font-medium"
@@ -19,7 +20,9 @@ export default function InputField({
       >
         {label}
         {error ? (
-          <span className="italic text-red-300"> - {error}</span>
+          <span role="alert" className="pl-1 italic text-red-300">
+            - {error}
+          </span>
         ) : (
           required && <span className="text-red-500"> *</span>
         )}
@@ -30,7 +33,10 @@ export default function InputField({
         id={id}
         type={type}
         placeholder={placeholder}
-        className="block w-full rounded-md border border-gray-600 bg-gray-700 p-2.5 text-gray-100 placeholder-gray-400"
+        className={
+          (error ? "focus:outline-red-300" : "focus:outline-blue-400") +
+          " block w-full rounded-md border border-gray-600 bg-gray-700 p-2.5 text-gray-100 placeholder-gray-400 focus:outline focus:outline-4"
+        }
         {...props}
       />
     </div>
