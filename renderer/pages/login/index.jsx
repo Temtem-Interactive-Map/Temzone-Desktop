@@ -21,6 +21,7 @@ export default function Login() {
     formState: { errors },
   } = useForm({ mode: "onSubmit", reValidateMode: "onSubmit" });
 
+  // Firebase login
   function login(data) {
     setLoading(true);
 

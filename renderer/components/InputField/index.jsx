@@ -35,7 +35,7 @@ export default function InputField({
         placeholder={placeholder}
         className={
           (error ? "focus:outline-red-300" : "focus:outline-blue-400") +
-          " block w-full rounded-md border border-gray-600 bg-gray-700 p-2.5 text-gray-100 placeholder-gray-400 focus:outline focus:outline-4"
+          " block w-full rounded-md border border-gray-600 bg-gray-700 p-2.5 text-gray-100 placeholder-gray-400 focus:outline focus:outline-2"
         }
         {...props}
       />

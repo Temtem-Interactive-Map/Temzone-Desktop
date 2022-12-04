@@ -26,7 +26,7 @@ export default function NavLink({ href, children }) {
       <button
         className={
           (active ? "focus:rounded-2xl" : "focus:rounded-3xl") +
-          " focus:outline focus:outline-4 focus:outline-blue-400 group-active:translate-y-px"
+          " focus:outline focus:outline-2 focus:outline-blue-400 group-active:translate-y-px"
         }
         onClick={() => {
           router.push({ pathname: href, query });

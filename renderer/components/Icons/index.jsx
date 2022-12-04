@@ -23,7 +23,7 @@ export function ThreeDots(props) {
           repeatCount="indefinite"
         />
       </circle>
-      <circle cx="60" cy="15" r="9" fill-opacity="0.3">
+      <circle cx="60" cy="15" r="9" fillOpacity="0.3">
         <animate
           attributeName="r"
           from="9"
