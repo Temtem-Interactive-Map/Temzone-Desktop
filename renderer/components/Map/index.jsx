@@ -1,6 +1,6 @@
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const zoom = 6;
 const tileSize = 256;
@@ -11,9 +11,29 @@ const mapMinVertical = tileSize * 11;
 const mapMaxVertical = mapSize - tileSize * 11;
 const mapCenter = mapSize / 2;
 
-export default function Map() {
+function iconMarker(type) {
+  switch (type) {
+    case "temtem":
+      return "../images/temcard_icon.png";
+    case "saipark":
+      return "../images/key_icon.png";
+    case "landmark":
+      return "../images/landmark_icon.png";
+  }
+}
+
+export default function Map({ markers }) {
+  // State
+  const map = useRef();
+  const [markersLayer, setMarkerLayer] = useState(null);
+
+  // Map initialization
   useEffect(() => {
-    const map = L.map("map", {
+    // Avoid regenerating the map during development when a reload is performed
+    if (map.current) return;
+
+    // Generate the map
+    map.current = L.map("map", {
       crs: L.CRS.Simple,
       minZoom: 3,
       maxZoom: zoom,
@@ -24,23 +44,56 @@ export default function Map() {
       attributionControl: false,
     });
 
-    map.setView(map.unproject([mapCenter, mapCenter], zoom), 3);
-    map.setMaxBounds(
+    // Define the coordinates and the initial zoom of the map
+    map.current.setView(map.current.unproject([mapCenter, mapCenter], zoom), 3);
+
+    // Define the map bounds (areas of the map that have no content are not displayed)
+    map.current.setMaxBounds(
       L.latLngBounds([
-        map.unproject([mapMinHorizontal, mapMaxVertical], zoom),
-        map.unproject([mapMaxHorizontal, mapMinVertical], zoom),
+        map.current.unproject([mapMinHorizontal, mapMaxVertical], zoom),
+        map.current.unproject([mapMaxHorizontal, mapMinVertical], zoom),
       ])
     );
 
+    // Define the tile layers
     L.tileLayer("../tiles/{z}/{x}/{y}.png", {
       noWrap: true,
       bounds: L.latLngBounds([
-        map.unproject([0, mapSize], zoom),
-        map.unproject([mapSize, 0], zoom),
+        map.current.unproject([0, mapSize], zoom),
+        map.current.unproject([mapSize, 0], zoom),
       ]),
       maxNativeZoom: zoom,
-    }).addTo(map);
+    }).addTo(map.current);
+
+    const layer = L.layerGroup().addTo(map.current);
+    setMarkerLayer(layer);
   }, []);
+
+  // Markers loading
+  useEffect(() => {
+    if (markersLayer === null) return;
+
+    markersLayer.clearLayers();
+
+    markers.forEach((marker) => {
+      const icon = L.icon({
+        iconUrl: iconMarker(marker.type),
+        iconSize: [24, 24],
+        iconAnchor: [12, 12],
+      });
+
+      L.marker(map.current.unproject(marker.coordinates, zoom), {
+        icon,
+        draggable: true,
+      })
+        .addTo(markersLayer)
+        .on("click", (e) => {
+          map.current.flyTo(e.latlng, zoom, {
+            duration: 0.5,
+          });
+        });
+    });
+  }, [markersLayer, markers]);
 
   return (
     <div id="map" className="flex-grow" style={{ background: "#001e3c" }} />

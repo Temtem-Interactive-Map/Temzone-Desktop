@@ -22,7 +22,7 @@ export default function Login() {
   } = useForm({ mode: "onSubmit", reValidateMode: "onSubmit" });
 
   // Firebase login
-  function login(data) {
+  function onLoginSubmit(data) {
     setLoading(true);
 
     setTimeout(() => {
@@ -50,7 +50,10 @@ export default function Login() {
           </h1>
 
           {/* Log in form */}
-          <form className="w-96 space-y-4" onSubmit={handleSubmit(login)}>
+          <form
+            className="w-96 space-y-4"
+            onSubmit={handleSubmit(onLoginSubmit)}
+          >
             {/* Email field */}
             <InputField
               id="email"

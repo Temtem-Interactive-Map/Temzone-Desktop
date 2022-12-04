@@ -31,6 +31,7 @@ if (isProd) {
     const port = process.argv[2];
     await mainWindow.loadURL("http://localhost:" + port + "/login");
 
+    // Keyboard shortcuts for development
     globalShortcut.register("CommandOrControl+R", () => {
       mainWindow.reload();
     });
