@@ -1,12 +1,19 @@
 import { useLanguageQuery, useTranslation } from "next-export-i18n";
 import { useRouter } from "next/router";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import InputField from "../../components/InputField";
+import LoadingButton from "../../components/LoadingButton";
 
 export default function Login() {
+  // Navigation
   const router = useRouter();
+  // Internationalization
   const [query] = useLanguageQuery();
   const { t } = useTranslation();
+  // State
+  const [isLoading, setLoading] = useState(false);
+  // Validation
   const {
     handleSubmit,
     register,
@@ -15,10 +22,20 @@ export default function Login() {
   } = useForm({ mode: "onSubmit", reValidateMode: "onSubmit" });
 
   function login(data) {
-    setError("email", { type: "remote", message: t("login_error") }, true);
-    setError("password", { type: "remote", message: t("login_error") }, true);
+    setLoading(true);
 
-    router.push({ pathname: "/markers/all", query });
+    setTimeout(() => {
+      setLoading(false);
+
+      setError("email", { type: "remote", message: t("login_error") }, true);
+      setError(
+        "password",
+        { type: "remote", message: t("login_error") },
+        false
+      );
+
+      router.push({ pathname: "/markers/all", query });
+    }, 3000);
   }
 
   return (
@@ -59,12 +76,7 @@ export default function Login() {
             />
 
             {/* Log in button */}
-            <button
-              type="submit"
-              className="w-full rounded-md bg-brand py-2.5 text-center text-sm font-medium text-gray-100"
-            >
-              {t("login")}
-            </button>
+            <LoadingButton loading={isLoading}>{t("login")}</LoadingButton>
           </form>
         </div>
       </div>

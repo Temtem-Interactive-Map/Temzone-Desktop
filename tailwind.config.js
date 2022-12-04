@@ -9,7 +9,6 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        brand: "#5865f2",
         gray: {
           50: "#ededee",
           100: "#dcddde",
@@ -36,6 +35,19 @@ module.exports = {
           800: "#f81a1f",
           900: "#fb0d12",
           950: "#fd070b",
+        },
+        indigo: {
+          50: "#eef0fe",
+          100: "#dee0fc",
+          200: "#bcc1fa",
+          300: "#9ba3f7",
+          400: "#7984f5",
+          500: "#5865f2",
+          600: "#454fbf",
+          700: "#3441cf",
+          800: "#2333df",
+          900: "#1124ef",
+          950: "#091df7",
         },
       },
       backgroundImage: {
