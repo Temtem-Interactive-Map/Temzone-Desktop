@@ -17,28 +17,27 @@ if (isProd) {
   await app.whenReady();
 
   const mainWindow = createWindow({
-    width: 1024,
-    minWidth: 1024,
-    height: 600,
-    minHeight: 600,
+    width: 1280,
+    height: 720,
+    minWidth: 940,
+    minHeight: 500,
   });
 
   if (isProd) {
-    await mainWindow.loadURL("app://./home.html");
+    await mainWindow.loadURL("app://./login.html");
   } else {
     installExtension(REACT_DEVELOPER_TOOLS);
 
     const port = process.argv[2];
-    await mainWindow.loadURL("http://localhost:" + port + "/home");
+    await mainWindow.loadURL("http://localhost:" + port + "/login");
 
+    // Keyboard shortcuts for development
     globalShortcut.register("CommandOrControl+R", () => {
       mainWindow.reload();
     });
     globalShortcut.register("CommandOrControl+Shift+I", () => {
       mainWindow.webContents.openDevTools();
     });
-
-    mainWindow.webContents.openDevTools();
   }
 })();
 

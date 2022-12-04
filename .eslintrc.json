@@ -10,12 +10,12 @@
     }
   },
   "extends": [
-    "plugin:@next/next/recommended",
-    "plugin:react/recommended",
-    "plugin:json/recommended",
-    "plugin:yml/standard",
     "standard",
-    "prettier"
+    "next",
+    "prettier",
+    "plugin:import/recommended",
+    "plugin:json/recommended",
+    "plugin:yml/standard"
   ],
   "parserOptions": {
     "ecmaFeatures": {
@@ -24,11 +24,8 @@
     "ecmaVersion": 13,
     "sourceType": "module"
   },
-  "plugins": ["react"],
   "rules": {
     "@next/next/no-html-link-for-pages": ["error", "renderer/pages"],
-    "react/react-in-jsx-scope": "off",
-    "react/prop-types": "off",
     "arrow-body-style": "off",
     "prefer-arrow-callback": "off"
   }
