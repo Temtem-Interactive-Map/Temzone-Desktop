@@ -9,9 +9,6 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        spacing: {
-          192: "48rem",
-        },
         gray: {
           50: "#ededee",
           100: "#dcddde",
@@ -52,6 +49,9 @@ module.exports = {
           900: "#1124ef",
           950: "#091df7",
         },
+      },
+      spacing: {
+        192: "48rem",
       },
       backgroundImage: {
         login: "url('/images/background.jpg')",
