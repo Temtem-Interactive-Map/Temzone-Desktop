@@ -1,7 +1,7 @@
 import { useLanguageQuery, useTranslation } from "next-export-i18n";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import InputField from "../../components/InputField";
 import LoadingButton from "../../components/LoadingButton";
 
@@ -14,29 +14,30 @@ export default function Login() {
   // State
   const [isLoading, setLoading] = useState(false);
   // Validation
-  const {
-    handleSubmit,
-    register,
-    setError,
-    formState: { errors },
-  } = useForm({ mode: "onSubmit", reValidateMode: "onSubmit" });
+  const methods = useForm({ mode: "onSubmit", reValidateMode: "onSubmit" });
 
   // Firebase login
   function onLoginSubmit(data) {
     setLoading(true);
 
+    console.log(data);
+
     setTimeout(() => {
       setLoading(false);
 
-      setError("email", { type: "remote", message: t("login_error") }, true);
-      setError(
+      methods.setError(
+        "email",
+        { type: "remote", message: t("login_error") },
+        true
+      );
+      methods.setError(
         "password",
         { type: "remote", message: t("login_error") },
         false
       );
 
       router.push({ pathname: "/markers/all", query });
-    }, 3000);
+    }, 500);
   }
 
   return (
@@ -50,38 +51,36 @@ export default function Login() {
           </h1>
 
           {/* Log in form */}
-          <form
-            className="w-96 space-y-4"
-            onSubmit={handleSubmit(onLoginSubmit)}
-          >
-            {/* Email field */}
-            <InputField
-              id="email"
-              label={t("email_field")}
-              placeholder={t("email_template")}
-              required={true}
-              error={errors.email?.message}
-              props={register("email", {
-                required: t("field_required"),
-              })}
-            />
+          <FormProvider {...methods}>
+            <form
+              className="w-96 space-y-4"
+              onSubmit={methods.handleSubmit(onLoginSubmit)}
+            >
+              {/* Email field */}
+              <InputField
+                id="email"
+                label={t("email_field")}
+                placeholder={t("email_template")}
+                options={{
+                  required: t("required_field"),
+                }}
+              />
 
-            {/* Password field */}
-            <InputField
-              id="password"
-              label={t("password_field")}
-              type="password"
-              placeholder="••••••••"
-              required={true}
-              error={errors.password?.message}
-              props={register("password", {
-                required: t("field_required"),
-              })}
-            />
+              {/* Password field */}
+              <InputField
+                id="password"
+                label={t("password_field")}
+                type="password"
+                placeholder="••••••••"
+                options={{
+                  required: t("required_field"),
+                }}
+              />
 
-            {/* Log in button */}
-            <LoadingButton loading={isLoading}>{t("login")}</LoadingButton>
-          </form>
+              {/* Log in button */}
+              <LoadingButton loading={isLoading}>{t("login")}</LoadingButton>
+            </form>
+          </FormProvider>
         </div>
       </div>
     </div>

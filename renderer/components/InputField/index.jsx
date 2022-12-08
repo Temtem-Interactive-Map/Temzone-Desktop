@@ -1,30 +1,36 @@
+import { useFormContext } from "react-hook-form";
+
 export default function InputField({
   id,
   label,
   type = "text",
   placeholder = "",
-  required = false,
-  error,
-  props,
+  options,
 }) {
+  // Validation
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext();
+
   return (
-    <div>
+    <div className="w-full">
       {/* Input label */}
       <label
         htmlFor={id}
-        aria-invalid={error ? "true" : "false"}
+        aria-invalid={!!errors[id]}
         className={
-          (error ? "text-red-300" : "text-gray-100") +
+          (errors[id] ? "text-red-300" : "text-gray-100") +
           " mb-2 block text-sm font-medium"
         }
       >
         {label}
-        {error ? (
+        {errors[id] ? (
           <span role="alert" className="pl-1 italic text-red-300">
-            - {error}
+            - {errors[id]?.message}
           </span>
         ) : (
-          required && <span className="text-red-500"> *</span>
+          options?.required && <span className="pl-1 text-red-500">*</span>
         )}
       </label>
 
@@ -33,11 +39,14 @@ export default function InputField({
         id={id}
         type={type}
         placeholder={placeholder}
+        min={options?.min?.value}
+        max={options?.max?.value}
+        maxLength={options?.maxLength?.value}
         className={
-          (error ? "focus:outline-red-300" : "focus:outline-blue-400") +
+          (errors[id] ? "focus:outline-red-300" : "focus:outline-blue-400") +
           " block w-full rounded-md border border-gray-600 bg-gray-700 p-2.5 text-gray-100 placeholder-gray-400 focus:outline focus:outline-2"
         }
-        {...props}
+        {...register(id, options)}
       />
     </div>
   );

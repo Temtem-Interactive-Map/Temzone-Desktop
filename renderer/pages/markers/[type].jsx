@@ -3,9 +3,10 @@ import { useTranslation } from "next-export-i18n";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import MarkerAccordion from "../../components/MarkerAccordion";
 import NavLink from "../../components/NavLink";
-import { sidebar, types } from "../../data";
 import performanceIcon from "../../public/images/performance_icon.png";
+import { sidebar, types } from "../../utils";
 
 const Map = dynamic(() => import("../../components/Map"), {
   ssr: false,
@@ -23,6 +24,52 @@ function typeSplitter(list) {
   }, {});
 }
 
+function getMarkers(type) {
+  const zoom = 6;
+  const tileSize = 256;
+  const mapSize = tileSize * Math.pow(2, zoom);
+  const mapCenter = mapSize / 2;
+
+  const markers = typeSplitter([
+    {
+      id: 1,
+      type: "temtem",
+      title: "Mimit",
+      subtitle: "Iwaba, East Path",
+      coordinates: {
+        x: mapCenter,
+        y: mapCenter,
+      },
+    },
+    {
+      id: 2,
+      type: "saipark",
+      title: "Saipark",
+      subtitle: "West from Praise Coast",
+      coordinates: {
+        x: mapCenter + 500,
+        y: mapCenter,
+      },
+    },
+    {
+      id: 3,
+      type: "landmark",
+      title: "Zadar",
+      subtitle: "South of Praise Coast",
+      coordinates: {
+        x: mapCenter - 500,
+        y: mapCenter,
+      },
+    },
+  ]);
+
+  return types[type]
+    .map((type) => {
+      return markers[type];
+    })
+    .flat();
+}
+
 export default function Markers() {
   // Navigation
   const router = useRouter();
@@ -31,27 +78,7 @@ export default function Markers() {
   const { t } = useTranslation();
 
   // Test
-  const zoom = 6;
-  const tileSize = 256;
-  const mapSize = tileSize * Math.pow(2, zoom);
-  const mapCenter = mapSize / 2;
-  const markers = typeSplitter([
-    {
-      id: 1,
-      type: "temtem",
-      coordinates: [mapCenter, mapCenter],
-    },
-    {
-      id: 2,
-      type: "saipark",
-      coordinates: [mapCenter + 500, mapCenter],
-    },
-    {
-      id: 3,
-      type: "landmark",
-      coordinates: [mapCenter - 500, mapCenter],
-    },
-  ]);
+  const markers = getMarkers(type);
 
   return (
     <>
@@ -75,7 +102,7 @@ export default function Markers() {
         ))}
 
         {/* Divider */}
-        <hr className="mx-2 rounded border-t-2 border-t-white/[0.06]" />
+        <hr className="mx-2 rounded border-t-2 border-t-gray-700" />
 
         {/* Logout button */}
         <NavLink href="/login">
@@ -90,23 +117,11 @@ export default function Markers() {
         </NavLink>
       </aside>
 
-      {/* Marker list */}
-      <div className="w-96 overflow-y-scroll bg-gray-800 scrollbar-hide">
-        <div className="flex w-full flex-col">
-          {types[type].map((marker) => (
-            <p key={marker}>{marker}</p>
-          ))}
-        </div>
-      </div>
+      {/* Marker accordion */}
+      <MarkerAccordion markers={markers} />
 
       {/* Airborne Archipelago map */}
-      <Map
-        markers={types[type]
-          .map((type) => {
-            return markers[type];
-          })
-          .flat()}
-      />
+      <Map markers={markers} />
     </>
   );
 }

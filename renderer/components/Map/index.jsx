@@ -1,26 +1,16 @@
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { useEffect, useRef, useState } from "react";
-
-const zoom = 6;
-const tileSize = 256;
-const mapSize = tileSize * Math.pow(2, zoom);
-const mapMinHorizontal = tileSize * 7;
-const mapMaxHorizontal = mapSize - tileSize * 7;
-const mapMinVertical = tileSize * 11;
-const mapMaxVertical = mapSize - tileSize * 11;
-const mapCenter = mapSize / 2;
-
-function iconMarker(type) {
-  switch (type) {
-    case "temtem":
-      return "../images/temcard_icon.png";
-    case "saipark":
-      return "../images/key_icon.png";
-    case "landmark":
-      return "../images/landmark_icon.png";
-  }
-}
+import {
+  mapCenter,
+  mapMaxHorizontal,
+  mapMaxVertical,
+  mapMinHorizontal,
+  mapMinVertical,
+  mapSize,
+  markerIcon,
+  zoom,
+} from "../../utils";
 
 export default function Map({ markers }) {
   // State
@@ -29,8 +19,7 @@ export default function Map({ markers }) {
 
   // Map initialization
   useEffect(() => {
-    // Avoid regenerating the map during development when a reload is performed
-    if (map.current) return;
+    if (map.current) map.current.remove();
 
     // Generate the map
     map.current = L.map("map", {
@@ -69,7 +58,7 @@ export default function Map({ markers }) {
     setMarkerLayer(layer);
   }, []);
 
-  // Markers loading
+  // Load markers
   useEffect(() => {
     if (markersLayer === null) return;
 
@@ -77,15 +66,21 @@ export default function Map({ markers }) {
 
     markers.forEach((marker) => {
       const icon = L.icon({
-        iconUrl: iconMarker(marker.type),
+        iconUrl: markerIcon(marker),
         iconSize: [24, 24],
         iconAnchor: [12, 12],
       });
 
-      L.marker(map.current.unproject(marker.coordinates, zoom), {
-        icon,
-        draggable: true,
-      })
+      L.marker(
+        map.current.unproject(
+          [marker.coordinates.x, marker.coordinates.y],
+          zoom
+        ),
+        {
+          icon,
+          draggable: true,
+        }
+      )
         .addTo(markersLayer)
         .on("click", (e) => {
           map.current.flyTo(e.latlng, zoom, {
