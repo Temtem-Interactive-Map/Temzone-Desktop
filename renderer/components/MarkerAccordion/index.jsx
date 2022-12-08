@@ -7,7 +7,7 @@ import LandmarkMarker from "./landmark";
 import SaiparkMarker from "./saipark";
 import TemtemMarker from "./temtem";
 
-export default function Marker({ markers }) {
+export default function MarkerAccordion({ markers }) {
   // Internationalization
   const { t } = useTranslation();
   // State

@@ -36,6 +36,7 @@ function getMarkers(type) {
       type: "temtem",
       title: "Mimit",
       subtitle: "Iwaba, East Path",
+      condition: "Requires Fishing Rod",
       coordinates: {
         x: mapCenter,
         y: mapCenter,

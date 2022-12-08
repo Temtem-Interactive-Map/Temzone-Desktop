@@ -37,6 +37,7 @@ export default function TemtemMarker({ marker }) {
         <InputField
           id="condition"
           label={t("condition_field")}
+          value={marker.condition}
           placeholder={t("condition_template")}
           options={{
             maxLength: { value: 64, message: t("max_length_field") },
@@ -47,6 +48,7 @@ export default function TemtemMarker({ marker }) {
         <InputField
           id="location"
           label={t("location_field")}
+          value={marker.subtitle}
           placeholder={t("temtem_location_template")}
           options={{
             required: t("required_field"),
@@ -60,6 +62,7 @@ export default function TemtemMarker({ marker }) {
             id="coordinate_horizontal"
             label={t("coordinate_horizontal_field")}
             type="number"
+            value={marker.coordinates.x}
             placeholder={mapCenter}
             options={{
               required: t("required_field"),
@@ -72,6 +75,7 @@ export default function TemtemMarker({ marker }) {
             id="coordinate_vertical"
             label={t("coordinate_vertical_field")}
             type="number"
+            value={marker.coordinates.y}
             placeholder={mapCenter}
             options={{
               required: t("required_field"),
