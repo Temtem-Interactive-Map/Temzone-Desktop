@@ -1,8 +1,9 @@
 import "leaflet/dist/leaflet.css";
-import { useTranslation } from "next-export-i18n";
+import { useLanguageQuery, useTranslation } from "next-export-i18n";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { logout } from "../../../services/authentication";
 import MarkerAccordion from "../../components/MarkerAccordion";
 import NavLink from "../../components/NavLink";
 import performanceIcon from "../../public/images/performance_icon.png";
@@ -76,6 +77,7 @@ export default function Markers() {
   const router = useRouter();
   const type = router.query.type ?? "all";
   // Internationalization
+  const [query] = useLanguageQuery();
   const { t } = useTranslation();
 
   // Test
@@ -90,7 +92,11 @@ export default function Markers() {
       >
         {/* Marker type filters */}
         {sidebar.map((item, i) => (
-          <NavLink key={i} href={item.href}>
+          <NavLink
+            key={i}
+            active={router.asPath.startsWith(item.href)}
+            onClick={() => router.push({ pathname: item.href, query })}
+          >
             <Image
               src={item.image}
               alt={t(item.label)}
@@ -106,7 +112,12 @@ export default function Markers() {
         <hr className="mx-2 rounded border-t-2 border-t-gray-700" />
 
         {/* Logout button */}
-        <NavLink href="/login">
+        <NavLink
+          active={false}
+          onClick={() =>
+            logout().then(() => router.push({ pathname: "/login", query }))
+          }
+        >
           <Image
             src={performanceIcon}
             alt={t("logout")}

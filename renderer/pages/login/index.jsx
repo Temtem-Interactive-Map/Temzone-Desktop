@@ -2,6 +2,7 @@ import { useLanguageQuery, useTranslation } from "next-export-i18n";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
+import { login } from "../../../services/authentication";
 import InputField from "../../components/InputField";
 import LoadingButton from "../../components/LoadingButton";
 
@@ -16,28 +17,23 @@ export default function Login() {
   // Validation
   const methods = useForm({ mode: "onSubmit", reValidateMode: "onSubmit" });
 
-  // Firebase login
   function onLoginSubmit(data) {
     setLoading(true);
-
-    console.log(data);
-
-    setTimeout(() => {
-      setLoading(false);
-
-      methods.setError(
-        "email",
-        { type: "remote", message: t("login_error") },
-        true
-      );
-      methods.setError(
-        "password",
-        { type: "remote", message: t("login_error") },
-        false
-      );
-
-      router.push({ pathname: "/markers/all", query });
-    }, 500);
+    login(data.email, data.password)
+      .then(() => router.push({ pathname: "/markers/all", query }))
+      .catch((error) => {
+        methods.setError(
+          "email",
+          { type: "remote", message: t(error.message) },
+          true
+        );
+        methods.setError(
+          "password",
+          { type: "remote", message: t(error.message) },
+          false
+        );
+      })
+      .finally(() => setLoading(false));
   }
 
   return (

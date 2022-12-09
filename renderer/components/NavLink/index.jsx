@@ -1,13 +1,4 @@
-import { useLanguageQuery } from "next-export-i18n";
-import { useRouter } from "next/router";
-
-export default function NavLink({ href, children }) {
-  // Navigation
-  const router = useRouter();
-  const active = router.asPath.startsWith(href);
-  // Internationalization
-  const [query] = useLanguageQuery();
-
+export default function NavLink({ active, onClick, children }) {
   return (
     <div className="group relative block">
       {/* Left arrow */}
@@ -28,9 +19,7 @@ export default function NavLink({ href, children }) {
           (active ? "focus:rounded-2xl" : "focus:rounded-3xl") +
           " focus:outline focus:outline-2 focus:outline-blue-400 group-active:translate-y-px"
         }
-        onClick={() => {
-          router.push({ pathname: href, query });
-        }}
+        onClick={onClick}
       >
         <div
           className={

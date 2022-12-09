@@ -34,7 +34,7 @@ export default function MarkerAccordion({ markers }) {
 
   return (
     <section
-      className="xl:w-192 w-96 space-y-3 overflow-y-scroll bg-gray-800 p-3 scrollbar-hide"
+      className="w-96 space-y-3 overflow-y-scroll bg-gray-800 p-3 scrollbar-hide xl:w-192"
       onDragStart={(e) => e.preventDefault()}
     >
       {markers.map((marker) => (
@@ -43,7 +43,7 @@ export default function MarkerAccordion({ markers }) {
           className="bg-gray-700font-medium rounded-lg bg-gray-700 text-gray-300 shadow"
         >
           <button
-            className="flex w-full items-center justify-center space-x-3 p-4"
+            className="flex w-full items-center justify-center space-x-3 p-4 hover:bg-gray-600"
             onClick={() => toogleMarker(marker.id)}
           >
             <Image
@@ -65,7 +65,7 @@ export default function MarkerAccordion({ markers }) {
             <Arrow
               className={
                 (closedMarkers.includes(marker.id) && "-rotate-180") +
-                " h-8 w-8 justify-start transition duration-200"
+                " h-10 w-10 justify-start transition duration-200"
               }
             />
           </button>
