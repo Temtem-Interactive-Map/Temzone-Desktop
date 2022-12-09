@@ -42,7 +42,7 @@ export const sidebar = Object.freeze([
 export function markerIcon(marker) {
   switch (marker.type) {
     case "temtem":
-      return "../markers/" + marker.title + "_marker.png";
+      return "../markers/" + marker.title.toLowerCase() + "_marker.png";
     case "saipark":
     case "landmark":
       return "../markers/landmark_marker.png";
