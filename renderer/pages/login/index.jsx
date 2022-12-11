@@ -2,7 +2,7 @@ import { useLanguageQuery, useTranslation } from "next-export-i18n";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import { login } from "../../../services/authentication";
+import { login } from "../../../services";
 import InputField from "../../components/InputField";
 import LoadingButton from "../../components/LoadingButton";
 
@@ -18,8 +18,11 @@ export default function Login() {
   const methods = useForm({ mode: "onSubmit", reValidateMode: "onSubmit" });
 
   function onLoginSubmit(data) {
+    const email = data.email.trim();
+    const password = data.password.trim();
+
     setLoading(true);
-    login(data.email, data.password)
+    login(email, password)
       .then(() => router.push({ pathname: "/markers/all", query }))
       .catch((error) => {
         methods.setError(
@@ -49,27 +52,33 @@ export default function Login() {
           {/* Log in form */}
           <FormProvider {...methods}>
             <form
+              noValidate
               className="w-96 space-y-4"
               onSubmit={methods.handleSubmit(onLoginSubmit)}
             >
               {/* Email field */}
               <InputField
                 id="email"
+                type="text"
                 label={t("email_field")}
                 placeholder={t("email_template")}
                 options={{
                   required: t("required_field"),
+                  validate: (value) =>
+                    value.trim() ? true : t("required_field"),
                 }}
               />
 
               {/* Password field */}
               <InputField
                 id="password"
-                label={t("password_field")}
                 type="password"
+                label={t("password_field")}
                 placeholder="••••••••"
                 options={{
                   required: t("required_field"),
+                  validate: (value) =>
+                    value.trim() ? true : t("required_field"),
                 }}
               />
 

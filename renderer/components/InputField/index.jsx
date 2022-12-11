@@ -3,10 +3,10 @@ import { useFormContext } from "react-hook-form";
 
 export default function InputField({
   id,
+  type,
   label,
-  type = "text",
-  value = "",
-  placeholder = "",
+  value,
+  placeholder,
   options,
 }) {
   // Validation
@@ -15,6 +15,7 @@ export default function InputField({
     setValue,
     formState: { errors },
   } = useFormContext();
+  const error = errors[id];
 
   useEffect(() => setValue(id, value), [setValue, id, value]);
 
@@ -23,16 +24,16 @@ export default function InputField({
       {/* Input label */}
       <label
         htmlFor={id}
-        aria-invalid={!!errors[id]}
+        aria-invalid={!!error}
         className={
-          (errors[id] ? "text-red-300" : "text-gray-100") +
+          (error ? "text-red-300" : "text-gray-100") +
           " mb-2 block text-sm font-medium"
         }
       >
         {label}
-        {errors[id] ? (
+        {error ? (
           <span role="alert" className="pl-1 italic text-red-300">
-            - {errors[id]?.message}
+            - {error?.message}
           </span>
         ) : (
           options?.required && <span className="pl-1 text-red-500">*</span>
@@ -41,15 +42,17 @@ export default function InputField({
 
       {/* Input field */}
       <input
+        tabIndex={-1}
         id={id}
         type={type}
-        placeholder={placeholder}
-        min={options?.min?.value}
-        max={options?.max?.value}
-        maxLength={options?.maxLength?.value}
+        step="any"
+        min={options.min?.value}
+        max={options.max?.value}
+        maxLength={options.maxLength?.value}
         spellCheck={false}
+        placeholder={placeholder}
         className={
-          (errors[id] ? "focus:outline-red-300" : "focus:outline-blue-400") +
+          (error ? "focus:outline-red-300" : "focus:outline-blue-400") +
           " block w-full rounded-md border border-gray-600 bg-gray-700 p-2.5 text-gray-100 placeholder-gray-400 focus:outline focus:outline-2"
         }
         {...register(id, options)}

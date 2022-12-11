@@ -1,25 +1,25 @@
 {
   "i18n": {
     "required_field": "This field is required.",
-    "max_length_field": "Max length exceeded.",
+    "min_field": "The value must be greater than or equal to @value.",
+    "max_field": "The value must be less than or equal to @value.",
     "login_branding": "Log in to your account",
     "login": "Log In",
     "login_error": "Email or password is invalid.",
+    "logout": "Log out",
+    "save": "Save Changes",
     "email_field": "Enter your email",
     "email_template": "name@company.com",
     "password_field": "Enter your password",
-    "all_markers": "All markers",
-    "temtem_markers": "Temtem markers",
-    "landmark_markers": "Landmark markers",
-    "logout": "Log out",
-    "save": "Save Changes",
-    "marker_icon": "Marker icon",
     "location_field": "Location",
     "temtem_location_template": "Iwaba, East Path",
     "landmark_location_template": "South of Praise Coast",
     "condition_field": "Condition",
     "condition_template": "Requires Fishing Rod",
     "coordinate_horizontal_field": "Coordinate X",
-    "coordinate_vertical_field": "Coordinate Y"
+    "coordinate_vertical_field": "Coordinate Y",
+    "all_markers": "All markers",
+    "temtem_markers": "Temtem markers",
+    "landmark_markers": "Landmark markers"
   }
 }

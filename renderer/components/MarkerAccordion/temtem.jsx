@@ -30,29 +30,33 @@ export default function TemtemMarker({ marker }) {
   return (
     <FormProvider {...methods}>
       <form
+        noValidate
         className="space-y-4"
         onSubmit={methods.handleSubmit(onUpdateSubmit)}
       >
         {/* Condition field */}
         <InputField
           id="condition"
+          type="text"
           label={t("condition_field")}
           value={marker.condition}
           placeholder={t("condition_template")}
           options={{
-            maxLength: { value: 64, message: t("max_length_field") },
+            maxLength: { value: 40 },
           }}
         />
 
         {/* Location field */}
         <InputField
           id="location"
+          type="text"
           label={t("location_field")}
           value={marker.subtitle}
           placeholder={t("temtem_location_template")}
           options={{
             required: t("required_field"),
-            maxLength: { value: 64, message: t("max_length_field") },
+            validate: (value) => (value.trim() ? true : t("required_field")),
+            maxLength: { value: 40 },
           }}
         />
 
@@ -60,27 +64,41 @@ export default function TemtemMarker({ marker }) {
         <div className="flex flex-row space-x-4">
           <InputField
             id="coordinate_horizontal"
-            label={t("coordinate_horizontal_field")}
             type="number"
-            value={marker.coordinates.x}
+            label={t("coordinate_horizontal_field")}
+            value={marker.coordinates?.x}
             placeholder={mapCenter}
             options={{
               required: t("required_field"),
-              min: { value: mapMinHorizontal, message: "" },
-              max: { value: mapMaxHorizontal, message: "" },
+              min: {
+                value: mapMinHorizontal,
+                message: t("min_field").replace("@value", mapMinHorizontal),
+              },
+              max: {
+                value: mapMaxHorizontal,
+                message: t("max_field").replace("@value", mapMaxHorizontal),
+              },
+              valueAsNumber: true,
             }}
           />
 
           <InputField
             id="coordinate_vertical"
-            label={t("coordinate_vertical_field")}
             type="number"
-            value={marker.coordinates.y}
+            label={t("coordinate_vertical_field")}
+            value={marker.coordinates?.y}
             placeholder={mapCenter}
             options={{
               required: t("required_field"),
-              min: { value: mapMinVertical, message: "" },
-              max: { value: mapMaxVertical, message: "" },
+              min: {
+                value: mapMinVertical,
+                message: t("min_field").replace("@value", mapMinVertical),
+              },
+              max: {
+                value: mapMaxVertical,
+                message: t("max_field").replace("@value", mapMaxVertical),
+              },
+              valueAsNumber: true,
             }}
           />
         </div>

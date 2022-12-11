@@ -12,13 +12,6 @@ export const mapMinVertical = tileSize * 11;
 export const mapMaxVertical = mapSize - tileSize * 11;
 export const mapCenter = mapSize / 2;
 
-// Types of markers for the endpoint call
-export const types = Object.freeze({
-  all: ["temtem", "saipark", "landmark"],
-  temtem: ["temtem"],
-  landmark: ["saipark", "landmark"],
-});
-
 // Sidebar buttons
 export const sidebar = Object.freeze([
   {

@@ -27,9 +27,9 @@ export default function Map({ markers }) {
       minZoom: 3,
       maxZoom: zoom,
       zoomControl: false,
-      keyboard: false,
-      preferCanvas: true,
       maxBoundsViscosity: 1.0,
+      preferCanvas: true,
+      keyboard: false,
       attributionControl: false,
     });
 
@@ -79,6 +79,7 @@ export default function Map({ markers }) {
         {
           icon,
           draggable: true,
+          keyboard: false,
         }
       )
         .addTo(markersLayer)

@@ -15,10 +15,8 @@ export default function NavLink({ active, onClick, children }) {
 
       {/* Main button */}
       <button
-        className={
-          (active ? "focus:rounded-2xl" : "focus:rounded-3xl") +
-          " focus:outline focus:outline-2 focus:outline-blue-400 group-active:translate-y-px"
-        }
+        tabIndex={-1}
+        className="group-active:translate-y-px"
         onClick={onClick}
       >
         <div
