@@ -52,13 +52,13 @@ export default function MarkerAccordion({ markers }) {
 
             {/* Marker information */}
             <div className="flex w-full flex-col text-start">
-              <span className="text-xl font-bold leading-tight tracking-tight ">
+              <span className="text-xl font-bold leading-tight">
                 {marker.title}
               </span>
               <span
                 className={
                   (marker.subtitle ?? "text-gray-300") +
-                  " text-lg leading-tight tracking-tight"
+                  " text-lg leading-tight"
                 }
               >
                 {marker.subtitle ?? t("landmark_location_template")}
