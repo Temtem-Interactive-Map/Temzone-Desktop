@@ -1,3 +1,4 @@
+import { useTranslation } from "next-export-i18n";
 import Image from "next/image";
 import { useState } from "react";
 import { markerIcon } from "../../utils";
@@ -7,6 +8,8 @@ import SaiparkMarker from "./saipark";
 import TemtemMarker from "./temtem";
 
 export default function MarkerAccordion({ markers }) {
+  // Internationalization
+  const { t } = useTranslation();
   // State
   const [openMarker, setOpenMarker] = useState(null);
 
@@ -40,12 +43,7 @@ export default function MarkerAccordion({ markers }) {
 
               {/* Notification that the marker has not been added to the map */}
               {marker.coordinates === null && (
-                <div
-                  className={
-                    (marker.type === "temtem" ? "-top-1" : "top-0") +
-                    " absolute -right-1"
-                  }
-                >
+                <div className="absolute -right-1 -top-1">
                   <div className="absolute h-3 w-3 animate-ping rounded-full bg-gray-100 opacity-75" />
                   <div className="h-3 w-3 rounded-full bg-gray-100" />
                 </div>
@@ -54,11 +52,16 @@ export default function MarkerAccordion({ markers }) {
 
             {/* Marker information */}
             <div className="flex w-full flex-col text-start">
-              <span className="text-xl font-bold leading-tight tracking-tight">
+              <span className="text-xl font-bold leading-tight tracking-tight ">
                 {marker.title}
               </span>
-              <span className="text-lg leading-tight tracking-tight">
-                {marker.subtitle}
+              <span
+                className={
+                  (marker.subtitle ?? "text-gray-300") +
+                  " text-lg leading-tight tracking-tight"
+                }
+              >
+                {marker.subtitle ?? t("landmark_location_template")}
               </span>
             </div>
 
