@@ -25,5 +25,5 @@ export function useHashMap() {
     }, []),
   };
 
-  return [map, actions.set];
+  return [map, actions];
 }
