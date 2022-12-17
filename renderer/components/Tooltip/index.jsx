@@ -1,4 +1,4 @@
-export default function Tooltip({ message, children }) {
+export function Tooltip({ message, children }) {
   return (
     <div
       data-tip={message}

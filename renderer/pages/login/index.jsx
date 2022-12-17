@@ -2,9 +2,9 @@ import { useLanguageQuery, useTranslation } from "next-export-i18n";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import { login } from "../../../services";
-import InputField from "../../components/InputField";
-import LoadingButton from "../../components/LoadingButton";
+import { InputField } from "../../components/InputField";
+import { LoadingButton } from "../../components/LoadingButton";
+import { login } from "../../services";
 
 export default function Login() {
   // Navigation
@@ -17,7 +17,7 @@ export default function Login() {
   // Validation
   const methods = useForm({ mode: "onSubmit", reValidateMode: "onSubmit" });
 
-  function onLoginSubmit(data) {
+  function handleLogin(data) {
     const email = data.email.trim();
     const password = data.password.trim();
 
@@ -54,7 +54,7 @@ export default function Login() {
             <form
               noValidate
               className="w-96 space-y-4"
-              onSubmit={methods.handleSubmit(onLoginSubmit)}
+              onSubmit={methods.handleSubmit(handleLogin)}
             >
               {/* Email field */}
               <InputField

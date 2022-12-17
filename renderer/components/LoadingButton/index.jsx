@@ -1,6 +1,6 @@
 import { ThreeDots } from "../Icons";
 
-export default function LoadingButton({ loading, children }) {
+export function LoadingButton({ loading, children }) {
   return (
     <button
       tabIndex={-1}

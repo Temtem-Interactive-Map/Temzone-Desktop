@@ -1,35 +1,33 @@
-import { mapCenter } from "../renderer/utils";
+import { mapCenter } from "../utils";
 
-// Firebase login
 export function login({ email, password }) {
   return new Promise((resolve, _reject) => setTimeout(() => resolve(), 500));
 }
 
-// Firebase logout
 export function logout() {
   return new Promise((resolve, _reject) => setTimeout(() => resolve(), 100));
 }
 
+// Types of markers for the endpoint call
+const types = Object.freeze({
+  all: ["temtem", "saipark", "landmark"],
+  temtem: ["temtem"],
+  landmark: ["saipark", "landmark"],
+});
+
+function typeSplitter(list) {
+  return list.reduce((res, curr) => {
+    if (res[curr.type]) {
+      res[curr.type].push(curr);
+    } else {
+      Object.assign(res, { [curr.type]: [curr] });
+    }
+
+    return res;
+  }, {});
+}
+
 export function getMarkers(type) {
-  // Types of markers for the endpoint call
-  const types = Object.freeze({
-    all: ["temtem", "saipark", "landmark"],
-    temtem: ["temtem"],
-    landmark: ["saipark", "landmark"],
-  });
-
-  function typeSplitter(list) {
-    return list.reduce((res, curr) => {
-      if (res[curr.type]) {
-        res[curr.type].push(curr);
-      } else {
-        Object.assign(res, { [curr.type]: [curr] });
-      }
-
-      return res;
-    }, {});
-  }
-
   const markers = typeSplitter([
     {
       id: 0,

@@ -1,14 +1,7 @@
 import { useEffect } from "react";
 import { useFormContext } from "react-hook-form";
 
-export default function InputField({
-  id,
-  type,
-  label,
-  value,
-  placeholder,
-  options,
-}) {
+export function InputField({ id, type, label, value, placeholder, options }) {
   // Validation
   const {
     register,
@@ -16,7 +9,7 @@ export default function InputField({
     formState: { errors },
   } = useFormContext();
   const error = errors[id];
-
+  // State
   useEffect(() => setValue(id, value), [setValue, id, value]);
 
   return (
@@ -45,7 +38,6 @@ export default function InputField({
         tabIndex={-1}
         id={id}
         type={type}
-        step="any"
         min={options.min?.value}
         max={options.max?.value}
         maxLength={options.maxLength?.value}

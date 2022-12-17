@@ -12,7 +12,7 @@ export const mapMinVertical = tileSize * 11;
 export const mapMaxVertical = mapSize - tileSize * 11;
 export const mapCenter = mapSize / 2;
 
-// Sidebar buttons
+// Sidebar button data
 export const sidebar = Object.freeze([
   {
     image: keyIcon,
@@ -31,8 +31,8 @@ export const sidebar = Object.freeze([
   },
 ]);
 
-// Marker icon path
-export function markerIcon(marker) {
+// Returns the path of the marker image
+export function markerIconPath(marker) {
   switch (marker.type) {
     case "temtem":
       return "../markers/" + marker.title.toLowerCase() + "_marker.png";

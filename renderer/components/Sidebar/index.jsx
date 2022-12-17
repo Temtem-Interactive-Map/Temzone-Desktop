@@ -1,18 +1,22 @@
 import { useLanguageQuery, useTranslation } from "next-export-i18n";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { logout } from "../../../services";
-import NavLink from "../../components/NavLink";
 import performanceIcon from "../../public/images/performance_icon.png";
+import { logout } from "../../services";
 import { sidebar } from "../../utils";
-import Tooltip from "../Tooltip";
+import { NavLink } from "../NavLink";
+import { Tooltip } from "../Tooltip";
 
-export default function Sidebar() {
+export function Sidebar() {
   // Navigation
   const router = useRouter();
   // Internationalization
   const [query] = useLanguageQuery();
   const { t } = useTranslation();
+
+  function handleLogout() {
+    logout().then(() => router.push({ pathname: "/login", query }));
+  }
 
   return (
     <aside
@@ -32,6 +36,7 @@ export default function Sidebar() {
               width={36}
               height={36}
               quality={100}
+              priority={true}
             />
           </NavLink>
         </Tooltip>
@@ -42,18 +47,14 @@ export default function Sidebar() {
 
       {/* Logout button */}
       <Tooltip message={t("logout")}>
-        <NavLink
-          active={false}
-          onClick={() =>
-            logout().then(() => router.push({ pathname: "/login", query }))
-          }
-        >
+        <NavLink active={false} onClick={handleLogout}>
           <Image
             src={performanceIcon}
             alt={t("logout")}
             width={36}
             height={36}
             quality={100}
+            priority={true}
           />
         </NavLink>
       </Tooltip>
