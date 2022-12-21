@@ -29,7 +29,7 @@ export function MapProvider({ id, children }) {
     // Generate the map
     map.current = L.map(id, {
       crs: L.CRS.Simple,
-      minZoom: 3,
+      minZoom: 4,
       maxZoom: zoom,
       zoomControl: false,
       maxBoundsViscosity: 1.0,

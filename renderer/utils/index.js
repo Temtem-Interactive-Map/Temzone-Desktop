@@ -6,11 +6,15 @@ import temcardIcon from "../public/images/temcard_icon.png";
 export const zoom = 6;
 export const tileSize = 256;
 export const mapSize = tileSize * Math.pow(2, zoom);
+export const mapCenter = mapSize / 2;
 export const mapMinHorizontal = tileSize * 7;
 export const mapMaxHorizontal = mapSize - tileSize * 7;
 export const mapMinVertical = tileSize * 11;
 export const mapMaxVertical = mapSize - tileSize * 11;
-export const mapCenter = mapSize / 2;
+export const markerMinHorizontal = mapMinHorizontal + tileSize;
+export const markerMaxHorizontal = mapMaxHorizontal - tileSize;
+export const markerMinVertical = mapMinVertical + tileSize;
+export const markerMaxVertical = mapMaxVertical - tileSize;
 
 // Sidebar button data
 export const sidebar = Object.freeze([

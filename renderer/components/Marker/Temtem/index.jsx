@@ -13,6 +13,11 @@ export function TemtemMarker({ marker }) {
   const [isLoading, setLoading] = useState(false);
 
   const handleMarkerUpdate = useCallback((data) => {
+    const condition = data.condition;
+    const location = data.location;
+    const x = data.coordinate_horizontal;
+    const y = data.coordinate_vertical;
+
     setLoading(true);
 
     setTimeout(() => {

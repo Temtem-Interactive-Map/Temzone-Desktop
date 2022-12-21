@@ -1,11 +1,12 @@
 import { useTranslation } from "next-export-i18n";
+import { useCallback } from "react";
 import { useMap } from "../../hooks";
 import {
   mapCenter,
-  mapMaxHorizontal,
-  mapMaxVertical,
-  mapMinHorizontal,
-  mapMinVertical,
+  markerMaxHorizontal,
+  markerMaxVertical,
+  markerMinHorizontal,
+  markerMinVertical,
 } from "../../utils";
 import { InputField } from "../InputField";
 
@@ -51,8 +52,54 @@ export function CoordinatesField({ marker }) {
   // Internationalization
   const { t } = useTranslation();
   // State
-  const { getMarker } = useMap();
+  const { getMarker, moveMarker } = useMap();
   const coordinates = getMarker(marker);
+
+  const handleCoordinateHorizontalChange = useCallback(
+    (event) => {
+      const x = parseInt(event.target.value);
+
+      const markerRef = Object.assign({}, marker);
+      if (!isNaN(x)) {
+        if (x < markerMinHorizontal) {
+          markerRef.coordinates = {
+            x: markerMinHorizontal,
+            y: coordinates.y,
+          };
+        } else {
+          markerRef.coordinates = {
+            x,
+            y: coordinates.y,
+          };
+        }
+        moveMarker(markerRef);
+      }
+    },
+    [marker, coordinates.y, moveMarker]
+  );
+
+  const handleCoordinateVerticalChange = useCallback(
+    (event) => {
+      const y = parseInt(event.target.value);
+
+      const markerRef = Object.assign({}, marker);
+      if (!isNaN(y)) {
+        if (y < markerMinVertical) {
+          markerRef.coordinates = {
+            x: coordinates.x,
+            y: markerMinVertical,
+          };
+        } else {
+          markerRef.coordinates = {
+            x: coordinates.x,
+            y,
+          };
+        }
+        moveMarker(markerRef);
+      }
+    },
+    [marker, coordinates.x, moveMarker]
+  );
 
   return (
     <div className="flex flex-row space-x-4">
@@ -63,14 +110,15 @@ export function CoordinatesField({ marker }) {
         value={coordinates.x}
         placeholder={mapCenter}
         options={{
+          onChange: handleCoordinateHorizontalChange,
           required: t("required_field"),
           min: {
-            value: mapMinHorizontal,
-            message: t("min_field").replace("@value", mapMinHorizontal),
+            value: markerMinHorizontal,
+            message: t("min_field").replace("@value", markerMinHorizontal),
           },
           max: {
-            value: mapMaxHorizontal,
-            message: t("max_field").replace("@value", mapMaxHorizontal),
+            value: markerMaxHorizontal,
+            message: t("max_field").replace("@value", markerMaxHorizontal),
           },
           valueAsNumber: true,
         }}
@@ -83,14 +131,15 @@ export function CoordinatesField({ marker }) {
         value={coordinates.y}
         placeholder={mapCenter}
         options={{
+          onChange: handleCoordinateVerticalChange,
           required: t("required_field"),
           min: {
-            value: mapMinVertical,
-            message: t("min_field").replace("@value", mapMinVertical),
+            value: markerMinVertical,
+            message: t("min_field").replace("@value", markerMinVertical),
           },
           max: {
-            value: mapMaxVertical,
-            message: t("max_field").replace("@value", mapMaxVertical),
+            value: markerMaxVertical,
+            message: t("max_field").replace("@value", markerMaxVertical),
           },
           valueAsNumber: true,
         }}

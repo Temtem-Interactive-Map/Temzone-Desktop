@@ -9,7 +9,7 @@ export function InputField({ id, type, label, value, placeholder, options }) {
     formState: { errors },
   } = useFormContext();
   const error = errors[id];
-  // State
+
   useEffect(() => setValue(id, value), [setValue, id, value]);
 
   return (

@@ -13,6 +13,9 @@ export function SaiparkMarker({ marker }) {
   const [isLoading, setLoading] = useState(false);
 
   const handleMarkerUpdate = useCallback((data) => {
+    const x = data.coordinate_horizontal;
+    const y = data.coordinate_vertical;
+
     setLoading(true);
 
     setTimeout(() => {

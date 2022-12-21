@@ -13,6 +13,10 @@ export function LandmarkMarker({ marker }) {
   const [isLoading, setLoading] = useState(false);
 
   const handleMarkerUpdate = useCallback((data) => {
+    const location = data.location;
+    const x = data.coordinate_horizontal;
+    const y = data.coordinate_vertical;
+
     setLoading(true);
 
     setTimeout(() => {
