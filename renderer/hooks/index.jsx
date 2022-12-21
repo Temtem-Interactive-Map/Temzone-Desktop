@@ -8,7 +8,7 @@ export function useMap() {
   const { map, markers, set, get, remove, clear } = useContext(MapContext);
 
   const addMarker = useCallback(
-    (markerRef, handler) => {
+    (markerRef, onClick, onMove) => {
       let coordinates = markerRef.coordinates;
 
       if (coordinates === null) {
@@ -33,8 +33,8 @@ export function useMap() {
           draggable: true,
         }
       )
-        .on("click", () => handler(markerRef))
-        .on("moveend", () => handler(markerRef))
+        .on("click", () => onClick(markerRef))
+        .on("moveend", () => onMove(markerRef))
         .addTo(map.current);
 
       set(markerRef.id, marker);

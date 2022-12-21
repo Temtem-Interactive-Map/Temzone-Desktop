@@ -52,7 +52,7 @@ export function CoordinatesField({ marker }) {
   const { t } = useTranslation();
   // State
   const { getMarker } = useMap();
-  const coordinates = marker.coordinates; // getMarker(marker);
+  const coordinates = getMarker(marker);
 
   return (
     <div className="flex flex-row space-x-4">
@@ -60,7 +60,7 @@ export function CoordinatesField({ marker }) {
         id="coordinate_horizontal"
         type="number"
         label={t("coordinate_horizontal_field")}
-        value={coordinates?.x}
+        value={coordinates.x}
         placeholder={mapCenter}
         options={{
           required: t("required_field"),
@@ -80,7 +80,7 @@ export function CoordinatesField({ marker }) {
         id="coordinate_vertical"
         type="number"
         label={t("coordinate_vertical_field")}
-        value={coordinates?.y}
+        value={coordinates.y}
         placeholder={mapCenter}
         options={{
           required: t("required_field"),
