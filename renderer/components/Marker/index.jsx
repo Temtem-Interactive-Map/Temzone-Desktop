@@ -1,4 +1,5 @@
 import { useTranslation } from "next-export-i18n";
+import { useMap } from "../../hooks";
 import {
   mapCenter,
   mapMaxHorizontal,
@@ -49,6 +50,9 @@ export function LocationField({ marker }) {
 export function CoordinatesField({ marker }) {
   // Internationalization
   const { t } = useTranslation();
+  // State
+  const { getMarker } = useMap();
+  const coordinates = marker.coordinates; // getMarker(marker);
 
   return (
     <div className="flex flex-row space-x-4">
@@ -56,7 +60,7 @@ export function CoordinatesField({ marker }) {
         id="coordinate_horizontal"
         type="number"
         label={t("coordinate_horizontal_field")}
-        value={marker.coordinates?.x}
+        value={coordinates?.x}
         placeholder={mapCenter}
         options={{
           required: t("required_field"),
@@ -76,7 +80,7 @@ export function CoordinatesField({ marker }) {
         id="coordinate_vertical"
         type="number"
         label={t("coordinate_vertical_field")}
-        value={marker.coordinates?.y}
+        value={coordinates?.y}
         placeholder={mapCenter}
         options={{
           required: t("required_field"),

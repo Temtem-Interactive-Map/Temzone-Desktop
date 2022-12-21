@@ -2,6 +2,13 @@ import "leaflet/dist/leaflet.css";
 import dynamic from "next/dynamic";
 import { Sidebar } from "../../components/Sidebar";
 
+const MapProvider = dynamic(
+  () => import("../../context").then((module) => module.MapProvider),
+  {
+    ssr: false,
+  }
+);
+
 const Accordion = dynamic(
   () => import("../../components/Accordion").then((module) => module.Accordion),
   {
@@ -11,7 +18,7 @@ const Accordion = dynamic(
 
 export default function Markers() {
   return (
-    <>
+    <MapProvider id="airborne_archipelago">
       {/* Sidebar menu */}
       <Sidebar />
 
@@ -24,6 +31,6 @@ export default function Markers() {
         className="flex-grow"
         style={{ background: "#001e3c" }}
       />
-    </>
+    </MapProvider>
   );
 }

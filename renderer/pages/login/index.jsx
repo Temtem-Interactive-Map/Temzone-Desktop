@@ -1,6 +1,6 @@
 import { useLanguageQuery, useTranslation } from "next-export-i18n";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { InputField } from "../../components/InputField";
 import { LoadingButton } from "../../components/LoadingButton";
@@ -17,27 +17,30 @@ export default function Login() {
   // Validation
   const methods = useForm({ mode: "onSubmit", reValidateMode: "onSubmit" });
 
-  function handleLogin(data) {
-    const email = data.email.trim();
-    const password = data.password.trim();
+  const handleLogin = useCallback(
+    (data) => {
+      const email = data.email.trim();
+      const password = data.password.trim();
 
-    setLoading(true);
-    login(email, password)
-      .then(() => router.push({ pathname: "/markers/all", query }))
-      .catch((error) => {
-        methods.setError(
-          "email",
-          { type: "remote", message: t(error.message) },
-          true
-        );
-        methods.setError(
-          "password",
-          { type: "remote", message: t(error.message) },
-          false
-        );
-      })
-      .finally(() => setLoading(false));
-  }
+      setLoading(true);
+      login(email, password)
+        .then(() => router.push({ pathname: "/markers/all", query }))
+        .catch((error) => {
+          methods.setError(
+            "email",
+            { type: "remote", message: t(error.message) },
+            true
+          );
+          methods.setError(
+            "password",
+            { type: "remote", message: t(error.message) },
+            false
+          );
+        })
+        .finally(() => setLoading(false));
+    },
+    [methods, router, query, t]
+  );
 
   return (
     <div className="w-full bg-login bg-cover bg-center">

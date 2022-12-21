@@ -1,6 +1,7 @@
 import { mapCenter } from "../utils";
 
-export function login({ email, password }) {
+export function login(email, password) {
+  console.log({ email, password });
   return new Promise((resolve, _reject) => setTimeout(() => resolve(), 500));
 }
 
@@ -45,7 +46,7 @@ export function getMarkers(type) {
       condition: "Requires Fishing Rod",
       coordinates: {
         x: mapCenter,
-        y: mapCenter,
+        y: mapCenter - 500,
       },
     },
     {
