@@ -62,6 +62,8 @@ export function Accordion() {
             : moveMarker(prevMarker);
         }
 
+        // A copy of the marker is returned to force refreshing the coordinates of
+        // the marker in the form
         return Object.assign({}, marker);
       });
 

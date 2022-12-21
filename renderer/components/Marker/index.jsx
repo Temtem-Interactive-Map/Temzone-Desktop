@@ -52,8 +52,8 @@ export function CoordinatesField({ marker }) {
   // Internationalization
   const { t } = useTranslation();
   // State
-  const { getMarker, moveMarker } = useMap();
-  const coordinates = getMarker(marker);
+  const { getMarkerCoordinates, moveMarker } = useMap();
+  const coordinates = getMarkerCoordinates(marker);
 
   const handleCoordinateHorizontalChange = useCallback(
     (event) => {
