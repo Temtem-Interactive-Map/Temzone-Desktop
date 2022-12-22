@@ -162,7 +162,7 @@ export function Accordion() {
   return (
     <section
       className="w-96 space-y-3 overflow-y-scroll bg-gray-700 p-3 scrollbar-hide xl:w-192"
-      onDragStart={(e) => e.preventDefault()}
+      onDragStart={(event) => event.preventDefault()}
     >
       {markers.map((marker) => (
         <div
@@ -201,7 +201,9 @@ export function Accordion() {
                 {marker.title}
               </span>
               <span className="text-lg leading-tight text-gray-300">
-                {marker.subtitle ?? t("location_template")}
+                {typeof marker.subtitle === "string"
+                  ? marker.subtitle
+                  : marker.subtitle?.current ?? t("location_template")}
               </span>
             </div>
 

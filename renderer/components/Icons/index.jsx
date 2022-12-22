@@ -1,3 +1,29 @@
+export function Plus(props) {
+  return (
+    <svg viewBox="0 0 48 48" {...props}>
+      <path
+        fill="currentColor"
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M22.5 38V25.5H10v-3h12.5V10h3v12.5H38v3H25.5V38Z"
+      />
+    </svg>
+  );
+}
+
+export function Minus(props) {
+  return (
+    <svg viewBox="0 0 48 48" {...props}>
+      <path
+        fill="currentColor"
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M10 25.5v-3h28v3Z"
+      />
+    </svg>
+  );
+}
+
 export function Arrow(props) {
   return (
     <svg viewBox="0 0 24 24" {...props}>
@@ -5,7 +31,7 @@ export function Arrow(props) {
         fill="currentColor"
         fillRule="evenodd"
         clipRule="evenodd"
-        d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6-1.41-1.41z"
+        d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6-1.41-1.41Z"
       />
     </svg>
   );

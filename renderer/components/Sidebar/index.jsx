@@ -1,6 +1,7 @@
 import { useLanguageQuery, useTranslation } from "next-export-i18n";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { useCallback } from "react";
 import performanceIcon from "../../public/images/performance_icon.png";
 import { logout } from "../../services";
 import { sidebar } from "../../utils";
@@ -14,14 +15,14 @@ export function Sidebar() {
   const [query] = useLanguageQuery();
   const { t } = useTranslation();
 
-  function handleLogout() {
+  const handleLogout = useCallback(() => {
     logout().then(() => router.push({ pathname: "/login", query }));
-  }
+  }, [router, query]);
 
   return (
     <aside
       className="space-y-2 bg-gray-900 p-3"
-      onDragStart={(e) => e.preventDefault()}
+      onDragStart={(event) => event.preventDefault()}
     >
       {/* Marker type filters */}
       {sidebar.map((item, i) => (

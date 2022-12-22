@@ -2,7 +2,7 @@ import { useLanguageQuery, useTranslation } from "next-export-i18n";
 import { useRouter } from "next/router";
 import { useCallback, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import { InputField } from "../../components/InputField";
+import { InputField } from "../../components/Fields/InputField";
 import { LoadingButton } from "../../components/LoadingButton";
 import { login } from "../../services";
 

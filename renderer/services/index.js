@@ -34,7 +34,10 @@ export function getMarkers(type) {
       id: 0,
       type: "temtem",
       title: "Mimit",
-      subtitle: "Iwaba, East Path",
+      subtitle: {
+        original: "Iwaba, East Path",
+        current: "Iwaba, East Path",
+      },
       condition: null,
       coordinates: null,
     },
@@ -42,7 +45,10 @@ export function getMarkers(type) {
       id: 1,
       type: "temtem",
       title: "Mimit",
-      subtitle: "Iwaba, East Path",
+      subtitle: {
+        original: "Iwaba, East Path",
+        current: "Iwaba, East Path",
+      },
       condition: "Requires Fishing Rod",
       coordinates: {
         x: mapCenter,

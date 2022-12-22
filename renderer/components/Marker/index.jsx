@@ -2,15 +2,15 @@ import { useTranslation } from "next-export-i18n";
 import { useCallback } from "react";
 import { useMap } from "../../hooks";
 import {
-  mapCenter,
   markerMaxHorizontal,
   markerMaxVertical,
   markerMinHorizontal,
   markerMinVertical,
 } from "../../utils";
-import { InputField } from "../InputField";
+import { CounterField } from "../Fields/CounterField";
+import { InputField } from "../Fields/InputField";
 
-export function ConditionField({ marker }) {
+export function ConditionField({ condition, placeholder }) {
   // Internationalization
   const { t } = useTranslation();
 
@@ -19,8 +19,8 @@ export function ConditionField({ marker }) {
       id="condition"
       type="text"
       label={t("condition_field")}
-      value={marker.condition}
-      placeholder={t("condition_template")}
+      value={condition}
+      placeholder={placeholder}
       options={{
         maxLength: { value: 40 },
       }}
@@ -28,7 +28,7 @@ export function ConditionField({ marker }) {
   );
 }
 
-export function LocationField({ marker }) {
+export function LocationField({ location, placeholder }) {
   // Internationalization
   const { t } = useTranslation();
 
@@ -37,8 +37,8 @@ export function LocationField({ marker }) {
       id="location"
       type="text"
       label={t("location_field")}
-      value={marker.subtitle}
-      placeholder={t("location_template")}
+      value={location}
+      placeholder={placeholder}
       options={{
         required: t("required_field"),
         validate: (value) => (value.trim() ? true : t("required_field")),
@@ -56,62 +56,30 @@ export function CoordinatesField({ marker }) {
   const coordinates = getMarkerCoordinates(marker);
 
   const handleCoordinateHorizontalChange = useCallback(
-    (event) => {
-      const x = parseInt(event.target.value);
+    (value) => {
+      coordinates.x = value;
 
-      const markerRef = Object.assign({}, marker);
-      if (!isNaN(x)) {
-        if (x < markerMinHorizontal) {
-          markerRef.coordinates = {
-            x: markerMinHorizontal,
-            y: coordinates.y,
-          };
-        } else {
-          markerRef.coordinates = {
-            x,
-            y: coordinates.y,
-          };
-        }
-        moveMarker(markerRef);
-      }
+      moveMarker({ id: marker.id, coordinates });
     },
-    [marker, coordinates.y, moveMarker]
+    [marker.id, coordinates, moveMarker]
   );
 
   const handleCoordinateVerticalChange = useCallback(
-    (event) => {
-      const y = parseInt(event.target.value);
+    (value) => {
+      coordinates.y = value;
 
-      const markerRef = Object.assign({}, marker);
-      if (!isNaN(y)) {
-        if (y < markerMinVertical) {
-          markerRef.coordinates = {
-            x: coordinates.x,
-            y: markerMinVertical,
-          };
-        } else {
-          markerRef.coordinates = {
-            x: coordinates.x,
-            y,
-          };
-        }
-        moveMarker(markerRef);
-      }
+      moveMarker({ id: marker.id, coordinates });
     },
-    [marker, coordinates.x, moveMarker]
+    [marker.id, coordinates, moveMarker]
   );
 
   return (
     <div className="flex flex-row space-x-4">
-      <InputField
+      <CounterField
         id="coordinate_horizontal"
-        type="number"
         label={t("coordinate_horizontal_field")}
         value={coordinates.x}
-        placeholder={mapCenter}
         options={{
-          onChange: handleCoordinateHorizontalChange,
-          required: t("required_field"),
           min: {
             value: markerMinHorizontal,
             message: t("min_field").replace("@value", markerMinHorizontal),
@@ -122,17 +90,14 @@ export function CoordinatesField({ marker }) {
           },
           valueAsNumber: true,
         }}
+        onChange={handleCoordinateHorizontalChange}
       />
 
-      <InputField
+      <CounterField
         id="coordinate_vertical"
-        type="number"
         label={t("coordinate_vertical_field")}
         value={coordinates.y}
-        placeholder={mapCenter}
         options={{
-          onChange: handleCoordinateVerticalChange,
-          required: t("required_field"),
           min: {
             value: markerMinVertical,
             message: t("min_field").replace("@value", markerMinVertical),
@@ -143,6 +108,7 @@ export function CoordinatesField({ marker }) {
           },
           valueAsNumber: true,
         }}
+        onChange={handleCoordinateVerticalChange}
       />
     </div>
   );

@@ -13,8 +13,8 @@ export function TemtemMarker({ marker }) {
   const [isLoading, setLoading] = useState(false);
 
   const handleMarkerUpdate = useCallback((data) => {
-    const condition = data.condition;
-    const location = data.location;
+    const condition = data.condition.trim();
+    const location = data.location.trim();
     const x = data.coordinate_horizontal;
     const y = data.coordinate_vertical;
 
@@ -32,11 +32,17 @@ export function TemtemMarker({ marker }) {
         className="space-y-4"
         onSubmit={methods.handleSubmit(handleMarkerUpdate)}
       >
-        {/* Condition field */}
-        <ConditionField marker={marker} />
-
         {/* Location field */}
-        <LocationField marker={marker} />
+        <LocationField
+          location={marker.subtitle.current}
+          placeholder={marker.subtitle.original}
+        />
+
+        {/* Condition field */}
+        <ConditionField
+          condition={marker.condition}
+          placeholder={t("condition_template")}
+        />
 
         {/* Coordinates field */}
         <CoordinatesField marker={marker} />
