@@ -14,7 +14,7 @@ import {
   mapMinVertical,
   mapSize,
   zoom,
-} from "../utils";
+} from "../../utils";
 
 export const MapContext = createContext();
 

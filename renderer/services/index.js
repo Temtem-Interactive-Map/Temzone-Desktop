@@ -1,11 +1,11 @@
 import { mapCenter } from "../utils";
 
 export function login(email, password) {
-  return new Promise((resolve, _reject) => setTimeout(() => resolve(), 500));
+  return new Promise((resolve, _reject) => setTimeout(() => resolve(), 0));
 }
 
 export function logout() {
-  return new Promise((resolve, _reject) => setTimeout(() => resolve(), 100));
+  return new Promise((resolve, _reject) => setTimeout(() => resolve(), 0));
 }
 
 // Types of markers for the endpoint call
@@ -32,7 +32,7 @@ export function getMarkers(type) {
     {
       id: 0,
       type: "temtem",
-      title: "Mimit",
+      title: "Mimit Test",
       subtitle: {
         original: "Iwaba, East Path",
         current: "Iwaba, East Path",

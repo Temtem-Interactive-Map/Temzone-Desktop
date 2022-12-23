@@ -1,9 +1,8 @@
 import { useTranslation } from "next-export-i18n";
 import Image from "next/image";
-import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
-import { useMap } from "../../hooks";
-import { getMarkers } from "../../services";
+import { useMapContext } from "../../hooks/Map";
+import { useMarkersContext } from "../../hooks/Markers";
 import { markerIconPath } from "../../utils";
 import { Arrow } from "../Icons";
 import { LandmarkMarker } from "../Marker/Landmark";
@@ -11,14 +10,10 @@ import { SaiparkMarker } from "../Marker/Saipark";
 import { TemtemMarker } from "../Marker/Temtem";
 
 export function Accordion() {
-  // Navigation
-  const router = useRouter();
-  const type = router.query.type ?? "all";
   // Internationalization
   const { t } = useTranslation();
   // State
   const [openMarker, setOpenMarker] = useState(null);
-  const markers = getMarkers(type);
   const {
     addMarker,
     removeMarker,
@@ -27,7 +22,8 @@ export function Accordion() {
     focusMarker,
     unfocusMarker,
     clearMap,
-  } = useMap();
+  } = useMapContext();
+  const { markers } = useMarkersContext();
 
   const scrollToMarker = useCallback((marker) => {
     const element = document.getElementById("#" + marker.id);
@@ -124,9 +120,8 @@ export function Accordion() {
 
           return marker;
         } else {
-          // If the accordion is open, the coordinates of the marker are resets to its
-          // original position if it was already on the map; otherwise, the markers is
-          // removed
+          // If the accordion is open and the marker was not on the map, it is removed;
+          // otherwise, it resets to its original opacity
           if (prevMarker.coordinates === null) {
             removeMarker(prevMarker);
           } else {
@@ -175,14 +170,12 @@ export function Accordion() {
     clearMap();
     setOpenMarker(null);
 
-    const markersRef = getMarkers(type);
-
-    markersRef
+    markers
       .filter((marker) => marker.coordinates !== null)
       .forEach((marker) =>
         addMarker(marker, handleMarkerClick, handleMarkerMove)
       );
-  }, [type, clearMap, addMarker, handleMarkerClick, handleMarkerMove]);
+  }, [markers, clearMap, addMarker, handleMarkerClick, handleMarkerMove]);
 
   function loading() {
     return (
@@ -239,7 +232,7 @@ export function Accordion() {
             {/* Marker information */}
             <div className="flex w-full flex-col text-start">
               <span className="text-xl font-bold leading-tight">
-                {marker.title}
+                {marker.title.split(" ")[0]}
               </span>
               <span className="text-lg leading-tight text-gray-300">
                 {typeof marker.subtitle === "string"

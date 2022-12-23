@@ -2,6 +2,7 @@ import { useTranslation } from "next-export-i18n";
 import { useCallback, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { ConditionField, CoordinatesField, LocationField } from "..";
+import { useMarkersContext } from "../../../hooks/Markers";
 import { LoadingButton } from "../../LoadingButton";
 
 export function TemtemMarker({ marker }) {
@@ -11,19 +12,25 @@ export function TemtemMarker({ marker }) {
   const methods = useForm({ mode: "onSubmit", reValidateMode: "onSubmit" });
   // State
   const [isLoading, setLoading] = useState(false);
+  const { updateMarker } = useMarkersContext();
 
-  const handleMarkerUpdate = useCallback((data) => {
-    const condition = data.condition.trim();
-    const location = data.location.trim();
-    const x = data.coordinate_horizontal;
-    const y = data.coordinate_vertical;
+  const handleMarkerUpdate = useCallback(
+    (data) => {
+      marker.subtitle.current = data.location.trim();
+      marker.condition = (data.condition ?? "").trim();
+      marker.coordinates = {
+        x: data.coordinate_horizontal,
+        y: data.coordinate_vertical,
+      };
 
-    setLoading(true);
-
-    setTimeout(() => {
-      setLoading(false);
-    }, 3000);
-  }, []);
+      setLoading(true);
+      setTimeout(() => {
+        updateMarker(marker);
+        setLoading(false);
+      }, 500);
+    },
+    [marker, updateMarker]
+  );
 
   return (
     <FormProvider {...methods}>

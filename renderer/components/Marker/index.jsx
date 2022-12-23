@@ -1,6 +1,6 @@
 import { useTranslation } from "next-export-i18n";
 import { useCallback } from "react";
-import { useMap } from "../../hooks";
+import { useMapContext } from "../../hooks/Map";
 import {
   markerMaxHorizontal,
   markerMaxVertical,
@@ -52,7 +52,7 @@ export function CoordinatesField({ marker }) {
   // Internationalization
   const { t } = useTranslation();
   // State
-  const { getMarkerCoordinates, moveMarker } = useMap();
+  const { getMarkerCoordinates, moveMarker } = useMapContext();
   const coordinates = getMarkerCoordinates(marker);
 
   const handleCoordinateHorizontalChange = useCallback(

@@ -1,6 +1,6 @@
 import L from "leaflet";
 import { useCallback, useContext } from "react";
-import { MapContext } from "../context";
+import { MapContext } from "../../context/Map";
 import {
   mapCenter,
   markerIconPath,
@@ -10,9 +10,9 @@ import {
   markerMinVertical,
   markerOpacity,
   zoom,
-} from "../utils";
+} from "../../utils";
 
-export function useMap() {
+export function useMapContext() {
   // State
   const { map, markers, set, get, remove, clear } = useContext(MapContext);
 
@@ -92,10 +92,8 @@ export function useMap() {
       const coordinates = map.current.unproject(markerRef.coordinates, zoom);
 
       marker.setLatLng(coordinates);
-
-      set(markerRef.id, marker);
     },
-    [map, get, set]
+    [map, get]
   );
 
   const focusMarker = useCallback(

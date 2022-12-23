@@ -2,6 +2,7 @@ import { useTranslation } from "next-export-i18n";
 import { useCallback, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { CoordinatesField, LocationField } from "..";
+import { useMarkersContext } from "../../../hooks/Markers";
 import { LoadingButton } from "../../LoadingButton";
 
 export function LandmarkMarker({ marker }) {
@@ -11,18 +12,25 @@ export function LandmarkMarker({ marker }) {
   const methods = useForm({ mode: "onSubmit", reValidateMode: "onSubmit" });
   // State
   const [isLoading, setLoading] = useState(false);
+  const { updateMarker } = useMarkersContext();
 
-  const handleMarkerUpdate = useCallback((data) => {
-    const location = data.location.trim();
-    const x = data.coordinate_horizontal;
-    const y = data.coordinate_vertical;
+  const handleMarkerUpdate = useCallback(
+    (data) => {
+      marker.subtitle = data.location.trim();
+      marker.coordinates = {
+        x: data.coordinate_horizontal,
+        y: data.coordinate_vertical,
+      };
 
-    setLoading(true);
+      setLoading(true);
 
-    setTimeout(() => {
-      setLoading(false);
-    }, 3000);
-  }, []);
+      setTimeout(() => {
+        updateMarker(marker);
+        setLoading(false);
+      }, 500);
+    },
+    [marker, updateMarker]
+  );
 
   return (
     <FormProvider {...methods}>

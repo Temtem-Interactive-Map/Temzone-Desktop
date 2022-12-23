@@ -38,9 +38,11 @@ export const sidebar = Object.freeze([
 
 // Returns the path of the marker image
 export function markerIconPath(marker) {
+  const name = marker.title.split(" ")[0].toLowerCase();
+
   switch (marker.type) {
     case "temtem":
-      return "../markers/" + marker.title.toLowerCase() + "_marker.png";
+      return "../markers/" + name + "_marker.png";
     case "saipark":
     case "landmark":
       return "../markers/landmark_marker.png";
