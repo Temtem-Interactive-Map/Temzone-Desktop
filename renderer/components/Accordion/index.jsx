@@ -19,8 +19,15 @@ export function Accordion() {
   // State
   const [openMarker, setOpenMarker] = useState(null);
   const markers = getMarkers(type);
-  const { addMarker, removeMarker, moveMarker, moveToMarker, clearMap } =
-    useMap();
+  const {
+    addMarker,
+    removeMarker,
+    moveMarker,
+    moveToMarker,
+    focusMarker,
+    unfocusMarker,
+    clearMap,
+  } = useMap();
 
   const scrollToMarker = useCallback((marker) => {
     const element = document.getElementById("#" + marker.id);
@@ -31,12 +38,21 @@ export function Accordion() {
   const handleMarkerClick = useCallback(
     (marker) => {
       setOpenMarker((prevMarker) => {
-        // If the accordion is open and the marker was not on the map, it is removed;
-        // otherwise, it resets to its original position
-        if (prevMarker !== null && prevMarker.id !== marker.id) {
-          prevMarker.coordinates === null
-            ? removeMarker(prevMarker)
-            : moveMarker(prevMarker);
+        // Change the opacity of the selected marker
+        focusMarker(marker);
+
+        // Change the opacity of the previously selected marker
+        if (prevMarker !== null) {
+          // If the accordion is open and the marker was not on the map, it is removed;
+          // otherwise, it resets to its original position
+          if (prevMarker.id !== marker.id) {
+            if (prevMarker.coordinates === null) {
+              removeMarker(prevMarker);
+            } else {
+              moveMarker(prevMarker);
+              unfocusMarker(prevMarker);
+            }
+          }
         }
 
         return marker;
@@ -48,18 +64,34 @@ export function Accordion() {
       // Centers the map view on the marker
       moveToMarker(marker);
     },
-    [removeMarker, moveMarker, scrollToMarker, moveToMarker]
+    [
+      removeMarker,
+      moveMarker,
+      scrollToMarker,
+      moveToMarker,
+      focusMarker,
+      unfocusMarker,
+    ]
   );
 
   const handleMarkerMove = useCallback(
     (marker) => {
       setOpenMarker((prevMarker) => {
-        // If the accordion is open and the marker was not on the map, it is removed;
-        // otherwise, it resets to its original position
-        if (prevMarker !== null && prevMarker.id !== marker.id) {
-          prevMarker.coordinates === null
-            ? removeMarker(prevMarker)
-            : moveMarker(prevMarker);
+        // Change the opacity of the selected marker
+        focusMarker(marker);
+
+        // Change the opacity of the previously selected marker
+        if (prevMarker !== null) {
+          // If the accordion is open and the marker was not on the map, it is removed;
+          // otherwise, it resets to its original position
+          if (prevMarker.id !== marker.id) {
+            if (prevMarker.coordinates === null) {
+              removeMarker(prevMarker);
+            } else {
+              moveMarker(prevMarker);
+              unfocusMarker(prevMarker);
+            }
+          }
         }
 
         // A copy of the marker is returned to force refreshing the coordinates of
@@ -70,7 +102,7 @@ export function Accordion() {
       // Scroll the accordion to the selected marker
       scrollToMarker(marker);
     },
-    [removeMarker, scrollToMarker, moveMarker]
+    [removeMarker, scrollToMarker, moveMarker, focusMarker, unfocusMarker]
   );
 
   const handleAccordionClick = useCallback(
@@ -87,6 +119,9 @@ export function Accordion() {
           // Centers the map view on the marker
           moveToMarker(marker);
 
+          // Change the opacity of the selected marker
+          focusMarker(marker);
+
           return marker;
         } else {
           // If the accordion is open, the coordinates of the marker are resets to its
@@ -96,6 +131,7 @@ export function Accordion() {
             removeMarker(prevMarker);
           } else {
             moveMarker(prevMarker);
+            unfocusMarker(prevMarker);
           }
 
           // It checks if the accordion is changing to show a new marker or not
@@ -110,6 +146,9 @@ export function Accordion() {
 
             // Centers the map view on the marker
             moveToMarker(marker);
+
+            // Change the opacity of the selected marker
+            focusMarker(marker);
 
             return marker;
           }
@@ -127,6 +166,8 @@ export function Accordion() {
       moveMarker,
       scrollToMarker,
       moveToMarker,
+      focusMarker,
+      unfocusMarker,
     ]
   );
 

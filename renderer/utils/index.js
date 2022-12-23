@@ -11,6 +11,7 @@ export const mapMinHorizontal = tileSize * 7;
 export const mapMaxHorizontal = mapSize - tileSize * 7;
 export const mapMinVertical = tileSize * 11;
 export const mapMaxVertical = mapSize - tileSize * 11;
+export const markerOpacity = 0.6;
 export const markerMinHorizontal = mapMinHorizontal + tileSize;
 export const markerMaxHorizontal = mapMaxHorizontal - tileSize;
 export const markerMinVertical = mapMinVertical + tileSize;

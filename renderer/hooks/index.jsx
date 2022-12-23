@@ -8,6 +8,7 @@ import {
   markerMaxVertical,
   markerMinHorizontal,
   markerMinVertical,
+  markerOpacity,
   zoom,
 } from "../utils";
 
@@ -38,36 +39,36 @@ export function useMap() {
       const marker = L.marker(map.current.unproject(coordinates, zoom), {
         icon,
         alt: markerRef.title,
+        opacity: markerOpacity,
         keyboard: false,
         draggable: true,
       })
         .on("click", () => onClick(markerRef))
-        .on("moveend", () => onMove(markerRef))
+        // Prevents the marker from dragging outside the map bounds
+        .on("drag", (event) => {
+          const marker = event.target;
+          const latlng = marker.getLatLng();
+          const coordinates = map.current.project(latlng, zoom);
+
+          // Check that the marker does not go outside the horizontal limits of the map
+          if (coordinates.x < markerMinHorizontal) {
+            coordinates.x = markerMinHorizontal;
+          } else if (coordinates.x > markerMaxHorizontal) {
+            coordinates.x = markerMaxHorizontal;
+          }
+
+          // Check that the marker does not go outside the vertical limits of the map
+          if (coordinates.y < markerMinVertical) {
+            coordinates.y = markerMinVertical;
+          } else if (coordinates.y > markerMaxVertical) {
+            coordinates.y = markerMaxVertical;
+          }
+
+          marker.setLatLng(map.current.unproject(coordinates, zoom));
+
+          onMove(markerRef);
+        })
         .addTo(map.current);
-
-      // Prevents the marker from dragging outside the map bounds
-      marker.on("drag", (event) => {
-        const latlng = event.target.getLatLng();
-        const coordinates = map.current.project(latlng, zoom);
-
-        // Check that the marker does not go outside the horizontal limits of the map
-        if (coordinates.x < markerMinHorizontal) {
-          coordinates.x = markerMinHorizontal;
-        } else if (coordinates.x > markerMaxHorizontal) {
-          coordinates.x = markerMaxHorizontal;
-        }
-
-        // Check that the marker does not go outside the vertical limits of the map
-        if (coordinates.y < markerMinVertical) {
-          coordinates.y = markerMinVertical;
-        } else if (coordinates.y > markerMaxVertical) {
-          coordinates.y = markerMaxVertical;
-        }
-
-        marker.setLatLng(map.current.unproject(coordinates, zoom));
-
-        onMove(markerRef);
-      });
 
       set(markerRef.id, marker);
     },
@@ -95,6 +96,24 @@ export function useMap() {
       set(markerRef.id, marker);
     },
     [map, get, set]
+  );
+
+  const focusMarker = useCallback(
+    (markerRef) => {
+      const marker = get(markerRef.id);
+
+      marker.setOpacity(1);
+    },
+    [get]
+  );
+
+  const unfocusMarker = useCallback(
+    (markerRef) => {
+      const marker = get(markerRef.id);
+
+      marker.setOpacity(markerOpacity);
+    },
+    [get]
   );
 
   const moveToMarker = useCallback(
@@ -127,6 +146,8 @@ export function useMap() {
     addMarker,
     removeMarker,
     moveMarker,
+    focusMarker,
+    unfocusMarker,
     moveToMarker,
     getMarkerCoordinates,
     clearMap,

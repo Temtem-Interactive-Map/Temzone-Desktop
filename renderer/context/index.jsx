@@ -20,7 +20,7 @@ export const MapContext = createContext();
 
 export function MapProvider({ id, children }) {
   // State
-  const map = useRef(null);
+  const map = useRef();
   const [markers, setMarkers] = useState(new Map());
 
   useLayoutEffect(() => {
