@@ -57,18 +57,30 @@ export function CoordinatesField({ marker }) {
 
   const handleCoordinateHorizontalChange = useCallback(
     (value) => {
-      coordinates.x = value;
+      if (value >= markerMinHorizontal && value <= markerMaxHorizontal) {
+        coordinates.x = value;
 
-      moveMarker({ id: marker.id, coordinates });
+        moveMarker({ id: marker.id, coordinates });
+
+        return true;
+      } else {
+        return false;
+      }
     },
     [marker.id, coordinates, moveMarker]
   );
 
   const handleCoordinateVerticalChange = useCallback(
     (value) => {
-      coordinates.y = value;
+      if (value >= markerMinVertical && value <= markerMaxVertical) {
+        coordinates.y = value;
 
-      moveMarker({ id: marker.id, coordinates });
+        moveMarker({ id: marker.id, coordinates });
+
+        return true;
+      } else {
+        return false;
+      }
     },
     [marker.id, coordinates, moveMarker]
   );
@@ -79,17 +91,7 @@ export function CoordinatesField({ marker }) {
         id="coordinate_horizontal"
         label={t("coordinate_horizontal_field")}
         value={coordinates.x}
-        options={{
-          min: {
-            value: markerMinHorizontal,
-            message: t("min_field").replace("@value", markerMinHorizontal),
-          },
-          max: {
-            value: markerMaxHorizontal,
-            message: t("max_field").replace("@value", markerMaxHorizontal),
-          },
-          valueAsNumber: true,
-        }}
+        options={{ valueAsNumber: true }}
         onChange={handleCoordinateHorizontalChange}
       />
 
@@ -97,17 +99,7 @@ export function CoordinatesField({ marker }) {
         id="coordinate_vertical"
         label={t("coordinate_vertical_field")}
         value={coordinates.y}
-        options={{
-          min: {
-            value: markerMinVertical,
-            message: t("min_field").replace("@value", markerMinVertical),
-          },
-          max: {
-            value: markerMaxVertical,
-            message: t("max_field").replace("@value", markerMaxVertical),
-          },
-          valueAsNumber: true,
-        }}
+        options={{ valueAsNumber: true }}
         onChange={handleCoordinateVerticalChange}
       />
     </div>

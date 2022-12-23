@@ -1,4 +1,4 @@
-export function InputLabel({ id, label, required, error }) {
+export function InputLabel({ id, label, required = false, error }) {
   return (
     <label
       htmlFor={id}

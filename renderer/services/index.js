@@ -1,7 +1,6 @@
 import { mapCenter } from "../utils";
 
 export function login(email, password) {
-  console.log({ email, password });
   return new Promise((resolve, _reject) => setTimeout(() => resolve(), 500));
 }
 

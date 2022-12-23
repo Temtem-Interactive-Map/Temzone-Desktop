@@ -1,8 +1,6 @@
 {
   "i18n": {
     "required_field": "This field is required.",
-    "min_field": "The value must be greater than or equal to @value.",
-    "max_field": "The value must be less than or equal to @value.",
     "login_branding": "Log in to your account",
     "login": "Log In",
     "login_error": "Email or password is invalid.",
