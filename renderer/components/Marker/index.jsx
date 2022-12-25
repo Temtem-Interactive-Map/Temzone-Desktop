@@ -51,6 +51,7 @@ export function LocationField({ location, placeholder }) {
 export function CoordinatesField({ marker }) {
   // Internationalization
   const { t } = useTranslation();
+
   // State
   const { getMarkerCoordinates, moveMarker } = useMapContext();
   const coordinates = getMarkerCoordinates(marker);

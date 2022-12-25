@@ -54,7 +54,7 @@ module.exports = {
         },
       },
       spacing: {
-        192: "48rem",
+        120: "30rem",
       },
       backgroundImage: {
         login: "url('/images/background.jpg')",

@@ -9,13 +9,16 @@ import { login } from "../../services";
 export default function Login() {
   // Navigation
   const router = useRouter();
+
   // Internationalization
   const [query] = useLanguageQuery();
   const { t } = useTranslation();
-  // State
-  const [isLoading, setLoading] = useState(false);
+
   // Validation
   const methods = useForm({ mode: "onSubmit", reValidateMode: "onSubmit" });
+
+  // State
+  const [isLoading, setLoading] = useState(false);
 
   const handleLogin = useCallback(
     (data) => {

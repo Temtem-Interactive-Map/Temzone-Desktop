@@ -1,11 +1,5 @@
 import L from "leaflet";
-import {
-  createContext,
-  useCallback,
-  useLayoutEffect,
-  useRef,
-  useState,
-} from "react";
+import { createContext, useCallback, useEffect, useRef, useState } from "react";
 import {
   mapCenter,
   mapMaxHorizontal,
@@ -23,7 +17,7 @@ export function MapProvider({ id, children }) {
   const map = useRef();
   const [markers, setMarkers] = useState(new Map());
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (map.current) map.current.remove();
 
     // Generate the map

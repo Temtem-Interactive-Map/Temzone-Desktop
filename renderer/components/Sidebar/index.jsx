@@ -11,6 +11,7 @@ import { Tooltip } from "../Tooltip";
 export function Sidebar() {
   // Navigation
   const router = useRouter();
+
   // Internationalization
   const [query] = useLanguageQuery();
   const { t } = useTranslation();

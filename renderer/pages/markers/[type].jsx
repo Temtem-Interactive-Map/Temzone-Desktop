@@ -1,11 +1,22 @@
 import "leaflet/dist/leaflet.css";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import { Sidebar } from "../../components/Sidebar";
-import { MarkersProvider } from "../../context/Markers";
+import { getMarkers } from "../../services";
 
 const MapProvider = dynamic(
   () => import("../../context/Map").then((module) => module.MapProvider),
+  {
+    ssr: false,
+  }
+);
+
+const AccordionProvider = dynamic(
+  () =>
+    import("../../context/Accordion").then(
+      (module) => module.AccordionProvider
+    ),
   {
     ssr: false,
   }
@@ -23,22 +34,31 @@ export default function Markers() {
   const router = useRouter();
   const type = router.query.type ?? "all";
 
+  // State
+  const [markers, setMarkers] = useState([]);
+
+  useEffect(() => {
+    const markers = getMarkers(type);
+
+    setMarkers(markers);
+  }, [type]);
+
   return (
     <MapProvider id="airborne_archipelago">
-      <MarkersProvider type={type}>
-        {/* Sidebar menu */}
-        <Sidebar />
+      {/* Sidebar menu */}
+      <Sidebar />
 
-        {/* Markers accordion */}
+      {/* Markers accordion */}
+      <AccordionProvider markers={markers}>
         <Accordion />
+      </AccordionProvider>
 
-        {/* Airborne Archipelago map */}
-        <div
-          id="airborne_archipelago"
-          className="flex-grow"
-          style={{ background: "#001e3c" }}
-        />
-      </MarkersProvider>
+      {/* Airborne Archipelago map */}
+      <div
+        id="airborne_archipelago"
+        className="flex-grow"
+        style={{ background: "#001e3c" }}
+      />
     </MapProvider>
   );
 }

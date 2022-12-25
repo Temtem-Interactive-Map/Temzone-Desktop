@@ -1,8 +1,7 @@
 import { useTranslation } from "next-export-i18n";
 import Image from "next/image";
-import { useCallback, useEffect, useState } from "react";
-import { useMapContext } from "../../hooks/Map";
-import { useMarkersContext } from "../../hooks/Markers";
+import { FormProvider, useForm } from "react-hook-form";
+import { useAccordionContext } from "../../hooks/Accordion";
 import { markerIconPath } from "../../utils";
 import { Arrow } from "../Icons";
 import { LandmarkMarker } from "../Marker/Landmark";
@@ -12,170 +11,12 @@ import { TemtemMarker } from "../Marker/Temtem";
 export function Accordion() {
   // Internationalization
   const { t } = useTranslation();
+
+  // Validation
+  const methods = useForm({ mode: "onSubmit", reValidateMode: "onSubmit" });
+
   // State
-  const [openMarker, setOpenMarker] = useState(null);
-  const {
-    addMarker,
-    removeMarker,
-    moveMarker,
-    moveToMarker,
-    focusMarker,
-    unfocusMarker,
-    clearMap,
-  } = useMapContext();
-  const { markers } = useMarkersContext();
-
-  const scrollToMarker = useCallback((marker) => {
-    const element = document.getElementById("#" + marker.id);
-
-    element.scrollIntoView({ behavior: "smooth" });
-  }, []);
-
-  const handleMarkerClick = useCallback(
-    (marker) => {
-      setOpenMarker((prevMarker) => {
-        // Change the opacity of the selected marker
-        focusMarker(marker);
-
-        // Change the opacity of the previously selected marker
-        if (prevMarker !== null) {
-          // If the accordion is open and the marker was not on the map, it is removed;
-          // otherwise, it resets to its original position
-          if (prevMarker.id !== marker.id) {
-            if (prevMarker.coordinates === null) {
-              removeMarker(prevMarker);
-            } else {
-              moveMarker(prevMarker);
-              unfocusMarker(prevMarker);
-            }
-          }
-        }
-
-        return marker;
-      });
-
-      // Scroll the accordion to the selected marker
-      scrollToMarker(marker);
-
-      // Centers the map view on the marker
-      moveToMarker(marker);
-    },
-    [
-      removeMarker,
-      moveMarker,
-      scrollToMarker,
-      moveToMarker,
-      focusMarker,
-      unfocusMarker,
-    ]
-  );
-
-  const handleMarkerMove = useCallback(
-    (marker) => {
-      setOpenMarker((prevMarker) => {
-        // Change the opacity of the selected marker
-        focusMarker(marker);
-
-        // Change the opacity of the previously selected marker
-        if (prevMarker !== null) {
-          // If the accordion is open and the marker was not on the map, it is removed;
-          // otherwise, it resets to its original position
-          if (prevMarker.id !== marker.id) {
-            if (prevMarker.coordinates === null) {
-              removeMarker(prevMarker);
-            } else {
-              moveMarker(prevMarker);
-              unfocusMarker(prevMarker);
-            }
-          }
-        }
-
-        // A copy of the marker is returned to force refreshing the coordinates of
-        // the marker in the form
-        return Object.assign({}, marker);
-      });
-
-      // Scroll the accordion to the selected marker
-      scrollToMarker(marker);
-    },
-    [removeMarker, scrollToMarker, moveMarker, focusMarker, unfocusMarker]
-  );
-
-  const handleAccordionClick = useCallback(
-    (marker) => {
-      setOpenMarker((prevMarker) => {
-        // If the previous marker is null, the accordion is closed
-        if (prevMarker === null) {
-          // If the coordinates of the marker are null, it means that it has not been
-          // added to the map
-          if (marker.coordinates === null) {
-            addMarker(marker, handleMarkerClick, handleMarkerMove);
-          }
-
-          // Centers the map view on the marker
-          moveToMarker(marker);
-
-          // Change the opacity of the selected marker
-          focusMarker(marker);
-
-          return marker;
-        } else {
-          // If the accordion is open and the marker was not on the map, it is removed;
-          // otherwise, it resets to its original opacity
-          if (prevMarker.coordinates === null) {
-            removeMarker(prevMarker);
-          } else {
-            moveMarker(prevMarker);
-            unfocusMarker(prevMarker);
-          }
-
-          // It checks if the accordion is changing to show a new marker or not
-          if (prevMarker.id === marker.id) {
-            return null;
-          } else {
-            // If the coordinates of the marker are null, it means that it has not been
-            // added to the map
-            if (marker.coordinates === null) {
-              addMarker(marker, handleMarkerClick, handleMarkerMove);
-            }
-
-            // Centers the map view on the marker
-            moveToMarker(marker);
-
-            // Change the opacity of the selected marker
-            focusMarker(marker);
-
-            return marker;
-          }
-        }
-      });
-
-      // Scroll the accordion to the selected marker
-      scrollToMarker(marker);
-    },
-    [
-      addMarker,
-      handleMarkerClick,
-      handleMarkerMove,
-      removeMarker,
-      moveMarker,
-      scrollToMarker,
-      moveToMarker,
-      focusMarker,
-      unfocusMarker,
-    ]
-  );
-
-  useEffect(() => {
-    clearMap();
-    setOpenMarker(null);
-
-    markers
-      .filter((marker) => marker.coordinates !== null)
-      .forEach((marker) =>
-        addMarker(marker, handleMarkerClick, handleMarkerMove)
-      );
-  }, [markers, clearMap, addMarker, handleMarkerClick, handleMarkerMove]);
+  const { markers, handleAccordionClick, isMarkerOpen } = useAccordionContext();
 
   function loading() {
     return (
@@ -195,7 +36,7 @@ export function Accordion() {
 
   return (
     <section
-      className="w-96 space-y-3 overflow-y-scroll bg-gray-700 p-3 scrollbar-hide xl:w-192"
+      className="w-120 space-y-3 overflow-y-scroll bg-gray-700 p-3 scrollbar-hide"
       onDragStart={(event) => event.preventDefault()}
     >
       {markers.map((marker) => (
@@ -220,7 +61,7 @@ export function Accordion() {
                 className="h-full w-full"
               />
 
-              {/* Notification that the marker has not been added to the map */}
+              {/* Ping notification (means that the marker has not been added to the map) */}
               {marker.coordinates === null && (
                 <div className="absolute -right-1 -top-1">
                   <div className="absolute h-3 w-3 animate-ping rounded-full bg-gray-100 opacity-75" />
@@ -244,22 +85,24 @@ export function Accordion() {
             {/* Toogle marker form */}
             <Arrow
               className={
-                (openMarker?.id === marker.id && "-rotate-180") +
+                (isMarkerOpen(marker) && "-rotate-180") +
                 " h-10 w-10 justify-start transition duration-200"
               }
             />
           </button>
 
           {/* Marker form */}
-          {openMarker?.id === marker.id && (
+          {isMarkerOpen(marker) && (
             <div className="p-4 pt-1">
-              {marker.type === "temtem" ? (
-                <TemtemMarker marker={marker} />
-              ) : marker.type === "saipark" ? (
-                <SaiparkMarker marker={marker} />
-              ) : marker.type === "landmark" ? (
-                <LandmarkMarker marker={marker} />
-              ) : null}
+              <FormProvider {...methods}>
+                {marker.type === "temtem" ? (
+                  <TemtemMarker marker={marker} />
+                ) : marker.type === "saipark" ? (
+                  <SaiparkMarker marker={marker} />
+                ) : marker.type === "landmark" ? (
+                  <LandmarkMarker marker={marker} />
+                ) : null}
+              </FormProvider>
             </div>
           )}
         </div>

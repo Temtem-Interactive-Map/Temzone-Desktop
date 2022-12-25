@@ -1,18 +1,20 @@
 import { useTranslation } from "next-export-i18n";
 import { useCallback, useState } from "react";
-import { FormProvider, useForm } from "react-hook-form";
+import { useFormContext } from "react-hook-form";
 import { ConditionField, CoordinatesField, LocationField } from "..";
-import { useMarkersContext } from "../../../hooks/Markers";
+import { useAccordionContext } from "../../../hooks/Accordion";
 import { LoadingButton } from "../../LoadingButton";
 
 export function TemtemMarker({ marker }) {
   // Internationalization
   const { t } = useTranslation();
+
   // Validation
-  const methods = useForm({ mode: "onSubmit", reValidateMode: "onSubmit" });
+  const { handleSubmit } = useFormContext();
+
   // State
   const [isLoading, setLoading] = useState(false);
-  const { updateMarker } = useMarkersContext();
+  const { updateMarker } = useAccordionContext();
 
   const handleMarkerUpdate = useCallback(
     (data) => {
@@ -33,30 +35,28 @@ export function TemtemMarker({ marker }) {
   );
 
   return (
-    <FormProvider {...methods}>
-      <form
-        noValidate
-        className="space-y-4"
-        onSubmit={methods.handleSubmit(handleMarkerUpdate)}
-      >
-        {/* Location field */}
-        <LocationField
-          location={marker.subtitle.current}
-          placeholder={marker.subtitle.original}
-        />
+    <form
+      noValidate
+      className="space-y-4"
+      onSubmit={handleSubmit(handleMarkerUpdate)}
+    >
+      {/* Location field */}
+      <LocationField
+        location={marker.subtitle.current}
+        placeholder={marker.subtitle.original}
+      />
 
-        {/* Condition field */}
-        <ConditionField
-          condition={marker.condition}
-          placeholder={t("condition_template")}
-        />
+      {/* Condition field */}
+      <ConditionField
+        condition={marker.condition}
+        placeholder={t("condition_template")}
+      />
 
-        {/* Coordinates field */}
-        <CoordinatesField marker={marker} />
+      {/* Coordinates field */}
+      <CoordinatesField marker={marker} />
 
-        {/* Save button */}
-        <LoadingButton loading={isLoading}>{t("save")}</LoadingButton>
-      </form>
-    </FormProvider>
+      {/* Save button */}
+      <LoadingButton loading={isLoading}>{t("save")}</LoadingButton>
+    </form>
   );
 }
