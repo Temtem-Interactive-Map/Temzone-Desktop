@@ -1,9 +1,6 @@
 import "leaflet/dist/leaflet.css";
 import dynamic from "next/dynamic";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
 import { Sidebar } from "../../components/Sidebar";
-import { getMarkers } from "../../services";
 
 const MapProvider = dynamic(
   () => import("../../context/Map").then((module) => module.MapProvider),
@@ -30,26 +27,13 @@ const Accordion = dynamic(
 );
 
 export default function Markers() {
-  // Navigation
-  const router = useRouter();
-  const type = router.query.type ?? "all";
-
-  // State
-  const [markers, setMarkers] = useState([]);
-
-  useEffect(() => {
-    const markers = getMarkers(type);
-
-    setMarkers(markers);
-  }, [type]);
-
   return (
     <MapProvider id="airborne_archipelago">
       {/* Sidebar menu */}
       <Sidebar />
 
       {/* Markers accordion */}
-      <AccordionProvider markers={markers}>
+      <AccordionProvider>
         <Accordion />
       </AccordionProvider>
 

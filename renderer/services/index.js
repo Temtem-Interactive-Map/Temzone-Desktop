@@ -1,4 +1,4 @@
-import { mapCenter } from "../utils";
+import axios from "axios";
 
 export function login(email, password) {
   return new Promise((resolve, _reject) => setTimeout(() => resolve(), 0));
@@ -8,80 +8,47 @@ export function logout() {
   return new Promise((resolve, _reject) => setTimeout(() => resolve(), 0));
 }
 
-// Types of markers for the endpoint call
-const types = Object.freeze({
-  all: ["temtem", "saipark", "landmark"],
-  temtem: ["temtem"],
-  landmark: ["saipark", "landmark"],
+const temzoneApi = axios.create({
+  baseURL: process.env.TEMZONE_BASE_URL,
 });
 
-function typeSplitter(list) {
-  return list.reduce((res, curr) => {
-    if (res[curr.type]) {
-      res[curr.type].push(curr);
-    } else {
-      Object.assign(res, { [curr.type]: [curr] });
-    }
+export const Type = Object.freeze({
+  Temtem: "temtem",
+  Saipark: "saipark",
+  Landmark: "landmark",
+});
 
-    return res;
-  }, {});
+export function getMarkers(types) {
+  // TODO: remove this line with the test endpoint
+  types = [];
+
+  return temzoneApi
+    .get("/markers", {
+      params: { type: types.join(",") },
+    })
+    .then((response) => response.data);
 }
 
-export function getMarkers(type) {
-  const markers = typeSplitter([
-    {
-      id: 0,
-      type: "temtem",
-      title: "Mimit Test",
-      subtitle: {
-        original: "Iwaba, East Path",
-        current: "Iwaba, East Path",
-      },
-      condition: null,
-      coordinates: null,
-    },
-    {
-      id: 1,
-      type: "temtem",
-      title: "Mimit",
-      subtitle: {
-        original: "Iwaba, East Path",
-        current: "Iwaba, East Path",
-      },
-      condition: "Requires Fishing Rod",
-      coordinates: {
-        x: mapCenter,
-        y: mapCenter - 500,
-      },
-    },
-    {
-      id: 2,
-      type: "saipark",
-      title: "Saipark",
-      subtitle: "West from Praise Coast",
-      coordinates: {
-        x: mapCenter + 500,
-        y: mapCenter,
-      },
-    },
-    {
-      id: 3,
-      type: "landmark",
-      title: "Zadar",
-      subtitle: "South of Praise Coast",
-      coordinates: {
-        x: mapCenter - 500,
-        y: mapCenter,
-      },
-    },
-    {
-      id: 4,
-      type: "landmark",
-      title: "Zadar",
-      subtitle: null,
-      coordinates: null,
-    },
-  ]);
+export function updateTemtemMarker(marker) {
+  return temzoneApi
+    .put("/markers/" + marker.id + "/temtem", {
+      data: marker,
+    })
+    .then((response) => response.data);
+}
 
-  return types[type].map((type) => markers[type]).flat();
+export function updateSaiparkMarker(marker) {
+  return temzoneApi
+    .put("/markers/" + marker.id + "/saipark", {
+      data: marker,
+    })
+    .then((response) => response.data);
+}
+
+export function updateLandmarkMarker(marker) {
+  return temzoneApi
+    .put("/markers/" + marker.id + "/landmark", {
+      data: marker,
+    })
+    .then((response) => response.data);
 }

@@ -2,10 +2,10 @@ import { useTranslation } from "next-export-i18n";
 import { useCallback } from "react";
 import { useMapContext } from "../../hooks/Map";
 import {
-  markerMaxHorizontal,
-  markerMaxVertical,
-  markerMinHorizontal,
-  markerMinVertical,
+  MARKER_MAX_HORIZONTAL,
+  MARKER_MAX_VERTICAL,
+  MARKER_MIN_HORIZONTAL,
+  MARKER_MIN_VERTICAL,
 } from "../../utils";
 import { CounterField } from "../Fields/CounterField";
 import { InputField } from "../Fields/InputField";
@@ -58,7 +58,7 @@ export function CoordinatesField({ marker }) {
 
   const handleCoordinateHorizontalChange = useCallback(
     (value) => {
-      if (value >= markerMinHorizontal && value <= markerMaxHorizontal) {
+      if (value >= MARKER_MIN_HORIZONTAL && value <= MARKER_MAX_HORIZONTAL) {
         coordinates.x = value;
 
         moveMarker({ id: marker.id, coordinates });
@@ -73,7 +73,7 @@ export function CoordinatesField({ marker }) {
 
   const handleCoordinateVerticalChange = useCallback(
     (value) => {
-      if (value >= markerMinVertical && value <= markerMaxVertical) {
+      if (value >= MARKER_MIN_VERTICAL && value <= MARKER_MAX_VERTICAL) {
         coordinates.y = value;
 
         moveMarker({ id: marker.id, coordinates });

@@ -1,13 +1,13 @@
 import L from "leaflet";
 import { createContext, useCallback, useEffect, useRef, useState } from "react";
 import {
-  mapCenter,
-  mapMaxHorizontal,
-  mapMaxVertical,
-  mapMinHorizontal,
-  mapMinVertical,
-  mapSize,
-  zoom,
+  MAP_CENTER,
+  MAP_MAX_HORIZONTAL,
+  MAP_MAX_VERTICAL,
+  MAP_MIN_HORIZONTAL,
+  MAP_MIN_VERTICAL,
+  MAP_SIZE,
+  ZOOM,
 } from "../../utils";
 
 export const MapContext = createContext();
@@ -24,7 +24,7 @@ export function MapProvider({ id, children }) {
     map.current = L.map(id, {
       crs: L.CRS.Simple,
       minZoom: 4,
-      maxZoom: zoom,
+      maxZoom: ZOOM,
       zoomControl: false,
       maxBoundsViscosity: 1.0,
       keyboard: false,
@@ -32,14 +32,17 @@ export function MapProvider({ id, children }) {
       attributionControl: false,
     });
 
-    // Define the initial coordinates and the initial zoom of the map
-    map.current.setView(map.current.unproject([mapCenter, mapCenter], zoom), 3);
+    // Define the initial coordinates and the initial ZOOM of the map
+    map.current.setView(
+      map.current.unproject([MAP_CENTER, MAP_CENTER], ZOOM),
+      3
+    );
 
     // Define the map bounds (areas of the map that have no content are not displayed)
     map.current.setMaxBounds(
       L.latLngBounds([
-        map.current.unproject([mapMinHorizontal, mapMaxVertical], zoom),
-        map.current.unproject([mapMaxHorizontal, mapMinVertical], zoom),
+        map.current.unproject([MAP_MIN_HORIZONTAL, MAP_MAX_VERTICAL], ZOOM),
+        map.current.unproject([MAP_MAX_HORIZONTAL, MAP_MIN_VERTICAL], ZOOM),
       ])
     );
 
@@ -47,10 +50,10 @@ export function MapProvider({ id, children }) {
     L.tileLayer("../tiles/{z}/{x}/{y}.png", {
       noWrap: true,
       bounds: L.latLngBounds([
-        map.current.unproject([0, mapSize], zoom),
-        map.current.unproject([mapSize, 0], zoom),
+        map.current.unproject([0, MAP_SIZE], ZOOM),
+        map.current.unproject([MAP_SIZE, 0], ZOOM),
       ]),
-      maxNativeZoom: zoom,
+      maxNativeZOOM: ZOOM,
     }).addTo(map.current);
   }, [id]);
 

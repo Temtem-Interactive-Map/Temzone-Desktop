@@ -2,14 +2,14 @@ import L from "leaflet";
 import { useCallback, useContext } from "react";
 import { MapContext } from "../../context/Map";
 import {
-  mapCenter,
+  MAP_CENTER,
+  MARKER_MAX_HORIZONTAL,
+  MARKER_MAX_VERTICAL,
+  MARKER_MIN_HORIZONTAL,
+  MARKER_MIN_VERTICAL,
+  MARKER_OPACITY,
+  ZOOM,
   markerIconPath,
-  markerMaxHorizontal,
-  markerMaxVertical,
-  markerMinHorizontal,
-  markerMinVertical,
-  markerOpacity,
-  zoom,
 } from "../../utils";
 
 export function useMapContext() {
@@ -23,8 +23,8 @@ export function useMapContext() {
       // Initializes the coordinates of the marker if they are null
       if (coordinates === null) {
         coordinates = {
-          x: mapCenter,
-          y: mapCenter,
+          x: MAP_CENTER,
+          y: MAP_CENTER,
         };
       }
 
@@ -36,10 +36,10 @@ export function useMapContext() {
       });
 
       // Generate the marker
-      const marker = L.marker(map.current.unproject(coordinates, zoom), {
+      const marker = L.marker(map.current.unproject(coordinates, ZOOM), {
         icon,
         alt: markerRef.title,
-        opacity: markerOpacity,
+        opacity: MARKER_OPACITY,
         keyboard: false,
         draggable: true,
       })
@@ -48,23 +48,23 @@ export function useMapContext() {
         .on("drag", (event) => {
           const marker = event.target;
           const latlng = marker.getLatLng();
-          const coordinates = map.current.project(latlng, zoom);
+          const coordinates = map.current.project(latlng, ZOOM);
 
           // Check that the marker does not go outside the horizontal limits of the map
-          if (coordinates.x < markerMinHorizontal) {
-            coordinates.x = markerMinHorizontal;
-          } else if (coordinates.x > markerMaxHorizontal) {
-            coordinates.x = markerMaxHorizontal;
+          if (coordinates.x < MARKER_MIN_HORIZONTAL) {
+            coordinates.x = MARKER_MIN_HORIZONTAL;
+          } else if (coordinates.x > MARKER_MAX_HORIZONTAL) {
+            coordinates.x = MARKER_MAX_HORIZONTAL;
           }
 
           // Check that the marker does not go outside the vertical limits of the map
-          if (coordinates.y < markerMinVertical) {
-            coordinates.y = markerMinVertical;
-          } else if (coordinates.y > markerMaxVertical) {
-            coordinates.y = markerMaxVertical;
+          if (coordinates.y < MARKER_MIN_VERTICAL) {
+            coordinates.y = MARKER_MIN_VERTICAL;
+          } else if (coordinates.y > MARKER_MAX_VERTICAL) {
+            coordinates.y = MARKER_MAX_VERTICAL;
           }
 
-          marker.setLatLng(map.current.unproject(coordinates, zoom));
+          marker.setLatLng(map.current.unproject(coordinates, ZOOM));
 
           onMove(markerRef);
         })
@@ -89,7 +89,7 @@ export function useMapContext() {
   const moveMarker = useCallback(
     (markerRef) => {
       const marker = get(markerRef.id);
-      const coordinates = map.current.unproject(markerRef.coordinates, zoom);
+      const coordinates = map.current.unproject(markerRef.coordinates, ZOOM);
 
       marker.setLatLng(coordinates);
     },
@@ -109,7 +109,7 @@ export function useMapContext() {
     (markerRef) => {
       const marker = get(markerRef.id);
 
-      marker.setOpacity(markerOpacity);
+      marker.setOpacity(MARKER_OPACITY);
     },
     [get]
   );
@@ -128,7 +128,7 @@ export function useMapContext() {
     (markerRef) => {
       const marker = get(markerRef.id);
       const latlng = marker.getLatLng();
-      const coordinates = map.current.project(latlng, zoom);
+      const coordinates = map.current.project(latlng, ZOOM);
 
       return coordinates;
     },

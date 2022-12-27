@@ -3,21 +3,21 @@ import landmarkIcon from "../public/images/landmark_icon.png";
 import temcardIcon from "../public/images/temcard_icon.png";
 
 // Map properties
-export const zoom = 6;
-export const tileSize = 256;
-export const mapSize = tileSize * Math.pow(2, zoom);
-export const mapCenter = mapSize / 2;
-export const mapMinHorizontal = tileSize * 7;
-export const mapMaxHorizontal = mapSize - tileSize * 7;
-export const mapMinVertical = tileSize * 11;
-export const mapMaxVertical = mapSize - tileSize * 11;
+export const ZOOM = 6;
+export const TILE_SIZE = 256;
+export const MAP_SIZE = TILE_SIZE * Math.pow(2, ZOOM);
+export const MAP_CENTER = MAP_SIZE / 2;
+export const MAP_MIN_HORIZONTAL = TILE_SIZE * 7;
+export const MAP_MAX_HORIZONTAL = MAP_SIZE - TILE_SIZE * 7;
+export const MAP_MIN_VERTICAL = TILE_SIZE * 11;
+export const MAP_MAX_VERTICAL = MAP_SIZE - TILE_SIZE * 11;
 
 // Marker properties
-export const markerOpacity = 0.6;
-export const markerMinHorizontal = mapMinHorizontal + tileSize;
-export const markerMaxHorizontal = mapMaxHorizontal - tileSize;
-export const markerMinVertical = mapMinVertical + tileSize;
-export const markerMaxVertical = mapMaxVertical - tileSize;
+export const MARKER_OPACITY = 0.6;
+export const MARKER_MIN_HORIZONTAL = MAP_MIN_HORIZONTAL + TILE_SIZE;
+export const MARKER_MAX_HORIZONTAL = MAP_MAX_HORIZONTAL - TILE_SIZE;
+export const MARKER_MIN_VERTICAL = MAP_MIN_VERTICAL + TILE_SIZE;
+export const MARKER_MAX_VERTICAL = MAP_MAX_VERTICAL - TILE_SIZE;
 
 // Sidebar button data
 export const sidebar = Object.freeze([
@@ -44,9 +44,9 @@ export function markerIconPath(marker) {
 
   switch (marker.type) {
     case "temtem":
-      return "../markers/" + name + "_marker.png";
+      return "../images/" + name + "_icon.png";
     case "saipark":
     case "landmark":
-      return "../markers/landmark_marker.png";
+      return "../images/landmark_icon.png";
   }
 }

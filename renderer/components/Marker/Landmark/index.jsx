@@ -3,6 +3,7 @@ import { useCallback, useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { CoordinatesField, LocationField } from "..";
 import { useAccordionContext } from "../../../hooks/Accordion";
+import { updateLandmarkMarker } from "../../../services";
 import { LoadingButton } from "../../LoadingButton";
 
 export function LandmarkMarker({ marker }) {
@@ -27,8 +28,9 @@ export function LandmarkMarker({ marker }) {
       setLoading(true);
 
       setTimeout(() => {
-        updateMarker(marker);
-        setLoading(false);
+        updateLandmarkMarker(marker)
+          .then(() => updateMarker(marker))
+          .finally(() => setLoading(false));
       }, 500);
     },
     [marker, updateMarker]

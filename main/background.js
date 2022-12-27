@@ -1,9 +1,12 @@
+import dotenv from "dotenv";
 import { app, globalShortcut } from "electron";
 import installExtension, {
   REACT_DEVELOPER_TOOLS,
 } from "electron-devtools-installer";
 import serve from "electron-serve";
 import createWindow from "./helpers/create-window";
+
+dotenv.config();
 
 const isProd = process.env.NODE_ENV === "production";
 
