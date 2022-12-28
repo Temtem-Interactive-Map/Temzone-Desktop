@@ -52,8 +52,9 @@ export function Accordion() {
       onDragStart={(event) => event.preventDefault()}
     >
       {isLoading
-        ? [...Array(10)].map((id) => (
-            <div key={id} className="rounded-lg bg-gray-800 shadow">
+        ? /* Placeholder markers */
+          [...Array(10).keys()].map((key) => (
+            <div key={key} className="rounded-lg bg-gray-800 shadow">
               <div className="flex w-full animate-pulse items-center space-x-3 p-4">
                 <div>
                   <div className="h-12 w-12 rounded-md bg-gray-700" />

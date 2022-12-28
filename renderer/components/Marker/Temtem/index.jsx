@@ -3,6 +3,7 @@ import { useCallback, useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { ConditionField, CoordinatesField, LocationField } from "..";
 import { useAccordionContext } from "../../../hooks/Accordion";
+import { updateTemtemMarker } from "../../../services";
 import { LoadingButton } from "../../LoadingButton";
 
 export function TemtemMarker({ marker }) {
@@ -18,18 +19,21 @@ export function TemtemMarker({ marker }) {
 
   const handleMarkerUpdate = useCallback(
     (data) => {
-      marker.subtitle.current = data.location.trim();
-      marker.condition = (data.condition ?? "").trim();
-      marker.coordinates = {
-        x: data.coordinate_horizontal,
-        y: data.coordinate_vertical,
-      };
+      const subtitle = data.location.trim();
+      const condition = data.location.trim();
+      const x = data.coordinate_horizontal;
+      const y = data.coordinate_vertical;
 
       setLoading(true);
-      setTimeout(() => {
-        updateMarker(marker);
-        setLoading(false);
-      }, 500);
+      updateTemtemMarker({
+        id: marker.id,
+        subtitle,
+        condition,
+        coordinates: { x, y },
+      })
+        .then(() => updateMarker(marker))
+        .catch((error) => console.log(error))
+        .finally(() => setLoading(false));
     },
     [marker, updateMarker]
   );

@@ -1,5 +1,6 @@
 import { useTranslation } from "next-export-i18n";
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
+import { useFormContext } from "react-hook-form";
 import { useMapContext } from "../../hooks/Map";
 import {
   MARKER_MAX_HORIZONTAL,
@@ -53,37 +54,45 @@ export function CoordinatesField({ marker }) {
   const { t } = useTranslation();
 
   // State
-  const { getMarkerCoordinates, moveMarker } = useMapContext();
+  const { getValues, setValue } = useFormContext();
+  const { getMarkerCoordinates, onMarkerDrag, moveMarker } = useMapContext();
   const coordinates = getMarkerCoordinates(marker);
 
-  const handleCoordinateHorizontalChange = useCallback(
-    (value) => {
-      if (value >= MARKER_MIN_HORIZONTAL && value <= MARKER_MAX_HORIZONTAL) {
-        coordinates.x = value;
+  useEffect(() => {
+    onMarkerDrag(marker, (coordinates) => {
+      setValue("coordinate_horizontal", coordinates.x);
+      setValue("coordinate_vertical", coordinates.y);
+    });
+  }, [marker, onMarkerDrag, setValue]);
 
-        moveMarker({ id: marker.id, coordinates });
+  const handleCoordinateHorizontalChange = useCallback(
+    (x) => {
+      if (x >= MARKER_MIN_HORIZONTAL && x <= MARKER_MAX_HORIZONTAL) {
+        const y = getValues("coordinate_vertical");
+
+        moveMarker({ id: marker.id, coordinates: { x, y } });
 
         return true;
       } else {
         return false;
       }
     },
-    [marker.id, coordinates, moveMarker]
+    [marker.id, getValues, moveMarker]
   );
 
   const handleCoordinateVerticalChange = useCallback(
-    (value) => {
-      if (value >= MARKER_MIN_VERTICAL && value <= MARKER_MAX_VERTICAL) {
-        coordinates.y = value;
+    (y) => {
+      if (y >= MARKER_MIN_VERTICAL && y <= MARKER_MAX_VERTICAL) {
+        const x = getValues("coordinate_horizontal");
 
-        moveMarker({ id: marker.id, coordinates });
+        moveMarker({ id: marker.id, coordinates: { x, y } });
 
         return true;
       } else {
         return false;
       }
     },
-    [marker.id, coordinates, moveMarker]
+    [marker.id, getValues, moveMarker]
   );
 
   return (

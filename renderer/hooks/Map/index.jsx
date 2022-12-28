@@ -135,6 +135,21 @@ export function useMapContext() {
     [map, get]
   );
 
+  const onMarkerDrag = useCallback(
+    (markerRef, onDrag) => {
+      const marker = get(markerRef.id);
+
+      marker.on("drag", (event) => {
+        const marker = event.target;
+        const latlng = marker.getLatLng();
+        const coordinates = map.current.project(latlng, ZOOM);
+
+        onDrag(coordinates);
+      });
+    },
+    [get, map]
+  );
+
   const clearMap = useCallback(() => {
     markers.forEach((marker) => map.current.removeLayer(marker));
     clear();
@@ -148,6 +163,7 @@ export function useMapContext() {
     unfocusMarker,
     moveToMarker,
     getMarkerCoordinates,
+    onMarkerDrag,
     clearMap,
   };
 }

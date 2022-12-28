@@ -32,7 +32,7 @@ export function MapProvider({ id, children }) {
       attributionControl: false,
     });
 
-    // Define the initial coordinates and the initial ZOOM of the map
+    // Define the initial coordinates and the initial zoom of the map
     map.current.setView(
       map.current.unproject([MAP_CENTER, MAP_CENTER], ZOOM),
       3
@@ -53,7 +53,7 @@ export function MapProvider({ id, children }) {
         map.current.unproject([0, MAP_SIZE], ZOOM),
         map.current.unproject([MAP_SIZE, 0], ZOOM),
       ]),
-      maxNativeZOOM: ZOOM,
+      maxNativeZoom: ZOOM,
     }).addTo(map.current);
   }, [id]);
 

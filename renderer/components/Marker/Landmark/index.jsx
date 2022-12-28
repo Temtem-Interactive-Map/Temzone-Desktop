@@ -19,19 +19,19 @@ export function LandmarkMarker({ marker }) {
 
   const handleMarkerUpdate = useCallback(
     (data) => {
-      marker.subtitle = data.location.trim();
-      marker.coordinates = {
-        x: data.coordinate_horizontal,
-        y: data.coordinate_vertical,
-      };
+      const subtitle = data.location.trim();
+      const x = data.coordinate_horizontal;
+      const y = data.coordinate_vertical;
 
       setLoading(true);
-
-      setTimeout(() => {
-        updateLandmarkMarker(marker)
-          .then(() => updateMarker(marker))
-          .finally(() => setLoading(false));
-      }, 500);
+      updateLandmarkMarker({
+        id: marker.id,
+        subtitle,
+        coordinates: { x, y },
+      })
+        .then(() => updateMarker(marker))
+        .catch((error) => console.log(error))
+        .finally(() => setLoading(false));
     },
     [marker, updateMarker]
   );

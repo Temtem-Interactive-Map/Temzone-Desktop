@@ -52,12 +52,12 @@ export function useAccordionContext() {
     },
     [
       setOpenMarker,
+      focusMarker,
       removeMarker,
       moveMarker,
+      unfocusMarker,
       scrollToMarker,
       moveToMarker,
-      focusMarker,
-      unfocusMarker,
     ]
   );
 
@@ -81,9 +81,7 @@ export function useAccordionContext() {
           }
         }
 
-        // A copy of the marker is returned to force refreshing the coordinates of
-        // the marker in the form
-        return Object.assign({}, marker);
+        return marker;
       });
 
       // Scroll the accordion to the selected marker
@@ -91,11 +89,11 @@ export function useAccordionContext() {
     },
     [
       setOpenMarker,
-      removeMarker,
-      scrollToMarker,
-      moveMarker,
       focusMarker,
+      removeMarker,
+      moveMarker,
       unfocusMarker,
+      scrollToMarker,
     ]
   );
 
@@ -156,12 +154,12 @@ export function useAccordionContext() {
       addMarker,
       handleMarkerClick,
       handleMarkerMove,
-      removeMarker,
-      moveMarker,
-      scrollToMarker,
       moveToMarker,
       focusMarker,
+      removeMarker,
+      moveMarker,
       unfocusMarker,
+      scrollToMarker,
     ]
   );
 

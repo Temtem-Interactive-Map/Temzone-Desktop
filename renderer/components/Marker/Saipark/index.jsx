@@ -3,6 +3,7 @@ import { useCallback, useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { CoordinatesField } from "..";
 import { useAccordionContext } from "../../../hooks/Accordion";
+import { updateSaiparkMarker } from "../../../services";
 import { LoadingButton } from "../../LoadingButton";
 
 export function SaiparkMarker({ marker }) {
@@ -18,17 +19,17 @@ export function SaiparkMarker({ marker }) {
 
   const handleMarkerUpdate = useCallback(
     (data) => {
-      marker.coordinates = {
-        x: data.coordinate_horizontal,
-        y: data.coordinate_vertical,
-      };
+      const x = data.coordinate_horizontal;
+      const y = data.coordinate_vertical;
 
       setLoading(true);
-
-      setTimeout(() => {
-        updateMarker(marker);
-        setLoading(false);
-      }, 500);
+      updateSaiparkMarker({
+        id: marker.id,
+        coordinates: { x, y },
+      })
+        .then(() => updateMarker(marker))
+        .catch((error) => console.log(error))
+        .finally(() => setLoading(false));
     },
     [marker, updateMarker]
   );
