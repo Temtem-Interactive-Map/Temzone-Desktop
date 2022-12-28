@@ -1,5 +1,5 @@
 import L from "leaflet";
-import { createContext, useEffect, useRef } from "react";
+import { createContext, useLayoutEffect, useRef } from "react";
 import {
   MAP_CENTER,
   MAP_MAX_HORIZONTAL,
@@ -17,7 +17,7 @@ export function MapProvider({ id, children }) {
   const map = useRef();
   const markers = useRef(new Map());
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (map.current) map.current.remove();
 
     // Generate the map
