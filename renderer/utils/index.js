@@ -40,7 +40,7 @@ export const sidebar = Object.freeze([
 
 // Returns the path of the marker image
 export function markerIconPath(marker) {
-  const name = marker.title.split(" ")[0].toLowerCase();
+  const name = marker.title.replace(" ", "_").toLowerCase();
 
   switch (marker.type) {
     case "temtem":
