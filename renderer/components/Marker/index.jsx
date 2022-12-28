@@ -55,15 +55,16 @@ export function CoordinatesField({ marker }) {
 
   // State
   const { getValues, setValue } = useFormContext();
-  const { getMarkerCoordinates, onMarkerDrag, moveMarker } = useMapContext();
+  const { getMarkerCoordinates, subscribeMarkerDrag, moveMarker } =
+    useMapContext();
   const coordinates = getMarkerCoordinates(marker);
 
   useEffect(() => {
-    onMarkerDrag(marker, (coordinates) => {
+    subscribeMarkerDrag(marker, (_, coordinates) => {
       setValue("coordinate_horizontal", coordinates.x);
       setValue("coordinate_vertical", coordinates.y);
     });
-  }, [marker, onMarkerDrag, setValue]);
+  }, [marker, subscribeMarkerDrag, setValue]);
 
   const handleCoordinateHorizontalChange = useCallback(
     (x) => {

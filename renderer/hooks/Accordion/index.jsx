@@ -12,6 +12,8 @@ export function useAccordionContext() {
     moveToMarker,
     focusMarker,
     unfocusMarker,
+    subscribeMarkerClick,
+    subscribeMarkerDrag,
     clearMap,
   } = useMapContext();
 
@@ -62,7 +64,7 @@ export function useAccordionContext() {
   );
 
   const handleMarkerMove = useCallback(
-    (marker) => {
+    (marker, _) => {
       setOpenMarker((prevMarker) => {
         // Change the opacity of the selected marker
         focusMarker(marker);
@@ -105,7 +107,9 @@ export function useAccordionContext() {
           // If the coordinates of the marker are null, it means that it has not been
           // added to the map
           if (marker.coordinates === null) {
-            addMarker(marker, handleMarkerClick, handleMarkerMove);
+            addMarker(marker);
+            subscribeMarkerClick(marker, handleMarkerClick);
+            subscribeMarkerDrag(marker, handleMarkerMove);
           }
 
           // Centers the map view on the marker
@@ -132,7 +136,9 @@ export function useAccordionContext() {
             // If the coordinates of the marker are null, it means that it has not been
             // added to the map
             if (marker.coordinates === null) {
-              addMarker(marker, handleMarkerClick, handleMarkerMove);
+              addMarker(marker);
+              subscribeMarkerClick(marker, handleMarkerClick);
+              subscribeMarkerDrag(marker, handleMarkerMove);
             }
 
             // Centers the map view on the marker
@@ -152,7 +158,9 @@ export function useAccordionContext() {
     [
       setOpenMarker,
       addMarker,
+      subscribeMarkerClick,
       handleMarkerClick,
+      subscribeMarkerDrag,
       handleMarkerMove,
       moveToMarker,
       focusMarker,
@@ -170,11 +178,21 @@ export function useAccordionContext() {
 
       markers
         .filter((marker) => marker.coordinates !== null)
-        .forEach((marker) =>
-          addMarker(marker, handleMarkerClick, handleMarkerMove)
-        );
+        .forEach((marker) => {
+          addMarker(marker);
+          subscribeMarkerClick(marker, handleMarkerClick);
+          subscribeMarkerDrag(marker, handleMarkerMove);
+        });
     },
-    [clearMap, setOpenMarker, addMarker, handleMarkerClick, handleMarkerMove]
+    [
+      clearMap,
+      setOpenMarker,
+      addMarker,
+      subscribeMarkerClick,
+      handleMarkerClick,
+      subscribeMarkerDrag,
+      handleMarkerMove,
+    ]
   );
 
   const updateMarker = useCallback(

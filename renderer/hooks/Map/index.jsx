@@ -17,7 +17,7 @@ export function useMapContext() {
   const { map, markers, set, get, remove, clear } = useContext(MapContext);
 
   const addMarker = useCallback(
-    (markerRef, onClick, onMove) => {
+    (markerRef) => {
       let coordinates = markerRef.coordinates;
 
       // Initializes the coordinates of the marker if they are null
@@ -36,14 +36,14 @@ export function useMapContext() {
       });
 
       // Generate the marker
-      const marker = L.marker(map.current.unproject(coordinates, ZOOM), {
+      const latlng = map.current.unproject(coordinates, ZOOM);
+      const marker = L.marker(latlng, {
         icon,
         alt: markerRef.title,
         opacity: MARKER_OPACITY,
         keyboard: false,
         draggable: true,
       })
-        .on("click", () => onClick(markerRef))
         // Prevents the marker from dragging outside the map bounds
         .on("drag", (event) => {
           const marker = event.target;
@@ -65,8 +65,6 @@ export function useMapContext() {
           }
 
           marker.setLatLng(map.current.unproject(coordinates, ZOOM));
-
-          onMove(markerRef);
         })
         .addTo(map.current);
 
@@ -135,7 +133,16 @@ export function useMapContext() {
     [map, get]
   );
 
-  const onMarkerDrag = useCallback(
+  const subscribeMarkerClick = useCallback(
+    (markerRef, onClick) => {
+      const marker = get(markerRef.id);
+
+      marker.on("click", () => onClick(markerRef));
+    },
+    [get]
+  );
+
+  const subscribeMarkerDrag = useCallback(
     (markerRef, onDrag) => {
       const marker = get(markerRef.id);
 
@@ -144,7 +151,7 @@ export function useMapContext() {
         const latlng = marker.getLatLng();
         const coordinates = map.current.project(latlng, ZOOM);
 
-        onDrag(coordinates);
+        onDrag(markerRef, coordinates);
       });
     },
     [get, map]
@@ -163,7 +170,8 @@ export function useMapContext() {
     unfocusMarker,
     moveToMarker,
     getMarkerCoordinates,
-    onMarkerDrag,
+    subscribeMarkerClick,
+    subscribeMarkerDrag,
     clearMap,
   };
 }
