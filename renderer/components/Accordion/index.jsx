@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { useAccordionContext } from "../../hooks/Accordion";
+import { useMapContext } from "../../hooks/Map";
 import { Type, getMarkers } from "../../services";
 import { markerIconPath } from "../../utils";
 import { Arrow } from "../Icons";
@@ -26,6 +27,7 @@ export function Accordion() {
   const [isLoading, setLoading] = useState(true);
   const { markers, updateMarkers, handleAccordionClick, isMarkerOpen } =
     useAccordionContext();
+  const { enableMap, disableMap } = useMapContext();
 
   useEffect(() => {
     const types = {
@@ -35,15 +37,15 @@ export function Accordion() {
     };
 
     setLoading(true);
+    disableMap();
     // types[type]
-    getMarkers([]).then((data) => {
-      setTimeout(() => {
-        updateMarkers(data);
+    getMarkers([])
+      .then((markers) => updateMarkers(markers))
+      .finally(() => {
+        enableMap();
         setLoading(false);
-      }, 3000);
-    });
-    // .finally(() => setLoading(false));
-  }, [type, updateMarkers]);
+      });
+  }, [type, disableMap, updateMarkers, enableMap]);
 
   return (
     <section

@@ -136,7 +136,11 @@ export function useMapContext() {
     (markerRef, onClick) => {
       const marker = markers.current.get(markerRef.id);
 
-      marker.on("click", () => onClick(markerRef));
+      marker.on("click", () => {
+        if (marker.dragging.enabled()) {
+          onClick(markerRef);
+        }
+      });
     },
     [markers]
   );
@@ -156,6 +160,28 @@ export function useMapContext() {
     [map, markers]
   );
 
+  const enableMap = useCallback(() => {
+    map.current.dragging.enable();
+    map.current.touchZoom.enable();
+    map.current.doubleClickZoom.enable();
+    map.current.scrollWheelZoom.enable();
+
+    markers.current.forEach((marker) => {
+      marker.dragging.enable();
+    });
+  }, [map, markers]);
+
+  const disableMap = useCallback(() => {
+    map.current.dragging.disable();
+    map.current.touchZoom.disable();
+    map.current.doubleClickZoom.disable();
+    map.current.scrollWheelZoom.disable();
+
+    markers.current.forEach((marker) => {
+      marker.dragging.disable();
+    });
+  }, [map, markers]);
+
   const clearMap = useCallback(() => {
     markers.current.forEach((marker) => map.current.removeLayer(marker));
     markers.current.clear();
@@ -171,6 +197,8 @@ export function useMapContext() {
     getMarkerCoordinates,
     subscribeMarkerClick,
     subscribeMarkerDrag,
+    enableMap,
+    disableMap,
     clearMap,
   };
 }

@@ -25,6 +25,7 @@ export function MapProvider({ id, children }) {
       crs: L.CRS.Simple,
       minZoom: 4,
       maxZoom: ZOOM,
+      boxZoom: false,
       zoomControl: false,
       maxBoundsViscosity: 1.0,
       keyboard: false,
