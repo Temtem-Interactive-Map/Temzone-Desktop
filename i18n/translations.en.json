@@ -1,0 +1,22 @@
+{
+  "i18n": {
+    "required_field": "This field is required.",
+    "login_branding": "Log in to your account",
+    "login": "Log In",
+    "login_error": "Email or password is invalid.",
+    "logout": "Log out",
+    "save": "Save Changes",
+    "email_field": "Enter your email",
+    "email_template": "name@company.com",
+    "password_field": "Enter your password",
+    "location_field": "Location",
+    "location_template": "South of Praise Coast",
+    "condition_field": "Condition",
+    "condition_template": "Requires Fishing Rod",
+    "coordinate_horizontal_field": "Coordinate X",
+    "coordinate_vertical_field": "Coordinate Y",
+    "all_markers": "All markers",
+    "temtem_markers": "Temtem markers",
+    "landmark_markers": "Landmark markers"
+  }
+}

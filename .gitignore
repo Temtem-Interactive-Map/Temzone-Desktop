@@ -8,6 +8,7 @@ npm-debug.log*
 
 # Electron.js build output
 app
+dist
 
 # Dependency directories
 node_modules

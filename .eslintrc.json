@@ -1,0 +1,32 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true,
+    "node": true
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
+  "extends": [
+    "standard",
+    "next",
+    "prettier",
+    "plugin:import/recommended",
+    "plugin:json/recommended",
+    "plugin:yml/standard"
+  ],
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 13,
+    "sourceType": "module"
+  },
+  "rules": {
+    "@next/next/no-html-link-for-pages": ["error", "renderer/pages"],
+    "arrow-body-style": "off",
+    "prefer-arrow-callback": "off"
+  }
+}

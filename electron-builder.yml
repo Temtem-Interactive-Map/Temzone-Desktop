@@ -1,5 +1,6 @@
 appId: com.temtem.interactive.map.temzone
 productName: Temzone
+artifactName: Temzone.${ext}
 copyright: Copyright © 2022 Temtem Interactive Map
 directories:
   output: dist
