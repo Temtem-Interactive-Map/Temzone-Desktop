@@ -19,9 +19,6 @@ export const Type = Object.freeze({
 });
 
 export function getMarkers(types) {
-  // TODO: remove this line with the test endpoint
-  types = [];
-
   return temzoneApi
     .get("/markers", {
       params: { type: types.join(",") },
@@ -29,25 +26,25 @@ export function getMarkers(types) {
     .then((response) => response.data);
 }
 
-export function updateTemtemMarker(marker) {
+export function updateTemtemMarker(id, marker) {
   return temzoneApi
-    .put("/markers/" + marker.id + "/temtem", {
+    .put("/markers/" + id + "/temtem", {
       data: marker,
     })
     .then((response) => response.data);
 }
 
-export function updateSaiparkMarker(marker) {
+export function updateSaiparkMarker(id, marker) {
   return temzoneApi
-    .put("/markers/" + marker.id + "/saipark", {
+    .put("/markers/" + id + "/saipark", {
       data: marker,
     })
     .then((response) => response.data);
 }
 
-export function updateLandmarkMarker(marker) {
+export function updateLandmarkMarker(id, marker) {
   return temzoneApi
-    .put("/markers/" + marker.id + "/landmark", {
+    .put("/markers/" + id + "/landmark", {
       data: marker,
     })
     .then((response) => response.data);

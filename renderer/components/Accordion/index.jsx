@@ -1,7 +1,7 @@
 import { useTranslation } from "next-export-i18n";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { useAccordionContext } from "../../hooks/Accordion";
 import { Type, getMarkers } from "../../services";
@@ -23,9 +23,8 @@ export function Accordion() {
   const methods = useForm({ mode: "onSubmit", reValidateMode: "onSubmit" });
 
   // State
-  const markers = useRef([]);
   const [isLoading, setLoading] = useState(true);
-  const { initializeAccordion, handleAccordionClick, isMarkerOpen } =
+  const { markers, updateMarkers, handleAccordionClick, isMarkerOpen } =
     useAccordionContext();
 
   useEffect(() => {
@@ -36,15 +35,15 @@ export function Accordion() {
     };
 
     setLoading(true);
-    getMarkers(types[type]).then((data) => {
+    // types[type]
+    getMarkers([]).then((data) => {
       setTimeout(() => {
-        markers.current = data;
-        initializeAccordion(data);
+        updateMarkers(data);
         setLoading(false);
       }, 3000);
     });
     // .finally(() => setLoading(false));
-  }, [type, initializeAccordion]);
+  }, [type, updateMarkers]);
 
   return (
     <section
@@ -66,7 +65,7 @@ export function Accordion() {
               </div>
             </div>
           ))
-        : markers.current.map((marker) => (
+        : markers.map((marker) => (
             <div
               key={marker.id}
               id={"#" + marker.id}

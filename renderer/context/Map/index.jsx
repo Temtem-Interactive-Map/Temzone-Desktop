@@ -1,5 +1,5 @@
 import L from "leaflet";
-import { createContext, useCallback, useEffect, useRef, useState } from "react";
+import { createContext, useEffect, useRef } from "react";
 import {
   MAP_CENTER,
   MAP_MAX_HORIZONTAL,
@@ -15,7 +15,7 @@ export const MapContext = createContext();
 export function MapProvider({ id, children }) {
   // State
   const map = useRef();
-  const [markers, setMarkers] = useState(new Map());
+  const markers = useRef(new Map());
 
   useEffect(() => {
     if (map.current) map.current.remove();
@@ -57,34 +57,8 @@ export function MapProvider({ id, children }) {
     }).addTo(map.current);
   }, [id]);
 
-  const set = useCallback((key, value) => {
-    setMarkers((prevMarkers) => {
-      prevMarkers.set(key, value);
-
-      return prevMarkers;
-    });
-  }, []);
-
-  const get = useCallback((key) => markers.get(key), [markers]);
-
-  const remove = useCallback((key) => {
-    setMarkers((prevMarkers) => {
-      prevMarkers.delete(key);
-
-      return prevMarkers;
-    });
-  }, []);
-
-  const clear = useCallback(() => {
-    setMarkers((prevMarkers) => {
-      prevMarkers.clear();
-
-      return prevMarkers;
-    });
-  }, []);
-
   return (
-    <MapContext.Provider value={{ map, markers, set, get, remove, clear }}>
+    <MapContext.Provider value={{ map, markers }}>
       {children}
     </MapContext.Provider>
   );

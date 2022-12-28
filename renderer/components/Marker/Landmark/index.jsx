@@ -24,13 +24,24 @@ export function LandmarkMarker({ marker }) {
       const y = data.coordinate_vertical;
 
       setLoading(true);
-      updateLandmarkMarker({
-        id: marker.id,
+      updateLandmarkMarker(marker.id, {
         subtitle,
         coordinates: { x, y },
       })
-        .then(() => updateMarker(marker))
-        .catch((error) => console.log(error))
+        .then(() => {
+          marker.subtitle = subtitle;
+          marker.coordinates = { x, y };
+
+          updateMarker(marker);
+        })
+        .catch((error) => {
+          console.log(error);
+
+          marker.subtitle = subtitle;
+          marker.coordinates = { x, y };
+
+          updateMarker(marker);
+        })
         .finally(() => setLoading(false));
     },
     [marker, updateMarker]

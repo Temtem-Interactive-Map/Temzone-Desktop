@@ -4,7 +4,8 @@ import { useMapContext } from "../../hooks/Map";
 
 export function useAccordionContext() {
   // State
-  const { setOpenMarker, isMarkerOpen } = useContext(AccordionContext);
+  const { markers, setMarkers, openMarker, setOpenMarker } =
+    useContext(AccordionContext);
   const {
     addMarker,
     removeMarker,
@@ -171,10 +172,26 @@ export function useAccordionContext() {
     ]
   );
 
-  const initializeAccordion = useCallback(
+  const isMarkerOpen = useCallback(
+    (marker) => openMarker?.id === marker.id,
+    [openMarker]
+  );
+
+  const updateMarker = useCallback(
+    (newMarker) => {
+      setOpenMarker(newMarker);
+      setMarkers((prevMarkers) =>
+        prevMarkers.map((marker) =>
+          newMarker.id === marker.id ? newMarker : marker
+        )
+      );
+    },
+    [setOpenMarker, setMarkers]
+  );
+
+  const updateMarkers = useCallback(
     (markers) => {
       clearMap();
-      setOpenMarker(null);
 
       markers
         .filter((marker) => marker.coordinates !== null)
@@ -183,29 +200,27 @@ export function useAccordionContext() {
           subscribeMarkerClick(marker, handleMarkerClick);
           subscribeMarkerDrag(marker, handleMarkerMove);
         });
+
+      setOpenMarker(null);
+      setMarkers(markers);
     },
     [
       clearMap,
-      setOpenMarker,
       addMarker,
       subscribeMarkerClick,
       handleMarkerClick,
       subscribeMarkerDrag,
       handleMarkerMove,
+      setOpenMarker,
+      setMarkers,
     ]
   );
 
-  const updateMarker = useCallback(
-    (newMarker) => {
-      setOpenMarker(newMarker);
-    },
-    [setOpenMarker]
-  );
-
   return {
-    initializeAccordion,
+    markers,
     handleAccordionClick,
     isMarkerOpen,
     updateMarker,
+    updateMarkers,
   };
 }

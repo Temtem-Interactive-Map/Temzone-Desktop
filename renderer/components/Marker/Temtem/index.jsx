@@ -20,19 +20,32 @@ export function TemtemMarker({ marker }) {
   const handleMarkerUpdate = useCallback(
     (data) => {
       const subtitle = data.location.trim();
-      const condition = data.location.trim();
+      const condition = data.condition?.trim();
       const x = data.coordinate_horizontal;
       const y = data.coordinate_vertical;
 
       setLoading(true);
-      updateTemtemMarker({
-        id: marker.id,
+      updateTemtemMarker(marker.id, {
         subtitle,
         condition,
         coordinates: { x, y },
       })
-        .then(() => updateMarker(marker))
-        .catch((error) => console.log(error))
+        .then(() => {
+          marker.subtitle.current = subtitle;
+          marker.condition = condition;
+          marker.coordinates = { x, y };
+
+          updateMarker(marker);
+        })
+        .catch((error) => {
+          console.log(error);
+
+          marker.subtitle.current = subtitle;
+          marker.condition = condition;
+          marker.coordinates = { x, y };
+
+          updateMarker(marker);
+        })
         .finally(() => setLoading(false));
     },
     [marker, updateMarker]

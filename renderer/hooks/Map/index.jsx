@@ -14,7 +14,7 @@ import {
 
 export function useMapContext() {
   // State
-  const { map, markers, set, get, remove, clear } = useContext(MapContext);
+  const { map, markers } = useContext(MapContext);
 
   const addMarker = useCallback(
     (markerRef) => {
@@ -68,83 +68,82 @@ export function useMapContext() {
         })
         .addTo(map.current);
 
-      set(markerRef.id, marker);
+      markers.current.set(markerRef.id, marker);
     },
-    [map, set]
+    [map, markers]
   );
 
   const removeMarker = useCallback(
     (markerRef) => {
-      const marker = get(markerRef.id);
+      const marker = markers.current.get(markerRef.id);
 
       map.current.removeLayer(marker);
-
-      remove(markerRef.id);
+      markers.current.delete(markerRef.id);
     },
-    [map, get, remove]
+    [map, markers]
   );
 
   const moveMarker = useCallback(
     (markerRef) => {
-      const marker = get(markerRef.id);
+      const marker = markers.current.get(markerRef.id);
       const coordinates = map.current.unproject(markerRef.coordinates, ZOOM);
 
       marker.setLatLng(coordinates);
     },
-    [map, get]
+    [map, markers]
   );
 
   const focusMarker = useCallback(
     (markerRef) => {
-      const marker = get(markerRef.id);
+      const marker = markers.current.get(markerRef.id);
 
       marker.setOpacity(1);
     },
-    [get]
+    [markers]
   );
 
   const unfocusMarker = useCallback(
     (markerRef) => {
-      const marker = get(markerRef.id);
+      const marker = markers.current.get(markerRef.id);
 
       marker.setOpacity(MARKER_OPACITY);
     },
-    [get]
+    [markers]
   );
 
   const moveToMarker = useCallback(
     (markerRef) => {
-      const marker = get(markerRef.id);
+      const marker = markers.current.get(markerRef.id);
       const latlng = marker.getLatLng();
 
       map.current.panTo(latlng, { duration: 0.5 });
     },
-    [map, get]
+    [map, markers]
   );
 
   const getMarkerCoordinates = useCallback(
     (markerRef) => {
-      const marker = get(markerRef.id);
+      const marker = markers.current.get(markerRef.id);
       const latlng = marker.getLatLng();
       const coordinates = map.current.project(latlng, ZOOM);
 
       return coordinates;
     },
-    [map, get]
+    [map, markers]
   );
 
   const subscribeMarkerClick = useCallback(
     (markerRef, onClick) => {
-      const marker = get(markerRef.id);
+      const marker = markers.current.get(markerRef.id);
 
       marker.on("click", () => onClick(markerRef));
     },
-    [get]
+    [markers]
   );
 
   const subscribeMarkerDrag = useCallback(
     (markerRef, onDrag) => {
-      const marker = get(markerRef.id);
+      const marker = markers.current.get(markerRef.id);
 
       marker.on("drag", (event) => {
         const marker = event.target;
@@ -154,13 +153,13 @@ export function useMapContext() {
         onDrag(markerRef, coordinates);
       });
     },
-    [get, map]
+    [map, markers]
   );
 
   const clearMap = useCallback(() => {
-    markers.forEach((marker) => map.current.removeLayer(marker));
-    clear();
-  }, [map, markers, clear]);
+    markers.current.forEach((marker) => map.current.removeLayer(marker));
+    markers.current.clear();
+  }, [map, markers]);
 
   return {
     addMarker,

@@ -23,12 +23,21 @@ export function SaiparkMarker({ marker }) {
       const y = data.coordinate_vertical;
 
       setLoading(true);
-      updateSaiparkMarker({
-        id: marker.id,
+      updateSaiparkMarker(marker.id, {
         coordinates: { x, y },
       })
-        .then(() => updateMarker(marker))
-        .catch((error) => console.log(error))
+        .then(() => {
+          marker.coordinates = { x, y };
+
+          updateMarker(marker);
+        })
+        .catch((error) => {
+          console.log(error);
+
+          marker.coordinates = { x, y };
+
+          updateMarker(marker);
+        })
         .finally(() => setLoading(false));
     },
     [marker, updateMarker]
