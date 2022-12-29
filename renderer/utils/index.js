@@ -1,6 +1,7 @@
 import keyIcon from "../public/images/key_icon.png";
 import landmarkIcon from "../public/images/landmark_icon.png";
 import temcardIcon from "../public/images/temcard_icon.png";
+import { Type } from "../services";
 
 // Map properties
 export const ZOOM = 6;
@@ -43,10 +44,17 @@ export function markerIconPath(marker) {
   const name = marker.title.replace(" ", "_").toLowerCase();
 
   switch (marker.type) {
-    case "temtem":
-      return "../images/" + name + "_icon.png";
-    case "saipark":
-    case "landmark":
+    case Type.Temtem:
+      try {
+        // Check if image path exists
+        require("../public/images/" + name + "_icon.png");
+
+        return "../images/" + name + "_icon.png";
+      } catch {
+        return "../images/temcard_icon.png";
+      }
+    case Type.Saipark:
+    case Type.Landmark:
       return "../images/landmark_icon.png";
   }
 }
