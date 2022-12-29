@@ -1,6 +1,7 @@
 import { useTranslation } from "next-export-i18n";
 import { useCallback, useState } from "react";
 import { useFormContext } from "react-hook-form";
+import { toast } from "react-toastify";
 import { CoordinatesField, LocationField } from "..";
 import { useAccordionContext } from "../../../hooks/Accordion";
 import { updateLandmarkMarker } from "../../../services";
@@ -34,14 +35,7 @@ export function LandmarkMarker({ marker }) {
 
           updateMarker(marker);
         })
-        .catch((error) => {
-          console.log(error);
-
-          marker.subtitle = subtitle;
-          marker.coordinates = { x, y };
-
-          updateMarker(marker);
-        })
+        .catch((error) => toast.warn(error.message))
         .finally(() => setLoading(false));
     },
     [marker, updateMarker]

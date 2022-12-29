@@ -1,6 +1,7 @@
 import { useTranslation } from "next-export-i18n";
 import { useCallback, useState } from "react";
 import { useFormContext } from "react-hook-form";
+import { toast } from "react-toastify";
 import { ConditionField, CoordinatesField, LocationField } from "..";
 import { useAccordionContext } from "../../../hooks/Accordion";
 import { updateTemtemMarker } from "../../../services";
@@ -37,15 +38,7 @@ export function TemtemMarker({ marker }) {
 
           updateMarker(marker);
         })
-        .catch((error) => {
-          console.log(error);
-
-          marker.subtitle.current = subtitle;
-          marker.condition = condition;
-          marker.coordinates = { x, y };
-
-          updateMarker(marker);
-        })
+        .catch((error) => toast.warn(error.message))
         .finally(() => setLoading(false));
     },
     [marker, updateMarker]

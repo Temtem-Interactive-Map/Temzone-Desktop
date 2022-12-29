@@ -1,8 +1,12 @@
 import { createContext, useState } from "react";
+import { FormProvider, useForm } from "react-hook-form";
 
 export const AccordionContext = createContext();
 
 export function AccordionProvider({ children }) {
+  // Validation
+  const methods = useForm({ mode: "onSubmit", reValidateMode: "onSubmit" });
+
   // State
   const [markers, setMarkers] = useState([]);
   const [openMarker, setOpenMarker] = useState(null);
@@ -11,7 +15,7 @@ export function AccordionProvider({ children }) {
     <AccordionContext.Provider
       value={{ markers, setMarkers, openMarker, setOpenMarker }}
     >
-      {children}
+      <FormProvider {...methods}>{children}</FormProvider>
     </AccordionContext.Provider>
   );
 }

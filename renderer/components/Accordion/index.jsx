@@ -2,7 +2,7 @@ import { useTranslation } from "next-export-i18n";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { FormProvider, useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 import { useAccordionContext } from "../../hooks/Accordion";
 import { useMapContext } from "../../hooks/Map";
 import { Type, getMarkers } from "../../services";
@@ -19,9 +19,6 @@ export function Accordion() {
 
   // Internationalization
   const { t } = useTranslation();
-
-  // Validation
-  const methods = useForm({ mode: "onSubmit", reValidateMode: "onSubmit" });
 
   // State
   const [isLoading, setLoading] = useState(true);
@@ -41,6 +38,7 @@ export function Accordion() {
     // types[type]
     getMarkers([])
       .then((markers) => updateMarkers(markers))
+      .catch((error) => toast.warn(error.message))
       .finally(() => {
         enableMap();
         setLoading(false);
@@ -122,15 +120,13 @@ export function Accordion() {
               {/* Marker form */}
               {isMarkerOpen(marker) && (
                 <div className="p-4 pt-1">
-                  <FormProvider {...methods}>
-                    {marker.type === "temtem" ? (
-                      <TemtemMarker marker={marker} />
-                    ) : marker.type === "saipark" ? (
-                      <SaiparkMarker marker={marker} />
-                    ) : marker.type === "landmark" ? (
-                      <LandmarkMarker marker={marker} />
-                    ) : null}
-                  </FormProvider>
+                  {marker.type === "temtem" ? (
+                    <TemtemMarker marker={marker} />
+                  ) : marker.type === "saipark" ? (
+                    <SaiparkMarker marker={marker} />
+                  ) : marker.type === "landmark" ? (
+                    <LandmarkMarker marker={marker} />
+                  ) : null}
                 </div>
               )}
             </div>

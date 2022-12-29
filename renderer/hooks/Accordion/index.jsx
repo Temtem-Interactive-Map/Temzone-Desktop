@@ -1,4 +1,5 @@
 import { useCallback, useContext } from "react";
+import { useFormContext } from "react-hook-form";
 import { AccordionContext } from "../../context/Accordion";
 import { useMapContext } from "../../hooks/Map";
 
@@ -6,6 +7,7 @@ export function useAccordionContext() {
   // State
   const { markers, setMarkers, openMarker, setOpenMarker } =
     useContext(AccordionContext);
+  const { reset } = useFormContext();
   const {
     addMarker,
     removeMarker,
@@ -30,17 +32,18 @@ export function useAccordionContext() {
         // Change the opacity of the selected marker
         focusMarker(marker);
 
-        // Change the opacity of the previously selected marker
-        if (prevMarker !== null) {
-          // If the accordion is open and the marker was not on the map, it is removed;
-          // otherwise, it resets to its original position
-          if (prevMarker.id !== marker.id) {
-            if (prevMarker.coordinates === null) {
-              removeMarker(prevMarker);
-            } else {
-              moveMarker(prevMarker);
-              unfocusMarker(prevMarker);
-            }
+        // If the accordion is open change the opacity of the previously selected marker
+        if (prevMarker !== null && prevMarker.id !== marker.id) {
+          // Reset the marker form state
+          reset();
+
+          // If the marker was not on the map, it is removed; otherwise, it resets to
+          // its original position
+          if (prevMarker.coordinates === null) {
+            removeMarker(prevMarker);
+          } else {
+            moveMarker(prevMarker);
+            unfocusMarker(prevMarker);
           }
         }
 
@@ -57,6 +60,7 @@ export function useAccordionContext() {
       moveMarker,
       unfocusMarker,
       scrollToMarker,
+      reset,
     ]
   );
 
@@ -83,6 +87,9 @@ export function useAccordionContext() {
             subscribeMarkerClick(marker, handleMarkerClick);
             subscribeMarkerDrag(marker, handleMarkerMove);
           }
+
+          // Reset the marker form state
+          reset();
 
           // Centers the map view on the marker
           moveToMarker(marker);
@@ -113,6 +120,9 @@ export function useAccordionContext() {
               subscribeMarkerDrag(marker, handleMarkerMove);
             }
 
+            // Reset the form state
+            reset();
+
             // Centers the map view on the marker
             moveToMarker(marker);
 
@@ -134,6 +144,7 @@ export function useAccordionContext() {
       handleMarkerClick,
       subscribeMarkerDrag,
       handleMarkerMove,
+      reset,
       moveToMarker,
       focusMarker,
       removeMarker,
@@ -152,8 +163,8 @@ export function useAccordionContext() {
     (newMarker) => {
       setOpenMarker(newMarker);
       setMarkers((prevMarkers) =>
-        prevMarkers.map((marker) =>
-          newMarker.id === marker.id ? newMarker : marker
+        prevMarkers.map((prevMarker) =>
+          prevMarker.id === newMarker.id ? newMarker : prevMarker
         )
       );
     },

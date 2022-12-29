@@ -9,3 +9,13 @@
     margin: 0;
   }
 }
+
+:root {
+  --toastify-color-dark: #202225;
+  --toastify-text-color-dark: #dcddde;
+  --toastify-color-warning: #fcd63a;
+}
+
+#airborne_archipelago {
+  background: #001e3c;
+}

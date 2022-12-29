@@ -38,11 +38,7 @@ export default function Markers() {
       </AccordionProvider>
 
       {/* Airborne Archipelago map */}
-      <div
-        id="airborne_archipelago"
-        className="flex-grow"
-        style={{ background: "#001e3c" }}
-      />
+      <div id="airborne_archipelago" className="flex-grow" />
     </MapProvider>
   );
 }

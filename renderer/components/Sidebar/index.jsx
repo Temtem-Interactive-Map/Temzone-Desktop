@@ -38,7 +38,6 @@ export function Sidebar() {
               width={36}
               height={36}
               quality={100}
-              priority={true}
             />
           </NavLink>
         </Tooltip>
@@ -56,7 +55,6 @@ export function Sidebar() {
             width={36}
             height={36}
             quality={100}
-            priority={true}
           />
         </NavLink>
       </Tooltip>
