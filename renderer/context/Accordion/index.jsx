@@ -8,13 +8,10 @@ export function AccordionProvider({ children }) {
   const methods = useForm({ mode: "onSubmit", reValidateMode: "onSubmit" });
 
   // State
-  const [markers, setMarkers] = useState([]);
   const [openMarker, setOpenMarker] = useState(null);
 
   return (
-    <AccordionContext.Provider
-      value={{ markers, setMarkers, openMarker, setOpenMarker }}
-    >
+    <AccordionContext.Provider value={{ openMarker, setOpenMarker }}>
       <FormProvider {...methods}>{children}</FormProvider>
     </AccordionContext.Provider>
   );

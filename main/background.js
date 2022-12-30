@@ -4,8 +4,9 @@ import installExtension, {
   REACT_DEVELOPER_TOOLS,
 } from "electron-devtools-installer";
 import serve from "electron-serve";
-import createWindow from "./helpers/create-window";
+import { createWindow } from "./utils/create-window";
 
+// Load environment variables from .env file
 dotenv.config();
 
 const isProd = process.env.NODE_ENV === "production";
@@ -35,12 +36,10 @@ if (isProd) {
     await mainWindow.loadURL("http://localhost:" + port + "/login");
 
     // Keyboard shortcuts for development
-    globalShortcut.register("CommandOrControl+R", () => {
-      mainWindow.reload();
-    });
-    globalShortcut.register("CommandOrControl+Shift+I", () => {
-      mainWindow.webContents.openDevTools();
-    });
+    globalShortcut.register("CommandOrControl+R", () => mainWindow.reload());
+    globalShortcut.register("CommandOrControl+Shift+I", () =>
+      mainWindow.webContents.openDevTools()
+    );
   }
 })();
 

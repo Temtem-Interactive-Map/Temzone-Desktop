@@ -1,15 +1,17 @@
 import axios from "axios";
 
 export function login(email, password) {
-  return new Promise((resolve, _reject) => setTimeout(() => resolve(), 0));
+  return new Promise((resolve, _reject) => resolve());
 }
 
 export function logout() {
-  return new Promise((resolve, _reject) => setTimeout(() => resolve(), 0));
+  return new Promise((resolve, _reject) => resolve());
 }
 
+const token = "test";
 const temzoneApi = axios.create({
   baseURL: process.env.TEMZONE_BASE_URL,
+  headers: { Authorization: "Bearer " + token },
 });
 
 export const Type = Object.freeze({

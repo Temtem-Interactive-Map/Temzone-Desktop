@@ -1,12 +1,13 @@
 import Head from "next/head";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { SWRConfig } from "swr";
 import packageJson from "../../package.json";
 import "../styles/globals.css";
 
 export default function App({ Component, pageProps }) {
   return (
-    <>
+    <SWRConfig>
       <Head>
         <title>{"Temzone " + packageJson.version}</title>
       </Head>
@@ -24,6 +25,6 @@ export default function App({ Component, pageProps }) {
         theme="dark"
         className="select-none"
       />
-    </>
+    </SWRConfig>
   );
 }

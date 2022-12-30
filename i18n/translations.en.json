@@ -1,5 +1,6 @@
 {
   "i18n": {
+    "network_error": "Network connectivity limited or unavailable",
     "required_field": "This field is required.",
     "login_branding": "Log in to your account",
     "login": "Log In",

@@ -1,13 +1,19 @@
 import { useTranslation } from "next-export-i18n";
+import { useRouter } from "next/router";
 import { useCallback, useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { toast } from "react-toastify";
+import { mutate } from "swr";
 import { CoordinatesField, LocationField } from "..";
 import { useAccordionContext } from "../../../hooks/Accordion";
 import { updateLandmarkMarker } from "../../../services";
 import { LoadingButton } from "../../LoadingButton";
 
 export function LandmarkMarker({ marker }) {
+  // Navigation
+  const router = useRouter();
+  const type = router.query.type ?? "all";
+
   // Internationalization
   const { t } = useTranslation();
 
@@ -16,7 +22,7 @@ export function LandmarkMarker({ marker }) {
 
   // State
   const [isLoading, setLoading] = useState(false);
-  const { updateMarker } = useAccordionContext();
+  const { setOpenMarker } = useAccordionContext();
 
   const handleMarkerUpdate = useCallback(
     (data) => {
@@ -33,12 +39,17 @@ export function LandmarkMarker({ marker }) {
           marker.subtitle = subtitle;
           marker.coordinates = { x, y };
 
-          updateMarker(marker);
+          setOpenMarker(marker);
+          mutate({ url: "/markers", args: type }, (prevMarkers) => {
+            prevMarkers.map((prevMarker) =>
+              prevMarker.id === marker.id ? marker : prevMarker
+            );
+          });
         })
         .catch((error) => toast.warn(error.message))
         .finally(() => setLoading(false));
     },
-    [marker, updateMarker]
+    [marker, setOpenMarker, type]
   );
 
   return (

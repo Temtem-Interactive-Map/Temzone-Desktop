@@ -1,8 +1,8 @@
 import { useTranslation } from "next-export-i18n";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import useSWR from "swr";
 import { useAccordionContext } from "../../hooks/Accordion";
 import { useMapContext } from "../../hooks/Map";
 import { Type, getMarkers } from "../../services";
@@ -21,29 +21,52 @@ export function Accordion() {
   const { t } = useTranslation();
 
   // State
-  const [isLoading, setLoading] = useState(true);
-  const { markers, updateMarkers, handleAccordionClick, isMarkerOpen } =
-    useAccordionContext();
-  const { enableMap, disableMap } = useMapContext();
+  const {
+    handleAccordionClick,
+    handleMarkerClick,
+    handleMarkerDrag,
+    isMarkerOpen,
+    setOpenMarker,
+  } = useAccordionContext();
+  const {
+    enableMap,
+    disableMap,
+    clearMap,
+    addMarker,
+    subscribeMarkerClick,
+    subscribeMarkerDrag,
+  } = useMapContext();
 
-  useEffect(() => {
+  const { isLoading, data } = useSWR({ url: "/markers", args: type }, () => {
     const types = {
       all: Object.values(Type),
       temtem: [Type.Temtem],
       landmark: [Type.Saipark, Type.Landmark],
     };
 
-    setLoading(true);
     disableMap();
-    // types[type]
-    getMarkers([])
-      .then((markers) => updateMarkers(markers))
-      .catch((error) => toast.warn(error.message))
-      .finally(() => {
-        enableMap();
-        setLoading(false);
-      });
-  }, [type, disableMap, updateMarkers, enableMap]);
+    return getMarkers(types[type])
+      .then((markers) => {
+        clearMap();
+        setOpenMarker(null);
+
+        markers.forEach((marker) => {
+          if (marker.coordinates !== null) {
+            addMarker(marker);
+            subscribeMarkerClick(marker, handleMarkerClick);
+            subscribeMarkerDrag(marker, handleMarkerDrag);
+          }
+        });
+
+        return markers;
+      })
+      .catch((error) => {
+        toast.warn(error.message);
+
+        return [];
+      })
+      .finally(() => enableMap());
+  });
 
   return (
     <section
@@ -65,7 +88,7 @@ export function Accordion() {
               </div>
             </div>
           ))
-        : markers.map((marker) => (
+        : data.map((marker) => (
             <div
               key={marker.id}
               id={"#" + marker.id}

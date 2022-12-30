@@ -1,7 +1,7 @@
 import { BrowserWindow, screen } from "electron";
 import Store from "electron-store";
 
-export default function createWindow(options) {
+export function createWindow(options) {
   const key = "window-state";
   const store = new Store();
   const defaultSize = {

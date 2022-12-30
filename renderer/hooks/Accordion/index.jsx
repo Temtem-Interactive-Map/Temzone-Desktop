@@ -5,8 +5,7 @@ import { useMapContext } from "../../hooks/Map";
 
 export function useAccordionContext() {
   // State
-  const { markers, setMarkers, openMarker, setOpenMarker } =
-    useContext(AccordionContext);
+  const { openMarker, setOpenMarker } = useContext(AccordionContext);
   const { reset } = useFormContext();
   const {
     addMarker,
@@ -17,7 +16,6 @@ export function useAccordionContext() {
     unfocusMarker,
     subscribeMarkerClick,
     subscribeMarkerDrag,
-    clearMap,
   } = useMapContext();
 
   const scrollToMarker = useCallback((marker) => {
@@ -26,7 +24,7 @@ export function useAccordionContext() {
     element.scrollIntoView({ behavior: "smooth" });
   }, []);
 
-  const handleMarkerMove = useCallback(
+  const handleMarkerDrag = useCallback(
     (marker, _) => {
       setOpenMarker((prevMarker) => {
         // Change the opacity of the selected marker
@@ -66,13 +64,13 @@ export function useAccordionContext() {
 
   const handleMarkerClick = useCallback(
     (marker) => {
-      // Handles the movement of the marker on the accordion
-      handleMarkerMove(marker);
+      // Handles dragging of the marker on the accordion
+      handleMarkerDrag(marker);
 
       // Centers the map view on the marker
       moveToMarker(marker);
     },
-    [handleMarkerMove, moveToMarker]
+    [handleMarkerDrag, moveToMarker]
   );
 
   const handleAccordionClick = useCallback(
@@ -85,7 +83,7 @@ export function useAccordionContext() {
           if (marker.coordinates === null) {
             addMarker(marker);
             subscribeMarkerClick(marker, handleMarkerClick);
-            subscribeMarkerDrag(marker, handleMarkerMove);
+            subscribeMarkerDrag(marker, handleMarkerDrag);
           }
 
           // Reset the marker form state
@@ -117,7 +115,7 @@ export function useAccordionContext() {
             if (marker.coordinates === null) {
               addMarker(marker);
               subscribeMarkerClick(marker, handleMarkerClick);
-              subscribeMarkerDrag(marker, handleMarkerMove);
+              subscribeMarkerDrag(marker, handleMarkerDrag);
             }
 
             // Reset the form state
@@ -143,7 +141,7 @@ export function useAccordionContext() {
       subscribeMarkerClick,
       handleMarkerClick,
       subscribeMarkerDrag,
-      handleMarkerMove,
+      handleMarkerDrag,
       reset,
       moveToMarker,
       focusMarker,
@@ -159,50 +157,11 @@ export function useAccordionContext() {
     [openMarker]
   );
 
-  const updateMarker = useCallback(
-    (newMarker) => {
-      setOpenMarker(newMarker);
-      setMarkers((prevMarkers) =>
-        prevMarkers.map((prevMarker) =>
-          prevMarker.id === newMarker.id ? newMarker : prevMarker
-        )
-      );
-    },
-    [setOpenMarker, setMarkers]
-  );
-
-  const updateMarkers = useCallback(
-    (markers) => {
-      clearMap();
-
-      markers
-        .filter((marker) => marker.coordinates !== null)
-        .forEach((marker) => {
-          addMarker(marker);
-          subscribeMarkerClick(marker, handleMarkerClick);
-          subscribeMarkerDrag(marker, handleMarkerMove);
-        });
-
-      setOpenMarker(null);
-      setMarkers(markers);
-    },
-    [
-      clearMap,
-      addMarker,
-      subscribeMarkerClick,
-      handleMarkerClick,
-      subscribeMarkerDrag,
-      handleMarkerMove,
-      setOpenMarker,
-      setMarkers,
-    ]
-  );
-
   return {
-    markers,
+    handleMarkerDrag,
+    handleMarkerClick,
     handleAccordionClick,
     isMarkerOpen,
-    updateMarker,
-    updateMarkers,
+    setOpenMarker,
   };
 }
