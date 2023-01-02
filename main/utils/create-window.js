@@ -1,15 +1,14 @@
 import { BrowserWindow, screen } from "electron";
 import Store from "electron-store";
 
-export default function createWindow(options) {
-  const key = "window-state";
+export function createWindow(options) {
   const store = new Store();
   const defaultSize = {
     width: options.width,
     height: options.height,
   };
 
-  const restore = () => store.get(key, defaultSize);
+  const restore = () => store.get("window-state", defaultSize);
 
   const getCurrentPosition = () => {
     const position = win.getPosition();
@@ -58,7 +57,7 @@ export default function createWindow(options) {
       Object.assign(state, getCurrentPosition());
     }
 
-    store.set(key, state);
+    store.set("window-state", state);
   };
 
   const state = ensureVisibleOnSomeDisplay(restore());

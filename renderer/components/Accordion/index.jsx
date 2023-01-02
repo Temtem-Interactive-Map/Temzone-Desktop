@@ -1,8 +1,9 @@
-import { useTranslation } from "next-export-i18n";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import { FormProvider, useForm } from "react-hook-form";
+import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import { toast } from "react-toastify";
+import useSWR from "swr";
 import { useAccordionContext } from "../../hooks/Accordion";
 import { useMapContext } from "../../hooks/Map";
 import { Type, getMarkers } from "../../services";
@@ -20,41 +21,56 @@ export function Accordion() {
   // Internationalization
   const { t } = useTranslation();
 
-  // Validation
-  const methods = useForm({ mode: "onSubmit", reValidateMode: "onSubmit" });
-
   // State
-  const [isLoading, setLoading] = useState(true);
-  const { markers, updateMarkers, handleAccordionClick, isMarkerOpen } =
-    useAccordionContext();
+  const {
+    closeAccordion,
+    updateAccordion,
+    handleAccordionClick,
+    isMarkerOpen,
+  } = useAccordionContext();
   const { enableMap, disableMap } = useMapContext();
+  const { data, isLoading } = useSWR(
+    { url: "/markers", args: type },
+    () => {
+      const types = {
+        all: Object.values(Type),
+        temtem: [Type.Temtem],
+        landmark: [Type.Saipark, Type.Landmark],
+      };
+
+      disableMap();
+      return getMarkers(types[type]);
+    },
+    {
+      onSuccess: () => {
+        enableMap();
+      },
+      onError: (error) => {
+        toast.warn(error.message);
+      },
+    }
+  );
 
   useEffect(() => {
-    const types = {
-      all: Object.values(Type),
-      temtem: [Type.Temtem],
-      landmark: [Type.Saipark, Type.Landmark],
-    };
+    if (data !== undefined) {
+      const markersWithCoordinates = data.filter(
+        (marker) => marker.coordinates !== null
+      );
 
-    setLoading(true);
-    disableMap();
-    // types[type]
-    getMarkers([])
-      .then((markers) => updateMarkers(markers))
-      .finally(() => {
-        enableMap();
-        setLoading(false);
-      });
-  }, [type, disableMap, updateMarkers, enableMap]);
+      updateAccordion(markersWithCoordinates);
+    }
+  }, [data, updateAccordion]);
+
+  useEffect(() => closeAccordion(), [type, closeAccordion]);
 
   return (
     <section
       className="w-120 space-y-3 overflow-y-scroll bg-gray-700 p-3 scrollbar-hide"
       onDragStart={(event) => event.preventDefault()}
     >
-      {isLoading
+      {isLoading || data === undefined
         ? /* Placeholder markers */
-          [...Array(10).keys()].map((key) => (
+          [...Array(8).keys()].map((key) => (
             <div key={key} className="rounded-lg bg-gray-800 shadow">
               <div className="flex w-full animate-pulse items-center space-x-3 p-4">
                 <div>
@@ -67,7 +83,7 @@ export function Accordion() {
               </div>
             </div>
           ))
-        : markers.map((marker) => (
+        : data.map((marker) => (
             <div
               key={marker.id}
               id={"#" + marker.id}
@@ -75,7 +91,7 @@ export function Accordion() {
             >
               <button
                 tabIndex={-1}
-                className="flex w-full items-center space-x-3 p-4 active:translate-y-px"
+                className="flex w-full items-center space-x-3 p-4 outline-none active:translate-y-px"
                 onClick={() => handleAccordionClick(marker)}
               >
                 {/* Marker portrait */}
@@ -122,15 +138,13 @@ export function Accordion() {
               {/* Marker form */}
               {isMarkerOpen(marker) && (
                 <div className="p-4 pt-1">
-                  <FormProvider {...methods}>
-                    {marker.type === "temtem" ? (
-                      <TemtemMarker marker={marker} />
-                    ) : marker.type === "saipark" ? (
-                      <SaiparkMarker marker={marker} />
-                    ) : marker.type === "landmark" ? (
-                      <LandmarkMarker marker={marker} />
-                    ) : null}
-                  </FormProvider>
+                  {marker.type === "temtem" ? (
+                    <TemtemMarker marker={marker} />
+                  ) : marker.type === "saipark" ? (
+                    <SaiparkMarker marker={marker} />
+                  ) : marker.type === "landmark" ? (
+                    <LandmarkMarker marker={marker} />
+                  ) : null}
                 </div>
               )}
             </div>

@@ -1,6 +1,6 @@
-import { useTranslation } from "next-export-i18n";
 import { useCallback, useEffect } from "react";
 import { useFormContext } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import { useMapContext } from "../../hooks/Map";
 import {
   MARKER_MAX_HORIZONTAL,
@@ -19,7 +19,7 @@ export function ConditionField({ condition, placeholder }) {
     <InputField
       id="condition"
       type="text"
-      label={t("condition_field")}
+      label={t("field.condition")}
       value={condition}
       placeholder={placeholder}
       options={{
@@ -37,12 +37,12 @@ export function LocationField({ location, placeholder }) {
     <InputField
       id="location"
       type="text"
-      label={t("location_field")}
+      label={t("field.location")}
       value={location}
       placeholder={placeholder}
       options={{
-        required: t("required_field"),
-        validate: (value) => (value.trim() ? true : t("required_field")),
+        required: t("error.required"),
+        validate: (value) => (value.trim() ? true : t("error.required")),
         maxLength: { value: 40 },
       }}
     />
@@ -100,7 +100,7 @@ export function CoordinatesField({ marker }) {
     <div className="flex flex-row space-x-4">
       <CounterField
         id="coordinate_horizontal"
-        label={t("coordinate_horizontal_field")}
+        label={t("field.coordinate_horizontal")}
         value={coordinates.x}
         options={{ valueAsNumber: true }}
         onChange={handleCoordinateHorizontalChange}
@@ -108,7 +108,7 @@ export function CoordinatesField({ marker }) {
 
       <CounterField
         id="coordinate_vertical"
-        label={t("coordinate_vertical_field")}
+        label={t("field.coordinate_vertical")}
         value={coordinates.y}
         options={{ valueAsNumber: true }}
         onChange={handleCoordinateVerticalChange}

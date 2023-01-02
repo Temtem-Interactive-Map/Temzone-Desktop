@@ -1,6 +1,7 @@
-import { useTranslation } from "next-export-i18n";
 import { useCallback, useState } from "react";
 import { useFormContext } from "react-hook-form";
+import { useTranslation } from "react-i18next";
+import { toast } from "react-toastify";
 import { ConditionField, CoordinatesField, LocationField } from "..";
 import { useAccordionContext } from "../../../hooks/Accordion";
 import { updateTemtemMarker } from "../../../services";
@@ -38,13 +39,13 @@ export function TemtemMarker({ marker }) {
           updateMarker(marker);
         })
         .catch((error) => {
-          console.log(error);
-
           marker.subtitle.current = subtitle;
           marker.condition = condition;
           marker.coordinates = { x, y };
 
           updateMarker(marker);
+
+          toast.warn(error.message);
         })
         .finally(() => setLoading(false));
     },
@@ -66,14 +67,14 @@ export function TemtemMarker({ marker }) {
       {/* Condition field */}
       <ConditionField
         condition={marker.condition}
-        placeholder={t("condition_template")}
+        placeholder={t("field.placeholder.condition")}
       />
 
       {/* Coordinates field */}
       <CoordinatesField marker={marker} />
 
       {/* Save button */}
-      <LoadingButton loading={isLoading}>{t("save")}</LoadingButton>
+      <LoadingButton loading={isLoading}>{t("button.save")}</LoadingButton>
     </form>
   );
 }

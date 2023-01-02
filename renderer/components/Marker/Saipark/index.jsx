@@ -1,6 +1,7 @@
-import { useTranslation } from "next-export-i18n";
 import { useCallback, useState } from "react";
 import { useFormContext } from "react-hook-form";
+import { useTranslation } from "react-i18next";
+import { toast } from "react-toastify";
 import { CoordinatesField } from "..";
 import { useAccordionContext } from "../../../hooks/Accordion";
 import { updateSaiparkMarker } from "../../../services";
@@ -31,13 +32,7 @@ export function SaiparkMarker({ marker }) {
 
           updateMarker(marker);
         })
-        .catch((error) => {
-          console.log(error);
-
-          marker.coordinates = { x, y };
-
-          updateMarker(marker);
-        })
+        .catch((error) => toast.warn(error.message))
         .finally(() => setLoading(false));
     },
     [marker, updateMarker]
@@ -53,7 +48,7 @@ export function SaiparkMarker({ marker }) {
       <CoordinatesField marker={marker} />
 
       {/* Save button */}
-      <LoadingButton loading={isLoading}>{t("save")}</LoadingButton>
+      <LoadingButton loading={isLoading}>{t("button.save")}</LoadingButton>
     </form>
   );
 }

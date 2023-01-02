@@ -1,12 +1,9 @@
-import dotenv from "dotenv";
 import { app, globalShortcut } from "electron";
 import installExtension, {
   REACT_DEVELOPER_TOOLS,
 } from "electron-devtools-installer";
 import serve from "electron-serve";
-import createWindow from "./helpers/create-window";
-
-dotenv.config();
+import { createWindow } from "./utils/create-window";
 
 const isProd = process.env.NODE_ENV === "production";
 
@@ -29,18 +26,18 @@ if (isProd) {
   if (isProd) {
     await mainWindow.loadURL("app://./login.html");
   } else {
-    installExtension(REACT_DEVELOPER_TOOLS);
+    mainWindow.webContents.once("dom-ready", async () => {
+      await installExtension(REACT_DEVELOPER_TOOLS);
+    });
 
     const port = process.argv[2];
     await mainWindow.loadURL("http://localhost:" + port + "/login");
 
     // Keyboard shortcuts for development
-    globalShortcut.register("CommandOrControl+R", () => {
-      mainWindow.reload();
-    });
-    globalShortcut.register("CommandOrControl+Shift+I", () => {
-      mainWindow.webContents.openDevTools();
-    });
+    globalShortcut.register("CommandOrControl+R", () => mainWindow.reload());
+    globalShortcut.register("CommandOrControl+Shift+I", () =>
+      mainWindow.webContents.openDevTools()
+    );
   }
 })();
 
