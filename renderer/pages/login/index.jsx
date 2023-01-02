@@ -20,7 +20,7 @@ export default function Login() {
   // State
   const [isLoading, setLoading] = useState(false);
 
-  const handleLogin = useCallback(
+  const handleLoginSubmit = useCallback(
     (data) => {
       const email = data.email.trim();
       const password = data.password.trim();
@@ -64,7 +64,7 @@ export default function Login() {
             <form
               noValidate
               className="w-96 space-y-4"
-              onSubmit={methods.handleSubmit(handleLogin)}
+              onSubmit={methods.handleSubmit(handleLoginSubmit)}
             >
               {/* Email field */}
               <InputField

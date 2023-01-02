@@ -12,6 +12,7 @@ import { Arrow } from "../Icons";
 import { LandmarkMarker } from "../Marker/Landmark";
 import { SaiparkMarker } from "../Marker/Saipark";
 import { TemtemMarker } from "../Marker/Temtem";
+import { PlaceholderAccordion } from "./Placeholder";
 
 export function Accordion() {
   // Navigation
@@ -39,6 +40,7 @@ export function Accordion() {
       };
 
       disableMap();
+
       return getMarkers(types[type]);
     },
     {
@@ -69,20 +71,7 @@ export function Accordion() {
       onDragStart={(event) => event.preventDefault()}
     >
       {isLoading || data === undefined
-        ? /* Placeholder markers */
-          [...Array(8).keys()].map((key) => (
-            <div key={key} className="rounded-lg bg-gray-800 shadow">
-              <div className="flex w-full animate-pulse items-center space-x-3 p-4">
-                <div>
-                  <div className="h-12 w-12 rounded-md bg-gray-700" />
-                </div>
-                <div className="flex flex-col space-y-2.5">
-                  <div className="h-3 w-24 rounded-md bg-gray-700" />
-                  <div className="h-3 w-36 rounded-md bg-gray-700" />
-                </div>
-              </div>
-            </div>
-          ))
+        ? [...Array(8).keys()].map((key) => <PlaceholderAccordion key={key} />)
         : data.map((marker) => (
             <div
               key={marker.id}

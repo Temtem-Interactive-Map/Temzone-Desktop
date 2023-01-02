@@ -1,6 +1,8 @@
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
+import { toast } from "react-toastify";
+import { useAccordionContext } from "../../hooks/Accordion";
 import { useMapContext } from "../../hooks/Map";
 import {
   MARKER_MAX_HORIZONTAL,
@@ -10,6 +12,7 @@ import {
 } from "../../utils";
 import { CounterField } from "../Fields/CounterField";
 import { InputField } from "../Fields/InputField";
+import { LoadingButton } from "../LoadingButton";
 
 export function ConditionField({ condition, placeholder }) {
   // Internationalization
@@ -114,5 +117,52 @@ export function CoordinatesField({ marker }) {
         onChange={handleCoordinateVerticalChange}
       />
     </div>
+  );
+}
+
+export function Marker({ handleMarkerUpdate, marker, children }) {
+  // Internationalization
+  const { t } = useTranslation();
+
+  // Validation
+  const { handleSubmit } = useFormContext();
+
+  // State
+  const [isLoading, setLoading] = useState(false);
+  const { updateMarker } = useAccordionContext();
+
+  const handleMarkerUpdateSubmit = useCallback(
+    (data) => {
+      const x = data.coordinate_horizontal;
+      const y = data.coordinate_vertical;
+
+      setLoading(true);
+      handleMarkerUpdate(data, { x, y })
+        .then(() => {
+          marker.coordinates = { x, y };
+
+          updateMarker(marker);
+        })
+        .catch((error) => toast.warn(error.message))
+        .finally(() => setLoading(false));
+    },
+    [marker, handleMarkerUpdate, updateMarker]
+  );
+
+  return (
+    <form
+      noValidate
+      className="space-y-4"
+      onSubmit={handleSubmit(handleMarkerUpdateSubmit)}
+    >
+      {/* Children marker type fields */}
+      {children}
+
+      {/* Coordinates field */}
+      <CoordinatesField marker={marker} />
+
+      {/* Save button */}
+      <LoadingButton loading={isLoading}>{t("button.save")}</LoadingButton>
+    </form>
   );
 }

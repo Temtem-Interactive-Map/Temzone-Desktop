@@ -49,7 +49,7 @@ export function useAccordionContext() {
 
         // If the accordion is open, the marker and the form are reset to
         // their original state
-        if (prevOpenMarker?.id !== marker.id) {
+        if (prevOpenMarker !== null && prevOpenMarker.id !== marker.id) {
           resetMarkerForm(prevOpenMarker);
         }
 
