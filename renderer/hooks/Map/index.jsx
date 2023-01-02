@@ -182,11 +182,6 @@ export function useMapContext() {
     });
   }, [map, markers]);
 
-  const clearMap = useCallback(() => {
-    markers.current.forEach((marker) => map.current.removeLayer(marker));
-    markers.current.clear();
-  }, [map, markers]);
-
   return {
     addMarker,
     removeMarker,
@@ -199,6 +194,5 @@ export function useMapContext() {
     subscribeMarkerDrag,
     enableMap,
     disableMap,
-    clearMap,
   };
 }

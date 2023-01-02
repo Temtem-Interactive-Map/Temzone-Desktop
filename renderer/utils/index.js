@@ -24,17 +24,17 @@ export const MARKER_MAX_VERTICAL = MAP_MAX_VERTICAL - TILE_SIZE;
 export const sidebar = Object.freeze([
   {
     image: keyIcon,
-    label: "all_markers",
+    label: "tooltip.all_markers",
     href: "/markers/all",
   },
   {
     image: temcardIcon,
-    label: "temtem_markers",
+    label: "tooltip.temtem_markers",
     href: "/markers/temtem",
   },
   {
     image: landmarkIcon,
-    label: "landmark_markers",
+    label: "tooltip.landmark_markers",
     href: "/markers/landmark",
   },
 ]);

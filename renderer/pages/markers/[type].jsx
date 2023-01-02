@@ -1,19 +1,10 @@
 import "leaflet/dist/leaflet.css";
 import dynamic from "next/dynamic";
 import { Sidebar } from "../../components/Sidebar";
+import { AccordionProvider } from "../../context/Accordion";
 
 const MapProvider = dynamic(
   () => import("../../context/Map").then((module) => module.MapProvider),
-  {
-    ssr: false,
-  }
-);
-
-const AccordionProvider = dynamic(
-  () =>
-    import("../../context/Accordion").then(
-      (module) => module.AccordionProvider
-    ),
   {
     ssr: false,
   }

@@ -1,6 +1,7 @@
-import { useTranslation } from "next-export-i18n";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 import useSWR from "swr";
 import { useAccordionContext } from "../../hooks/Accordion";
@@ -22,60 +23,54 @@ export function Accordion() {
 
   // State
   const {
+    closeAccordion,
+    updateAccordion,
     handleAccordionClick,
-    handleMarkerClick,
-    handleMarkerDrag,
     isMarkerOpen,
-    setOpenMarker,
   } = useAccordionContext();
-  const {
-    enableMap,
-    disableMap,
-    clearMap,
-    addMarker,
-    subscribeMarkerClick,
-    subscribeMarkerDrag,
-  } = useMapContext();
+  const { enableMap, disableMap } = useMapContext();
+  const { data, isLoading } = useSWR(
+    { url: "/markers", args: type },
+    () => {
+      const types = {
+        all: Object.values(Type),
+        temtem: [Type.Temtem],
+        landmark: [Type.Saipark, Type.Landmark],
+      };
 
-  const { isLoading, data } = useSWR({ url: "/markers", args: type }, () => {
-    const types = {
-      all: Object.values(Type),
-      temtem: [Type.Temtem],
-      landmark: [Type.Saipark, Type.Landmark],
-    };
-
-    disableMap();
-    return getMarkers(types[type])
-      .then((markers) => {
-        clearMap();
-        setOpenMarker(null);
-
-        markers.forEach((marker) => {
-          if (marker.coordinates !== null) {
-            addMarker(marker);
-            subscribeMarkerClick(marker, handleMarkerClick);
-            subscribeMarkerDrag(marker, handleMarkerDrag);
-          }
-        });
-
-        return markers;
-      })
-      .catch((error) => {
+      disableMap();
+      return getMarkers(types[type]);
+    },
+    {
+      onSuccess: () => {
+        enableMap();
+      },
+      onError: (error) => {
         toast.warn(error.message);
+      },
+    }
+  );
 
-        return [];
-      })
-      .finally(() => enableMap());
-  });
+  useEffect(() => {
+    if (data !== undefined) {
+      const markersWithCoordinates = data.filter(
+        (marker) => marker.coordinates !== null
+      );
+
+      updateAccordion(markersWithCoordinates);
+    }
+  }, [data, updateAccordion]);
+
+  useEffect(() => closeAccordion(), [type, closeAccordion]);
 
   return (
     <section
       className="w-120 space-y-3 overflow-y-scroll bg-gray-700 p-3 scrollbar-hide"
       onDragStart={(event) => event.preventDefault()}
     >
-      {isLoading
+      {isLoading || data === undefined
         ? /* Placeholder markers */
-          [...Array(10).keys()].map((key) => (
+          [...Array(8).keys()].map((key) => (
             <div key={key} className="rounded-lg bg-gray-800 shadow">
               <div className="flex w-full animate-pulse items-center space-x-3 p-4">
                 <div>
@@ -96,7 +91,7 @@ export function Accordion() {
             >
               <button
                 tabIndex={-1}
-                className="flex w-full items-center space-x-3 p-4 active:translate-y-px"
+                className="flex w-full items-center space-x-3 p-4 outline-none active:translate-y-px"
                 onClick={() => handleAccordionClick(marker)}
               >
                 {/* Marker portrait */}

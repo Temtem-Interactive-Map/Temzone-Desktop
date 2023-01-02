@@ -1,19 +1,13 @@
-import { useTranslation } from "next-export-i18n";
-import { useRouter } from "next/router";
 import { useCallback, useState } from "react";
 import { useFormContext } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
-import { mutate } from "swr";
 import { ConditionField, CoordinatesField, LocationField } from "..";
 import { useAccordionContext } from "../../../hooks/Accordion";
 import { updateTemtemMarker } from "../../../services";
 import { LoadingButton } from "../../LoadingButton";
 
 export function TemtemMarker({ marker }) {
-  // Navigation
-  const router = useRouter();
-  const type = router.query.type ?? "all";
-
   // Internationalization
   const { t } = useTranslation();
 
@@ -22,7 +16,7 @@ export function TemtemMarker({ marker }) {
 
   // State
   const [isLoading, setLoading] = useState(false);
-  const { setOpenMarker } = useAccordionContext();
+  const { updateMarker } = useAccordionContext();
 
   const handleMarkerUpdate = useCallback(
     (data) => {
@@ -42,17 +36,20 @@ export function TemtemMarker({ marker }) {
           marker.condition = condition;
           marker.coordinates = { x, y };
 
-          setOpenMarker(marker);
-          mutate({ url: "/markers", args: type }, (prevMarkers) => {
-            prevMarkers.map((prevMarker) =>
-              prevMarker.id === marker.id ? marker : prevMarker
-            );
-          });
+          updateMarker(marker);
         })
-        .catch((error) => toast.warn(error.message))
+        .catch((error) => {
+          marker.subtitle.current = subtitle;
+          marker.condition = condition;
+          marker.coordinates = { x, y };
+
+          updateMarker(marker);
+
+          toast.warn(error.message);
+        })
         .finally(() => setLoading(false));
     },
-    [marker, setOpenMarker, type]
+    [marker, updateMarker]
   );
 
   return (
@@ -70,14 +67,14 @@ export function TemtemMarker({ marker }) {
       {/* Condition field */}
       <ConditionField
         condition={marker.condition}
-        placeholder={t("condition_template")}
+        placeholder={t("field.placeholder.condition")}
       />
 
       {/* Coordinates field */}
       <CoordinatesField marker={marker} />
 
       {/* Save button */}
-      <LoadingButton loading={isLoading}>{t("save")}</LoadingButton>
+      <LoadingButton loading={isLoading}>{t("button.save")}</LoadingButton>
     </form>
   );
 }
