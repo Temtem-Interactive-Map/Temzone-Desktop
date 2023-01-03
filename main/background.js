@@ -3,7 +3,7 @@ import installExtension, {
   REACT_DEVELOPER_TOOLS,
 } from "electron-devtools-installer";
 import serve from "electron-serve";
-import { createWindow } from "./utils/create-window";
+import { createWindow } from "./utils";
 
 const isProd = process.env.NODE_ENV === "production";
 
@@ -13,34 +13,52 @@ if (isProd) {
   app.setPath("userData", app.getPath("userData") + " (development)");
 }
 
-(async () => {
-  await app.whenReady();
+const gotTheLock = app.requestSingleInstanceLock();
 
-  const mainWindow = createWindow({
-    width: 1280,
-    height: 720,
-    minWidth: 940,
-    minHeight: 500,
-  });
+// Quit if another instance of the app is already running
+if (!gotTheLock) {
+  app.quit();
+} else {
+  let mainWindow = null;
 
-  if (isProd) {
-    await mainWindow.loadURL("app://./login.html");
-  } else {
-    mainWindow.webContents.once("dom-ready", async () => {
-      await installExtension(REACT_DEVELOPER_TOOLS);
+  app.on("ready", async () => {
+    mainWindow = createWindow({
+      width: 1280,
+      height: 720,
+      minWidth: 940,
+      minHeight: 500,
     });
 
-    const port = process.argv[2];
-    await mainWindow.loadURL("http://localhost:" + port + "/login");
+    if (isProd) {
+      await mainWindow.loadURL("app://./login.html");
+    } else {
+      mainWindow.webContents.once("dom-ready", async () => {
+        await installExtension(REACT_DEVELOPER_TOOLS);
+      });
 
-    // Keyboard shortcuts for development
-    globalShortcut.register("CommandOrControl+R", () => mainWindow.reload());
-    globalShortcut.register("CommandOrControl+Shift+I", () =>
-      mainWindow.webContents.openDevTools()
-    );
-  }
-})();
+      const port = process.argv[2];
+      await mainWindow.loadURL("http://localhost:" + port + "/login");
 
-app.on("window-all-closed", () => {
-  app.quit();
-});
+      // Define keyboard shortcuts for development
+      globalShortcut.register("CommandOrControl+R", () => mainWindow.reload());
+      globalShortcut.register("CommandOrControl+Shift+I", () =>
+        mainWindow.webContents.openDevTools()
+      );
+    }
+  });
+
+  app.on("second-instance", () => {
+    // If a window is already open, restore and focus it
+    if (mainWindow) {
+      if (mainWindow.isMinimized()) {
+        mainWindow.restore();
+      }
+
+      mainWindow.focus();
+    }
+  });
+
+  app.on("window-all-closed", () => {
+    app.quit();
+  });
+}
