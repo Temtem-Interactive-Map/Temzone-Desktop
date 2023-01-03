@@ -1,14 +1,6 @@
 import axios from "axios";
 import { t } from "i18next";
 
-export function login(email, password) {
-  return new Promise((resolve, _reject) => resolve());
-}
-
-export function logout() {
-  return new Promise((resolve, _reject) => resolve());
-}
-
 const token = "test";
 const temzoneApi = axios.create({
   baseURL: process.env.NEXT_PUBLIC_TEMZONE_BASE_URL,
@@ -26,6 +18,14 @@ temzoneApi.interceptors.response.use(
   }
 );
 
+export function login(email, password) {
+  return new Promise((resolve, _reject) => resolve());
+}
+
+export function logout() {
+  return new Promise((resolve, _reject) => resolve());
+}
+
 export const Type = Object.freeze({
   Temtem: "temtem",
   Saipark: "saipark",
@@ -37,8 +37,8 @@ export function getMarkers(types) {
     .get("/markers", {
       params: { type: types.join(",") },
     })
-    .then((markers) =>
-      [
+    .then((markers) => {
+      return [
         {
           id: -1,
           type: "temtem",
@@ -102,24 +102,27 @@ export function getMarkers(types) {
           subtitle: null,
           coordinates: null,
         },
-      ].filter((marker) => types.includes(marker.type))
-    );
+      ].filter((marker) => types.includes(marker.type));
+    });
 }
 
 export function updateTemtemMarker(id, marker) {
-  return temzoneApi.put("/markers/" + id + "/temtem", {
-    data: marker,
-  });
+  return new Promise((resolve, _reject) => setTimeout(() => resolve(), 500));
+  // return temzoneApi.put("/markers/" + id + "/temtem", {
+  //   data: marker,
+  // });
 }
 
 export function updateSaiparkMarker(id, marker) {
-  return temzoneApi.put("/markers/" + id + "/saipark", {
-    data: marker,
-  });
+  return new Promise((resolve, _reject) => setTimeout(() => resolve(), 500));
+  // return temzoneApi.put("/markers/" + id + "/saipark", {
+  //   data: marker,
+  // });
 }
 
 export function updateLandmarkMarker(id, marker) {
-  return temzoneApi.put("/markers/" + id + "/landmark", {
-    data: marker,
-  });
+  return new Promise((resolve, _reject) => setTimeout(() => resolve(), 500));
+  // return temzoneApi.put("/markers/" + id + "/landmark", {
+  //   data: marker,
+  // });
 }

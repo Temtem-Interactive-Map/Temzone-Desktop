@@ -29,8 +29,7 @@ export default function App({ Component, pageProps }) {
   return (
     <SWRConfig
       value={{
-        provider: () => new Map(),
-        dedupingInterval: 30000,
+        dedupingInterval: 300,
         revalidateOnFocus: false,
       }}
     >

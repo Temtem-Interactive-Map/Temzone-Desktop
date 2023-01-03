@@ -1,11 +1,9 @@
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 import useSWR from "swr";
 import { useAccordionContext } from "../../hooks/Accordion";
-import { useMapContext } from "../../hooks/Map";
 import { Type, getMarkers } from "../../services";
 import { markerIconPath } from "../../utils";
 import { Arrow } from "../Icons";
@@ -24,13 +22,13 @@ export function Accordion() {
 
   // State
   const {
+    markers,
     closeAccordion,
     updateAccordion,
     handleAccordionClick,
     isMarkerOpen,
   } = useAccordionContext();
-  const { enableMap, disableMap } = useMapContext();
-  const { data, isLoading } = useSWR(
+  const { isLoading, isValidating, error } = useSWR(
     { url: "/markers", args: type },
     () => {
       const types = {
@@ -39,13 +37,12 @@ export function Accordion() {
         landmark: [Type.Saipark, Type.Landmark],
       };
 
-      disableMap();
-
+      closeAccordion();
       return getMarkers(types[type]);
     },
     {
-      onSuccess: () => {
-        enableMap();
+      onSuccess: (markers) => {
+        updateAccordion(markers);
       },
       onError: (error) => {
         toast.warn(error.message);
@@ -53,26 +50,14 @@ export function Accordion() {
     }
   );
 
-  useEffect(() => {
-    if (data !== undefined) {
-      const markersWithCoordinates = data.filter(
-        (marker) => marker.coordinates !== null
-      );
-
-      updateAccordion(markersWithCoordinates);
-    }
-  }, [data, updateAccordion]);
-
-  useEffect(() => closeAccordion(), [type, closeAccordion]);
-
   return (
     <section
       className="w-120 space-y-3 overflow-y-scroll bg-gray-700 p-3 scrollbar-hide"
       onDragStart={(event) => event.preventDefault()}
     >
-      {isLoading || data === undefined
+      {isLoading || isValidating || error
         ? [...Array(8).keys()].map((key) => <PlaceholderAccordion key={key} />)
-        : data.map((marker) => (
+        : markers.map((marker) => (
             <div
               key={marker.id}
               id={"#" + marker.id}
@@ -111,7 +96,8 @@ export function Accordion() {
                   <span className="text-lg leading-tight text-gray-300">
                     {typeof marker.subtitle === "string"
                       ? marker.subtitle
-                      : marker.subtitle?.current ?? t("location_template")}
+                      : marker.subtitle?.current ??
+                        t("field.placeholder.location")}
                   </span>
                 </div>
 

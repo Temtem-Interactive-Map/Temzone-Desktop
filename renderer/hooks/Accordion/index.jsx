@@ -5,7 +5,8 @@ import { useMapContext } from "../../hooks/Map";
 
 export function useAccordionContext() {
   // State
-  const { markers, openMarker, setOpenMarker } = useContext(AccordionContext);
+  const { markers, setMarkers, openMarker, setOpenMarker } =
+    useContext(AccordionContext);
   const { reset } = useFormContext();
   const {
     addMarker,
@@ -16,6 +17,8 @@ export function useAccordionContext() {
     unfocusMarker,
     subscribeMarkerClick,
     subscribeMarkerDrag,
+    enableMap,
+    disableMap,
   } = useMapContext();
 
   const scrollToMarker = useCallback((marker) => {
@@ -74,44 +77,61 @@ export function useAccordionContext() {
   );
 
   const closeAccordion = useCallback(() => {
-    setOpenMarker(null);
-  }, [setOpenMarker]);
+    disableMap();
+
+    setOpenMarker((prevOpenMarker) => {
+      if (prevOpenMarker !== null) {
+        resetMarkerForm(prevOpenMarker);
+      }
+
+      return null;
+    });
+  }, [disableMap, setOpenMarker, resetMarkerForm]);
 
   const updateAccordion = useCallback(
     (newMarkers) => {
-      // Add the markers to the map and update the coordinates of those
-      // that have already been added
-      newMarkers.forEach((newMarker) => {
-        if (markers.current.some((marker) => marker.id === newMarker.id)) {
-          if (openMarker?.id !== newMarker.id) {
+      setMarkers((prevMarkers) => {
+        const newMarkersWithCoordinates = newMarkers.filter(
+          (marker) => marker.coordinates !== null
+        );
+        const prevMarkersWithCoordinates = prevMarkers.filter(
+          (marker) => marker.coordinates !== null
+        );
+
+        newMarkersWithCoordinates.forEach((newMarker) => {
+          const someMarker = prevMarkersWithCoordinates.some(
+            (marker) => marker.id === newMarker.id
+          );
+
+          // Add the markers to the map and update the coordinates of those
+          // that have already been added
+          if (someMarker) {
             moveMarker(newMarker);
+          } else {
+            addMarker(newMarker);
+            subscribeMarkerClick(newMarker, handleMarkerClick);
+            subscribeMarkerDrag(newMarker, handleMarkerDrag);
           }
-        } else {
-          addMarker(newMarker);
-          subscribeMarkerClick(newMarker, handleMarkerClick);
-          subscribeMarkerDrag(newMarker, handleMarkerDrag);
-        }
+        });
+
+        prevMarkersWithCoordinates.forEach((prevMarker) => {
+          const someMarker = !newMarkersWithCoordinates.some(
+            (marker) => marker.id === prevMarker.id
+          );
+
+          // Remove the markers from the map that are not in the new list
+          if (someMarker) {
+            removeMarker(prevMarker);
+          }
+        });
+
+        return newMarkers;
       });
 
-      // Remove the markers from the map that are not in the new list
-      markers.current.forEach((prevMarker) => {
-        if (!newMarkers.some((marker) => marker.id === prevMarker.id)) {
-          removeMarker(prevMarker);
-
-          // If the accordion is open, the marker and the form are reset
-          // to their original state
-          if (openMarker?.id === prevMarker.id) {
-            setOpenMarker(null);
-            resetMarkerForm(openMarker);
-          }
-        }
-      });
-
-      markers.current = newMarkers;
+      enableMap();
     },
     [
-      markers,
-      openMarker,
+      setMarkers,
       moveMarker,
       addMarker,
       subscribeMarkerClick,
@@ -119,8 +139,7 @@ export function useAccordionContext() {
       subscribeMarkerDrag,
       handleMarkerDrag,
       removeMarker,
-      setOpenMarker,
-      resetMarkerForm,
+      enableMap,
     ]
   );
 
@@ -211,15 +230,17 @@ export function useAccordionContext() {
   const updateMarker = useCallback(
     (newMarker) => {
       setOpenMarker(newMarker);
-
-      markers.current = markers.current.map((prevMarker) =>
-        prevMarker.id === newMarker.id ? newMarker : prevMarker
+      setMarkers((prevMarkers) =>
+        prevMarkers.map((prevMarker) =>
+          prevMarker.id === newMarker.id ? newMarker : prevMarker
+        )
       );
     },
-    [setOpenMarker, markers]
+    [setOpenMarker, setMarkers]
   );
 
   return {
+    markers,
     closeAccordion,
     updateAccordion,
     handleAccordionClick,
