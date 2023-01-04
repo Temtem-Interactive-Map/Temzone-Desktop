@@ -33,7 +33,7 @@ npm install next
 
 This will install the next package and add it to the dependencies section of the [package.json](https://github.com/Temtem-Interactive-Map/Temzone-Desktop/blob/main/package.json) file.
 
-### Setting up the project
+### Setting up the application
 
 To start the application, the environment variables must be set. In a Nextron project, you should create a file called **.env.development** and **.env.production** at the [rendered](https://github.com/Temtem-Interactive-Map/Temzone-Desktop/tree/main/renderer) directory. In this file, you can define environment variables in the following format:
 
