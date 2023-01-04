@@ -41,7 +41,7 @@ To start the application, the environment variables must be set. In a Nextron pr
 NEXT_PUBLIC_VARIABLE_NAME=value
 ```
 
-In order to expose a variable to the browser you have to prefix the variable with **NEXT*PUBLIC***. These environment variables will be available to the application through the process.env object in Node.js.
+In order to expose a variable to the browser you have to prefix the variable with **NEXT_PUBLIC**. These environment variables will be available to the application through the process.env object in Node.js.
 
 The Temzone application requires the following environment variables to be set:
 
