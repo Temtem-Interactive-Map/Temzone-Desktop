@@ -8,13 +8,9 @@ export function createWindow(options) {
     height: options.height,
   };
 
-  function restore() {
-    store.get("window-state", defaultSize);
-  }
-
   function getCurrentPosition() {
-    const position = win.getPosition();
-    const size = win.getSize();
+    const position = window.getPosition();
+    const size = window.getSize();
 
     return {
       x: position[0],
@@ -42,10 +38,11 @@ export function createWindow(options) {
     });
   }
 
-  function ensureVisibleOnSomeDisplay(windowState) {
-    const visible = screen.getAllDisplays().some((display) => {
-      return windowWithinBounds(windowState, display.bounds);
-    });
+  function ensureVisibleOnSomeDisplay() {
+    const windowState = store.get("window-state", defaultSize);
+    const visible = screen
+      .getAllDisplays()
+      .some((display) => windowWithinBounds(windowState, display.bounds));
 
     if (!visible) {
       return resetToDefaults();
@@ -55,15 +52,17 @@ export function createWindow(options) {
   }
 
   function saveState() {
-    if (!win.isMinimized() && !win.isMaximized()) {
+    if (!window.isMinimized() && !window.isMaximized()) {
       Object.assign(state, getCurrentPosition());
     }
 
     store.set("window-state", state);
+    store.set("window-maximized", window.isMaximized());
   }
 
-  const state = ensureVisibleOnSomeDisplay(restore());
-  const win = new BrowserWindow({
+  const state = ensureVisibleOnSomeDisplay();
+  const isMaximized = store.get("window-maximized", false);
+  const window = new BrowserWindow({
     ...options,
     ...state,
     show: false,
@@ -74,11 +73,15 @@ export function createWindow(options) {
     },
   });
 
-  win.removeMenu();
-  win.on("close", saveState);
-  win.once("ready-to-show", () => {
-    win.show();
+  if (isMaximized) {
+    window.maximize();
+  }
+
+  window.removeMenu();
+  window.on("close", saveState);
+  window.once("ready-to-show", () => {
+    window.show();
   });
 
-  return win;
+  return window;
 }
