@@ -79,7 +79,7 @@ In addition to the npm run build command, Nextron provides several other command
 - `npm run build:mac`: This command will build your application for MacOS.
 - `npm run build:linux`: This command will build your application for Linux.
 
-Each of these commands will create a production-ready build of the application in the **dist** directory, with the specific platform as a subdirectory.
+Each of these commands will create a production ready build of the application in the **dist** directory, with the specific platform as a subdirectory.
 
 Note that these commands are only available if you have the necessary tools and dependencies installed on your development machine. For example, to build for MacOS or Linux, you'll need to have the relevant tools and dependencies installed on a Mac or Linux machine.
 
