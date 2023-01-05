@@ -16,6 +16,7 @@ jspm_packages
 
 # Environment variable files
 .env
+.env.local
 .env.development
 .env.production
 

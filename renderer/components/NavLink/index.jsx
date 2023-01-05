@@ -16,7 +16,7 @@ export function NavLink({ active, onClick, children }) {
       {/* Main button */}
       <button
         tabIndex={-1}
-        className="group-active:translate-y-px"
+        className="outline-none group-active:translate-y-px"
         onClick={onClick}
       >
         <div

@@ -1,6 +1,8 @@
-import { useTranslation } from "next-export-i18n";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
+import { useTranslation } from "react-i18next";
+import { toast } from "react-toastify";
+import { useAccordionContext } from "../../hooks/Accordion";
 import { useMapContext } from "../../hooks/Map";
 import {
   MARKER_MAX_HORIZONTAL,
@@ -10,6 +12,7 @@ import {
 } from "../../utils";
 import { CounterField } from "../Fields/CounterField";
 import { InputField } from "../Fields/InputField";
+import { LoadingButton } from "../LoadingButton";
 
 export function ConditionField({ condition, placeholder }) {
   // Internationalization
@@ -19,7 +22,7 @@ export function ConditionField({ condition, placeholder }) {
     <InputField
       id="condition"
       type="text"
-      label={t("condition_field")}
+      label={t("field.condition")}
       value={condition}
       placeholder={placeholder}
       options={{
@@ -37,12 +40,12 @@ export function LocationField({ location, placeholder }) {
     <InputField
       id="location"
       type="text"
-      label={t("location_field")}
+      label={t("field.location")}
       value={location}
       placeholder={placeholder}
       options={{
-        required: t("required_field"),
-        validate: (value) => (value.trim() ? true : t("required_field")),
+        required: t("error.required"),
+        validate: (value) => (value.trim() ? true : t("error.required")),
         maxLength: { value: 40 },
       }}
     />
@@ -100,7 +103,7 @@ export function CoordinatesField({ marker }) {
     <div className="flex flex-row space-x-4">
       <CounterField
         id="coordinate_horizontal"
-        label={t("coordinate_horizontal_field")}
+        label={t("field.coordinate_horizontal")}
         value={coordinates.x}
         options={{ valueAsNumber: true }}
         onChange={handleCoordinateHorizontalChange}
@@ -108,11 +111,58 @@ export function CoordinatesField({ marker }) {
 
       <CounterField
         id="coordinate_vertical"
-        label={t("coordinate_vertical_field")}
+        label={t("field.coordinate_vertical")}
         value={coordinates.y}
         options={{ valueAsNumber: true }}
         onChange={handleCoordinateVerticalChange}
       />
     </div>
+  );
+}
+
+export function Marker({ handleMarkerUpdate, marker, children }) {
+  // Internationalization
+  const { t } = useTranslation();
+
+  // Validation
+  const { handleSubmit } = useFormContext();
+
+  // State
+  const [isLoading, setLoading] = useState(false);
+  const { updateMarker } = useAccordionContext();
+
+  const handleMarkerUpdateSubmit = useCallback(
+    (data) => {
+      const x = data.coordinate_horizontal;
+      const y = data.coordinate_vertical;
+
+      setLoading(true);
+      handleMarkerUpdate(data, { x, y })
+        .then(() => {
+          marker.coordinates = { x, y };
+
+          updateMarker(marker);
+        })
+        .catch((error) => toast.warn(error.message))
+        .finally(() => setLoading(false));
+    },
+    [marker, handleMarkerUpdate, updateMarker]
+  );
+
+  return (
+    <form
+      noValidate
+      className="space-y-4"
+      onSubmit={handleSubmit(handleMarkerUpdateSubmit)}
+    >
+      {/* Children marker type fields */}
+      {children}
+
+      {/* Coordinates field */}
+      <CoordinatesField marker={marker} />
+
+      {/* Save button */}
+      <LoadingButton loading={isLoading}>{t("button.save")}</LoadingButton>
+    </form>
   );
 }

@@ -1,6 +1,7 @@
 import keyIcon from "../public/images/key_icon.png";
 import landmarkIcon from "../public/images/landmark_icon.png";
 import temcardIcon from "../public/images/temcard_icon.png";
+import { Type } from "../services";
 
 // Map properties
 export const ZOOM = 6;
@@ -23,30 +24,37 @@ export const MARKER_MAX_VERTICAL = MAP_MAX_VERTICAL - TILE_SIZE;
 export const sidebar = Object.freeze([
   {
     image: keyIcon,
-    label: "all_markers",
+    label: "tooltip.all_markers",
     href: "/markers/all",
   },
   {
     image: temcardIcon,
-    label: "temtem_markers",
+    label: "tooltip.temtem_markers",
     href: "/markers/temtem",
   },
   {
     image: landmarkIcon,
-    label: "landmark_markers",
+    label: "tooltip.landmark_markers",
     href: "/markers/landmark",
   },
 ]);
 
 // Returns the path of the marker image
 export function markerIconPath(marker) {
-  const name = marker.title.split(" ")[0].toLowerCase();
+  const name = marker.title.replace(" ", "_").toLowerCase();
 
   switch (marker.type) {
-    case "temtem":
-      return "../images/" + name + "_icon.png";
-    case "saipark":
-    case "landmark":
+    case Type.Temtem:
+      try {
+        // Check if image path exists
+        require("../public/images/" + name + "_icon.png");
+
+        return "../images/" + name + "_icon.png";
+      } catch {
+        return "../images/temcard_icon.png";
+      }
+    case Type.Saipark:
+    case Type.Landmark:
       return "../images/landmark_icon.png";
   }
 }

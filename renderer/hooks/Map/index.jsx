@@ -172,6 +172,8 @@ export function useMapContext() {
   }, [map, markers]);
 
   const disableMap = useCallback(() => {
+    if (map.current === undefined) return;
+
     map.current.dragging.disable();
     map.current.touchZoom.disable();
     map.current.doubleClickZoom.disable();
@@ -179,12 +181,8 @@ export function useMapContext() {
 
     markers.current.forEach((marker) => {
       marker.dragging.disable();
+      marker.setOpacity(MARKER_OPACITY);
     });
-  }, [map, markers]);
-
-  const clearMap = useCallback(() => {
-    markers.current.forEach((marker) => map.current.removeLayer(marker));
-    markers.current.clear();
   }, [map, markers]);
 
   return {
@@ -199,6 +197,5 @@ export function useMapContext() {
     subscribeMarkerDrag,
     enableMap,
     disableMap,
-    clearMap,
   };
 }

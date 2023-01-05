@@ -1,16 +1,16 @@
-import { useTranslation } from "next-export-i18n";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import { FormProvider, useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
+import { toast } from "react-toastify";
+import useSWR from "swr";
 import { useAccordionContext } from "../../hooks/Accordion";
-import { useMapContext } from "../../hooks/Map";
 import { Type, getMarkers } from "../../services";
 import { markerIconPath } from "../../utils";
 import { Arrow } from "../Icons";
 import { LandmarkMarker } from "../Marker/Landmark";
 import { SaiparkMarker } from "../Marker/Saipark";
 import { TemtemMarker } from "../Marker/Temtem";
+import { PlaceholderAccordion } from "./Placeholder";
 
 export function Accordion() {
   // Navigation
@@ -20,53 +20,43 @@ export function Accordion() {
   // Internationalization
   const { t } = useTranslation();
 
-  // Validation
-  const methods = useForm({ mode: "onSubmit", reValidateMode: "onSubmit" });
-
   // State
-  const [isLoading, setLoading] = useState(true);
-  const { markers, updateMarkers, handleAccordionClick, isMarkerOpen } =
-    useAccordionContext();
-  const { enableMap, disableMap } = useMapContext();
+  const {
+    markers,
+    closeAccordion,
+    updateAccordion,
+    handleAccordionClick,
+    isMarkerOpen,
+  } = useAccordionContext();
+  const { isLoading, isValidating, error } = useSWR(
+    { url: "/markers", args: type },
+    () => {
+      const types = {
+        all: Object.values(Type),
+        temtem: [Type.Temtem],
+        landmark: [Type.Saipark, Type.Landmark],
+      };
 
-  useEffect(() => {
-    const types = {
-      all: Object.values(Type),
-      temtem: [Type.Temtem],
-      landmark: [Type.Saipark, Type.Landmark],
-    };
-
-    setLoading(true);
-    disableMap();
-    // types[type]
-    getMarkers([])
-      .then((markers) => updateMarkers(markers))
-      .finally(() => {
-        enableMap();
-        setLoading(false);
-      });
-  }, [type, disableMap, updateMarkers, enableMap]);
+      closeAccordion();
+      return getMarkers(types[type]);
+    },
+    {
+      onSuccess: (markers) => {
+        updateAccordion(markers);
+      },
+      onError: (error) => {
+        toast.warn(error.message);
+      },
+    }
+  );
 
   return (
     <section
       className="w-120 space-y-3 overflow-y-scroll bg-gray-700 p-3 scrollbar-hide"
       onDragStart={(event) => event.preventDefault()}
     >
-      {isLoading
-        ? /* Placeholder markers */
-          [...Array(10).keys()].map((key) => (
-            <div key={key} className="rounded-lg bg-gray-800 shadow">
-              <div className="flex w-full animate-pulse items-center space-x-3 p-4">
-                <div>
-                  <div className="h-12 w-12 rounded-md bg-gray-700" />
-                </div>
-                <div className="flex flex-col space-y-2.5">
-                  <div className="h-3 w-24 rounded-md bg-gray-700" />
-                  <div className="h-3 w-36 rounded-md bg-gray-700" />
-                </div>
-              </div>
-            </div>
-          ))
+      {isLoading || isValidating || error
+        ? [...Array(8).keys()].map((key) => <PlaceholderAccordion key={key} />)
         : markers.map((marker) => (
             <div
               key={marker.id}
@@ -75,7 +65,7 @@ export function Accordion() {
             >
               <button
                 tabIndex={-1}
-                className="flex w-full items-center space-x-3 p-4 active:translate-y-px"
+                className="flex w-full items-center space-x-3 p-4 outline-none active:translate-y-px"
                 onClick={() => handleAccordionClick(marker)}
               >
                 {/* Marker portrait */}
@@ -106,7 +96,8 @@ export function Accordion() {
                   <span className="text-lg leading-tight text-gray-300">
                     {typeof marker.subtitle === "string"
                       ? marker.subtitle
-                      : marker.subtitle?.current ?? t("location_template")}
+                      : marker.subtitle?.current ??
+                        t("field.placeholder.location")}
                   </span>
                 </div>
 
@@ -122,15 +113,13 @@ export function Accordion() {
               {/* Marker form */}
               {isMarkerOpen(marker) && (
                 <div className="p-4 pt-1">
-                  <FormProvider {...methods}>
-                    {marker.type === "temtem" ? (
-                      <TemtemMarker marker={marker} />
-                    ) : marker.type === "saipark" ? (
-                      <SaiparkMarker marker={marker} />
-                    ) : marker.type === "landmark" ? (
-                      <LandmarkMarker marker={marker} />
-                    ) : null}
-                  </FormProvider>
+                  {marker.type === "temtem" ? (
+                    <TemtemMarker marker={marker} />
+                  ) : marker.type === "saipark" ? (
+                    <SaiparkMarker marker={marker} />
+                  ) : marker.type === "landmark" ? (
+                    <LandmarkMarker marker={marker} />
+                  ) : null}
                 </div>
               )}
             </div>
