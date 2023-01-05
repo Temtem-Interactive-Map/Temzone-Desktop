@@ -32,9 +32,7 @@ if (!gotTheLock) {
     if (isProd) {
       await mainWindow.loadURL("app://./login.html");
     } else {
-      mainWindow.webContents.once("dom-ready", async () => {
-        await installExtension(REACT_DEVELOPER_TOOLS);
-      });
+      await installExtension(REACT_DEVELOPER_TOOLS);
 
       const port = process.argv[2];
       await mainWindow.loadURL("http://localhost:" + port + "/login");
