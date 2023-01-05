@@ -4,7 +4,7 @@
 
 Welcome to Temzone, a cross-platform desktop application from Temtem Interactive Map build with Electron and Next.js.
 
-## Getting Started
+## Getting started
 
 This guide will help you get up and running the application in just a few minutes.
 
@@ -59,7 +59,7 @@ npm run dev
 
 This will start the Next.js development server, as well as the Electron application.
 
-As you make changes to your code, the development server will automatically reload the Electron window to reflect your changes.
+As you make changes to the code, the development server will automatically reload the Electron window to reflect the changes.
 
 ### Building for production
 
@@ -73,11 +73,11 @@ This will build the Next.js app and package it with Electron, creating a product
 
 In addition to the npm run build command, Nextron provides several other commands for building the application for specific platforms. These commands are:
 
-- `npm run build:all`: This command will build your application for all platforms (Windows, MacOS, and Linux).
-- `npm run build:win32`: This command will build your application for 32-bit Windows.
-- `npm run build:win64`: This command will build your application for 64-bit Windows.
-- `npm run build:mac`: This command will build your application for MacOS.
-- `npm run build:linux`: This command will build your application for Linux.
+- `npm run build:all`: This command will build the application for all platforms (Windows, MacOS, and Linux).
+- `npm run build:win32`: This command will build the application for 32-bit Windows.
+- `npm run build:win64`: This command will build the application for 64-bit Windows.
+- `npm run build:mac`: This command will build the application for MacOS.
+- `npm run build:linux`: This command will build the application for Linux.
 
 Each of these commands will create a production ready build of the application in the **dist** directory, with the specific platform as a subdirectory.
 
