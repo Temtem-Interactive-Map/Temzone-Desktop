@@ -2,9 +2,9 @@ import { render } from "@testing-library/react";
 import * as Icons from ".";
 
 describe("<Icons />", () => {
-  const iconsIndex = Object.keys(Icons);
+  const icons = Object.keys(Icons);
 
-  iconsIndex.forEach((icon) => {
+  icons.forEach((icon) => {
     it("should render the " + icon + " Icon correctly", () => {
       const { container } = render(<>{Icons[icon]()}</>);
 
