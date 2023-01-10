@@ -23,6 +23,9 @@ jspm_packages
 # Visual Studio Code
 .vscode
 
+# Tests coverage
+coverage
+
 # Local history for Visual Studio Code
 .history
 

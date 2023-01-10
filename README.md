@@ -1,6 +1,8 @@
 # Temzone - Desktop
 
-[![CodeFactor](https://www.codefactor.io/repository/github/temtem-interactive-map/temzone-desktop/badge)](https://www.codefactor.io/repository/github/temtem-interactive-map/temzone-desktop)
+[![TemzoneVersion](https://img.shields.io/github/package-json/v/Temtem-Interactive-Map/Temzone-Desktop)](https://github.com/Temtem-Interactive-Map/Temzone-Desktop)
+[![CircleCI](https://img.shields.io/circleci/build/github/Temtem-Interactive-Map/Temzone-Desktop)](https://app.circleci.com/pipelines/github/Temtem-Interactive-Map/Temzone-Desktop)
+[![CodeFactor](https://img.shields.io/codefactor/grade/github/Temtem-Interactive-Map/Temzone-Desktop)](https://www.codefactor.io/repository/github/temtem-interactive-map/temzone-desktop)
 
 Welcome to Temzone, a cross-platform desktop application from Temtem Interactive Map build with Electron and Next.js.
 
@@ -12,7 +14,7 @@ This guide will help you get up and running the application in just a few minute
 
 Before getting started, make sure you have the following tools installed on your development machine:
 
-- Node.js (version 14 or higher)
+- Node.js (version [18.12.1](https://nodejs.org/es/download))
 - npm (the Node.js package manager, which should be installed with Node.js)
 
 ### Install the dependencies
