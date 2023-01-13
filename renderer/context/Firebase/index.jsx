@@ -24,13 +24,14 @@ export function FirebaseProvider({ children }) {
   const auth = getAuth(app);
 
   auth.onAuthStateChanged((user) => {
-    console.log(user);
     if (user && router.pathname === "/login") {
       router.push("/markers/all");
     }
   });
 
-  useEffect(() => getAnalytics(app), [app]);
+  useEffect(() => {
+    getAnalytics(app);
+  }, [app]);
 
   return (
     <FirebaseContext.Provider value={{ auth }}>
