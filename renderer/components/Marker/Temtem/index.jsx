@@ -1,11 +1,14 @@
 import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { ConditionField, LocationField, Marker } from "..";
-import { updateTemtemMarker } from "../../../services";
+import { useTemzone } from "../../../hooks/Temzone";
 
 export function TemtemMarker({ marker }) {
   // Internationalization
   const { t } = useTranslation();
+
+  // Callbacks
+  const { updateTemtemMarker } = useTemzone();
 
   const handleMarkerUpdate = useCallback(
     (data, coordinates) => {
@@ -21,7 +24,7 @@ export function TemtemMarker({ marker }) {
         marker.condition = condition;
       });
     },
-    [marker]
+    [marker, updateTemtemMarker]
   );
 
   return (

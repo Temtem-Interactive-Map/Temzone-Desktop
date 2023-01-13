@@ -2,8 +2,8 @@ import { useCallback, useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
-import { useAccordionContext } from "../../hooks/Accordion";
-import { useMapContext } from "../../hooks/Map";
+import { useAccordion } from "../../hooks/Accordion";
+import { useMap } from "../../hooks/Map";
 import {
   MARKER_MAX_HORIZONTAL,
   MARKER_MAX_VERTICAL,
@@ -56,10 +56,11 @@ export function CoordinatesField({ marker }) {
   // Internationalization
   const { t } = useTranslation();
 
-  // State
+  // Validation
   const { getValues, setValue } = useFormContext();
-  const { getMarkerCoordinates, subscribeMarkerDrag, moveMarker } =
-    useMapContext();
+
+  // State
+  const { getMarkerCoordinates, subscribeMarkerDrag, moveMarker } = useMap();
   const coordinates = getMarkerCoordinates(marker);
 
   useEffect(() => {
@@ -129,7 +130,7 @@ export function Marker({ handleMarkerUpdate, marker, children }) {
 
   // State
   const [isLoading, setLoading] = useState(false);
-  const { updateMarker } = useAccordionContext();
+  const { updateMarker } = useAccordion();
 
   const handleMarkerUpdateSubmit = useCallback(
     (data) => {

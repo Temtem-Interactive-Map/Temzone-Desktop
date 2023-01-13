@@ -2,8 +2,8 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
+import { useAuth } from "../../hooks/Auth";
 import performanceIcon from "../../public/images/performance_icon.png";
-import { logout } from "../../services";
 import { sidebar } from "../../utils";
 import { NavLink } from "../NavLink";
 import { Tooltip } from "../Tooltip";
@@ -15,9 +15,13 @@ export function Sidebar() {
   // Internationalization
   const { t } = useTranslation();
 
+  // Authentication
+  const { logout } = useAuth();
+
+  // Callbacks
   const handleLogout = useCallback(() => {
     logout().then(() => router.push("/login"));
-  }, [router]);
+  }, [logout, router]);
 
   return (
     <aside

@@ -3,9 +3,9 @@ import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 import useSWR from "swr";
-import { useAccordionContext } from "../../hooks/Accordion";
-import { Type, getMarkers } from "../../services";
-import { markerIconPath } from "../../utils";
+import { useAccordion } from "../../hooks/Accordion";
+import { useTemzone } from "../../hooks/Temzone";
+import { Type, markerIconPath } from "../../utils";
 import { Arrow } from "../Icons";
 import { LandmarkMarker } from "../Marker/Landmark";
 import { SaiparkMarker } from "../Marker/Saipark";
@@ -27,7 +27,10 @@ export function Accordion() {
     updateAccordion,
     handleAccordionClick,
     isMarkerOpen,
-  } = useAccordionContext();
+  } = useAccordion();
+
+  // Callbacks
+  const { getMarkers } = useTemzone();
   const { isLoading, isValidating, error } = useSWR(
     { url: "/markers", args: type },
     () => {

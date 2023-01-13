@@ -1,13 +1,15 @@
 import { useCallback, useContext } from "react";
 import { useFormContext } from "react-hook-form";
 import { AccordionContext } from "../../context/Accordion";
-import { useMapContext } from "../../hooks/Map";
+import { useMap } from "../../hooks/Map";
 
-export function useAccordionContext() {
-  // State
+export function useAccordion() {
+  // Context
+  const { reset } = useFormContext();
   const { markers, setMarkers, openMarker, setOpenMarker } =
     useContext(AccordionContext);
-  const { reset } = useFormContext();
+
+  // State
   const {
     addMarker,
     removeMarker,
@@ -19,7 +21,7 @@ export function useAccordionContext() {
     subscribeMarkerDrag,
     enableMap,
     disableMap,
-  } = useMapContext();
+  } = useMap();
 
   const scrollToMarker = useCallback((marker) => {
     const element = document.getElementById("#" + marker.id);
