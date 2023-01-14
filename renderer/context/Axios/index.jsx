@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useRouter } from "next/router";
-import { createContext, useContext } from "react";
+import { createContext, useContext, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { FirebaseContext } from "../../context/Firebase";
 
@@ -17,34 +17,38 @@ export function AxiosProvider({ children }) {
   const { auth } = useContext(FirebaseContext);
 
   // State
-  const temzoneApi = axios.create({
-    baseURL: process.env.NEXT_PUBLIC_TEMZONE_BASE_URL,
-  });
+  const temzoneApi = useRef();
 
-  temzoneApi.interceptors.request.use(async (config) => {
-    const user = auth.currentUser;
+  useEffect(() => {
+    temzoneApi.current = axios.create({
+      baseURL: process.env.NEXT_PUBLIC_TEMZONE_BASE_URL,
+    });
 
-    if (user) {
-      const token = await user.getIdToken(true);
+    temzoneApi.current.interceptors.request.use(async (config) => {
+      const user = auth.current.currentUser;
 
-      config.headers.Authorization = "Bearer " + token;
-    } else {
-      router.push("/login");
-    }
+      if (user) {
+        const token = await user.getIdToken(true);
 
-    return config;
-  });
-
-  temzoneApi.interceptors.response.use(
-    (response) => response.data,
-    (error) => {
-      if (error.code === "ERR_NETWORK") {
-        error.message = t("error.network");
+        config.headers.Authorization = "Bearer " + token;
+      } else {
+        router.push("/login");
       }
 
-      throw error;
-    }
-  );
+      return config;
+    });
+
+    temzoneApi.current.interceptors.response.use(
+      (response) => response.data,
+      (error) => {
+        if (error.code === "ERR_NETWORK") {
+          error.message = t("error.network");
+        }
+
+        throw error;
+      }
+    );
+  }, [auth, router, t]);
 
   return (
     <AxiosContext.Provider value={{ temzoneApi }}>

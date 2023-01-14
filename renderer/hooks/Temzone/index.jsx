@@ -13,7 +13,7 @@ export function useTemzone() {
 
   const getMarkers = useCallback(
     (types) =>
-      temzoneApi.get("/markers", {
+      temzoneApi.current.get("/markers", {
         params: { type: types.join(",") },
       }),
     [temzoneApi]
@@ -21,7 +21,7 @@ export function useTemzone() {
 
   const updateTemtemMarker = useCallback(
     (id, marker) =>
-      temzoneApi.put("/markers/" + id + "/temtem", {
+      temzoneApi.current.put("/markers/" + id + "/temtem", {
         data: marker,
       }),
     [temzoneApi]
@@ -29,7 +29,7 @@ export function useTemzone() {
 
   const updateSaiparkMarker = useCallback(
     (id, marker) =>
-      temzoneApi.put("/markers/" + id + "/saipark", {
+      temzoneApi.current.put("/markers/" + id + "/saipark", {
         data: marker,
       }),
     [temzoneApi]
@@ -37,7 +37,7 @@ export function useTemzone() {
 
   const updateLandmarkMarker = useCallback(
     (id, marker) =>
-      temzoneApi.put("/markers/" + id + "/landmark", {
+      temzoneApi.current.put("/markers/" + id + "/landmark", {
         data: marker,
       }),
     [temzoneApi]
