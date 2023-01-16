@@ -93,4 +93,4 @@ Note that these commands are only available if you have the necessary tools and 
 
 ## License
 
-This project is licensed under the terms of the [MIT license](https://github.com/Temtem-Interactive-Map/Temzone-Desktop/blob/main/LICENSE.txt).
+This project is licensed under the terms of the [MIT license](https://github.com/Temtem-Interactive-Map/Temzone-Desktop/blob/main/LICENSE).
