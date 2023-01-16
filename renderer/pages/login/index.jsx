@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 import { InputField } from "../../components/Fields/InputField";
 import { LoadingButton } from "../../components/LoadingButton";
-import { login } from "../../services";
+import { useAuth } from "../../hooks/Auth";
 
 export default function Login() {
   // Navigation
@@ -16,6 +16,9 @@ export default function Login() {
 
   // Validation
   const methods = useForm({ mode: "onSubmit", reValidateMode: "onSubmit" });
+
+  // Authentication
+  const { login } = useAuth();
 
   // State
   const [isLoading, setLoading] = useState(false);
@@ -46,7 +49,7 @@ export default function Login() {
         })
         .finally(() => setLoading(false));
     },
-    [methods, router]
+    [login, methods, router]
   );
 
   return (

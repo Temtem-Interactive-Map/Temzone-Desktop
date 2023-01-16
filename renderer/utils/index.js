@@ -1,7 +1,6 @@
 import keyIcon from "../public/images/key_icon.png";
 import landmarkIcon from "../public/images/landmark_icon.png";
 import temcardIcon from "../public/images/temcard_icon.png";
-import { Type } from "../services";
 
 // Map properties
 export const ZOOM = 6;
@@ -38,6 +37,13 @@ export const sidebar = Object.freeze([
     href: "/markers/landmark",
   },
 ]);
+
+// Marker types for Temzone endpoint
+export const Type = Object.freeze({
+  Temtem: "temtem",
+  Saipark: "saipark",
+  Landmark: "landmark",
+});
 
 // Returns the path of the marker image
 export function markerIconPath(marker) {
