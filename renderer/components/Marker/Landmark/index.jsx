@@ -7,7 +7,6 @@ export function LandmarkMarker({ marker }) {
   // Internationalization
   const { t } = useTranslation();
 
-  // Callbacks
   const { updateLandmarkMarker } = useTemzone();
 
   const handleMarkerUpdate = useCallback(

@@ -29,7 +29,6 @@ export function Accordion() {
     isMarkerOpen,
   } = useAccordion();
 
-  // Callbacks
   const { getMarkers } = useTemzone();
   const { isLoading, isValidating, error } = useSWR(
     { url: "/markers", args: type },
@@ -41,6 +40,7 @@ export function Accordion() {
       };
 
       closeAccordion();
+
       return getMarkers(types[type]);
     },
     {

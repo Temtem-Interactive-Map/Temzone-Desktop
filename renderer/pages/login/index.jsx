@@ -23,7 +23,6 @@ export default function Login() {
   // State
   const [isLoading, setLoading] = useState(false);
 
-  // Callbacks
   const handleLoginSubmit = useCallback(
     (data) => {
       const email = data.email.trim();

@@ -7,7 +7,6 @@ export function TemtemMarker({ marker }) {
   // Internationalization
   const { t } = useTranslation();
 
-  // Callbacks
   const { updateTemtemMarker } = useTemzone();
 
   const handleMarkerUpdate = useCallback(

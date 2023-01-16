@@ -18,7 +18,6 @@ export function Sidebar() {
   // Authentication
   const { logout } = useAuth();
 
-  // Callbacks
   const handleLogout = useCallback(() => {
     logout().then(() => router.push("/login"));
   }, [logout, router]);
