@@ -12,8 +12,8 @@ import {
   markerIconPath,
 } from "../../utils";
 
-export function useMapContext() {
-  // State
+export function useMap() {
+  // Context
   const { map, markers } = useContext(MapContext);
 
   const addMarker = useCallback(

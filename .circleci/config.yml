@@ -1,7 +1,7 @@
 version: 2.1
 
 jobs:
-  test:
+  build:
     docker:
       - image: cimg/node:18.12.1
     steps:
@@ -18,9 +18,9 @@ jobs:
       - run: npm test
 
 workflows:
-  build_and_test:
+  test:
     jobs:
-      - test:
+      - build:
           filters:
             branches:
               only:

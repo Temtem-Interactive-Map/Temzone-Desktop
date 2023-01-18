@@ -1,10 +1,37 @@
 import axios from "axios";
+import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
 import { t } from "i18next";
 
-const token = "test";
-const temzoneApi = axios.create({
+const app = initializeApp({
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
+});
+
+export const auth = getAuth(app);
+export const temzoneApi = axios.create({
   baseURL: process.env.NEXT_PUBLIC_TEMZONE_BASE_URL,
-  headers: { Authorization: "Bearer " + token },
+});
+
+temzoneApi.interceptors.request.use(async (config) => {
+  try {
+    const user = auth.currentUser;
+    const token = await user.getIdToken(true);
+
+    config.headers.Authorization = "Bearer " + token;
+
+    return config;
+  } catch (error) {
+    if (error.code === "auth/network-request-failed") {
+      throw new Error(t("error.network"));
+    } else {
+      throw new Error(t("error.unavailable"));
+    }
+  }
 });
 
 temzoneApi.interceptors.response.use(
@@ -17,112 +44,3 @@ temzoneApi.interceptors.response.use(
     throw error;
   }
 );
-
-export function login(email, password) {
-  return new Promise((resolve, _reject) => resolve());
-}
-
-export function logout() {
-  return new Promise((resolve, _reject) => resolve());
-}
-
-export const Type = Object.freeze({
-  Temtem: "temtem",
-  Saipark: "saipark",
-  Landmark: "landmark",
-});
-
-export function getMarkers(types) {
-  return temzoneApi
-    .get("/markers", {
-      params: { type: types.join(",") },
-    })
-    .then((markers) => {
-      return [
-        {
-          id: -1,
-          type: "temtem",
-          title: "Chromeon",
-          subtitle: {
-            original: "Iwaba, East Path",
-            current: "Iwaba, East Path",
-          },
-          condition: null,
-          coordinates: null,
-        },
-        {
-          id: 0,
-          type: "temtem",
-          title: "Chromeon Digital",
-          subtitle: {
-            original: "Iwaba, East Path",
-            current: "Iwaba, East Path",
-          },
-          condition: null,
-          coordinates: null,
-        },
-        {
-          id: 1,
-          type: "temtem",
-          title: "Mimit",
-          subtitle: {
-            original: "Iwaba, East Path",
-            current: "Iwaba, East Path",
-          },
-          condition: "Requires Fishing Rod",
-          coordinates: {
-            x: 8192,
-            y: 7692,
-          },
-        },
-        {
-          id: 2,
-          type: "saipark",
-          title: "Saipark",
-          subtitle: "West from Praise Coast",
-          coordinates: {
-            x: 8692,
-            y: 8192,
-          },
-        },
-        {
-          id: 3,
-          type: "landmark",
-          title: "Zadar",
-          subtitle: "South of Praise Coast",
-          coordinates: {
-            x: 7692,
-            y: 8192,
-          },
-        },
-        {
-          id: 4,
-          type: "landmark",
-          title: "Zadar",
-          subtitle: null,
-          coordinates: null,
-        },
-      ].filter((marker) => types.includes(marker.type));
-    });
-}
-
-export function updateTemtemMarker(id, marker) {
-  return new Promise((resolve, _reject) => setTimeout(() => resolve(), 500));
-  // return temzoneApi.put("/markers/" + id + "/temtem", {
-  //   data: marker,
-  // });
-}
-
-export function updateSaiparkMarker(id, marker) {
-  return new Promise((resolve, _reject) => setTimeout(() => resolve(), 500));
-  // return temzoneApi.put("/markers/" + id + "/saipark", {
-  //   data: marker,
-  // });
-}
-
-export function updateLandmarkMarker(id, marker) {
-  return new Promise((resolve, _reject) => setTimeout(() => resolve(), 500));
-  // return temzoneApi.put("/markers/" + id + "/landmark", {
-  //   data: marker,
-  // });
-}

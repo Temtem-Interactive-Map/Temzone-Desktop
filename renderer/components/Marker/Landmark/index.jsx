@@ -1,11 +1,13 @@
 import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { LocationField, Marker } from "..";
-import { updateLandmarkMarker } from "../../../services";
+import { useTemzone } from "../../../hooks/Temzone";
 
 export function LandmarkMarker({ marker }) {
   // Internationalization
   const { t } = useTranslation();
+
+  const { updateLandmarkMarker } = useTemzone();
 
   const handleMarkerUpdate = useCallback(
     (data, coordinates) => {
@@ -18,7 +20,7 @@ export function LandmarkMarker({ marker }) {
         marker.subtitle = subtitle;
       });
     },
-    [marker]
+    [marker, updateLandmarkMarker]
   );
 
   return (

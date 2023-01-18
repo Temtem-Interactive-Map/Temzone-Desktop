@@ -20,7 +20,6 @@ use(LanguageDetector)
       en,
     },
     interpolation: {
-      // Not needed for react as it escapes by default
       escapeValue: false,
     },
   });

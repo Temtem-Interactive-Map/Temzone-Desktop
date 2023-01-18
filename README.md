@@ -4,7 +4,7 @@
 [![CircleCI](https://img.shields.io/circleci/build/github/Temtem-Interactive-Map/Temzone-Desktop)](https://app.circleci.com/pipelines/github/Temtem-Interactive-Map/Temzone-Desktop)
 [![CodeFactor](https://img.shields.io/codefactor/grade/github/Temtem-Interactive-Map/Temzone-Desktop)](https://www.codefactor.io/repository/github/temtem-interactive-map/temzone-desktop)
 
-Welcome to Temzone, a cross-platform desktop application from Temtem Interactive Map build with Electron and Next.js.
+Welcome to Temzone, a cross-platform desktop application built with Electron and Next.js from Temtem Interactive Map.
 
 ## Getting started
 
@@ -45,10 +45,16 @@ NEXT_PUBLIC_VARIABLE_NAME=value
 
 In order to expose a variable to the browser you have to prefix the variable with **NEXT_PUBLIC**. These environment variables will be available to the application through the process.env object in Node.js.
 
-The Temzone application requires the following environment variables to be set:
+The Temzone application requires certain environment variables to be set, specifically several related to Firebase such as Firebase API key, Firebase project ID, Firebase Auth Domain and others. These are the credentials necessary for the application to access Firebase services and the Temzone's backend:
 
 ```
 NEXT_PUBLIC_TEMZONE_BASE_URL=
+NEXT_PUBLIC_FIREBASE_API_KEY=
+NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=
+NEXT_PUBLIC_FIREBASE_PROJECT_ID=
+NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=
+NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=
+NEXT_PUBLIC_FIREBASE_APP_ID=
 ```
 
 ### Running the development server
@@ -87,4 +93,4 @@ Note that these commands are only available if you have the necessary tools and 
 
 ## License
 
-This project is licensed under the terms of the [MIT license](https://github.com/Temtem-Interactive-Map/Temzone-Desktop/blob/main/LICENSE.txt).
+This project is licensed under the terms of the [MIT license](https://github.com/Temtem-Interactive-Map/Temzone-Desktop/blob/main/LICENSE).
