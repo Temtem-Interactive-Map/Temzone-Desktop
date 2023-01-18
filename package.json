@@ -1,7 +1,7 @@
 {
   "name": "temzone",
   "description": "The Temtem Interactive Map Desktop App",
-  "version": "0.1.0-b.1",
+  "version": "0.1.0-rc.1",
   "author": "Temtem Interactive Map",
   "license": "MIT",
   "main": "app/background.js",
