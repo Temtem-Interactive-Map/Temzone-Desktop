@@ -1,8 +1,8 @@
 # Temzone - Desktop
 
-[![TemzoneVersion](https://img.shields.io/github/package-json/v/Temtem-Interactive-Map/Temzone-Desktop)](https://github.com/Temtem-Interactive-Map/Temzone-Desktop)
-[![CircleCI](https://img.shields.io/circleci/build/github/Temtem-Interactive-Map/Temzone-Desktop)](https://app.circleci.com/pipelines/github/Temtem-Interactive-Map/Temzone-Desktop)
-[![CodeFactor](https://img.shields.io/codefactor/grade/github/Temtem-Interactive-Map/Temzone-Desktop)](https://www.codefactor.io/repository/github/temtem-interactive-map/temzone-desktop)
+[![Version](https://img.shields.io/github/package-json/v/Temtem-Interactive-Map/Temzone-Desktop)](https://github.com/Temtem-Interactive-Map/Temzone-Desktop)
+[![Build](https://img.shields.io/github/actions/workflow/status/Temtem-Interactive-Map/Temzone-Desktop/tests.yml?branch=main)](https://github.com/Temtem-Interactive-Map/Temzone-Desktop/actions/workflows/tests.yml)
+[![Quality](https://img.shields.io/codefactor/grade/github/Temtem-Interactive-Map/Temzone-Desktop)](https://www.codefactor.io/repository/github/temtem-interactive-map/temzone-desktop)
 
 Welcome to Temzone, a cross-platform desktop application built with Electron and Next.js from Temtem Interactive Map.
 
