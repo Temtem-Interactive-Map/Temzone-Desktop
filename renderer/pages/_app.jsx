@@ -34,7 +34,7 @@ export default function App({ Component, pageProps }) {
     >
       <I18nextProvider i18n={i18next}>
         <Head>
-          <title>{"Temzone " + packageJson.version}</title>
+          <title>{"Temzone v." + packageJson.version}</title>
         </Head>
 
         {/* Main content */}
