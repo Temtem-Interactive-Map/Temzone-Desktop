@@ -1,6 +1,6 @@
+import { InputLabel } from "components/Fields";
 import { useEffect } from "react";
 import { useFormContext } from "react-hook-form";
-import { InputLabel } from "..";
 
 export function InputField({ id, type, label, value, placeholder, options }) {
   // Validation

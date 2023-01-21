@@ -1,7 +1,7 @@
+import { ConditionField, LocationField, Marker } from "components/Marker";
+import { useTemzone } from "hooks/Temzone";
 import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
-import { ConditionField, LocationField, Marker } from "..";
-import { useTemzone } from "../../../hooks/Temzone";
 
 export function TemtemMarker({ marker }) {
   // Internationalization

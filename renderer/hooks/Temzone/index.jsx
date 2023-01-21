@@ -1,6 +1,6 @@
 import { useCallback } from "react";
-import { temzoneApi } from "../../services";
-import { Type } from "../../utils";
+import { temzoneApi } from "services";
+import { Type } from "utils";
 
 export function useTemzone() {
   const getMarkers = useCallback(

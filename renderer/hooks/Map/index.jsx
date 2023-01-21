@@ -1,6 +1,6 @@
+import { MapContext } from "context/Map";
 import L from "leaflet";
 import { useCallback, useContext } from "react";
-import { MapContext } from "../../context/Map";
 import {
   MAP_CENTER,
   MARKER_MAX_HORIZONTAL,
@@ -10,7 +10,7 @@ import {
   MARKER_OPACITY,
   ZOOM,
   markerIconPath,
-} from "../../utils";
+} from "utils";
 
 export function useMap() {
   // Context

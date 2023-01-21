@@ -1,11 +1,11 @@
+import { InputField } from "components/Fields/InputField";
+import { LoadingButton } from "components/LoadingButton";
+import { useAuth } from "hooks/Auth";
 import { useRouter } from "next/router";
 import { useCallback, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
-import { InputField } from "../../components/Fields/InputField";
-import { LoadingButton } from "../../components/LoadingButton";
-import { useAuth } from "../../hooks/Auth";
 
 export default function Login() {
   // Navigation

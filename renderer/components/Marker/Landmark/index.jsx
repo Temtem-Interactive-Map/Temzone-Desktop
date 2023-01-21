@@ -1,7 +1,7 @@
+import { LocationField, Marker } from "components/Marker";
+import { useTemzone } from "hooks/Temzone";
 import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
-import { LocationField, Marker } from "..";
-import { useTemzone } from "../../../hooks/Temzone";
 
 export function LandmarkMarker({ marker }) {
   // Internationalization

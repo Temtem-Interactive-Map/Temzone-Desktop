@@ -1,4 +1,4 @@
-import { ThreeDots } from "../Icons";
+import { ThreeDots } from "components/Icons";
 
 export function LoadingButton({ loading, children }) {
   return (

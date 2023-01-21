@@ -1,6 +1,6 @@
+import { Marker } from "components/Marker";
+import { useTemzone } from "hooks/Temzone";
 import { useCallback } from "react";
-import { Marker } from "..";
-import { useTemzone } from "../../../hooks/Temzone";
 
 export function SaiparkMarker({ marker }) {
   const { updateSaiparkMarker } = useTemzone();

@@ -1,5 +1,5 @@
 import { render } from "@testing-library/react";
-import * as Icons from ".";
+import * as Icons from "components/Icons";
 
 describe("<Icons />", () => {
   const icons = Object.keys(Icons);

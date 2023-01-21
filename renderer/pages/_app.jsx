@@ -1,13 +1,13 @@
 import i18next, { use } from "i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
+import en from "locales/en.json";
 import Head from "next/head";
 import { I18nextProvider, initReactI18next } from "react-i18next";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import "styles/globals.css";
 import { SWRConfig } from "swr";
 import packageJson from "../../package.json";
-import en from "../locales/en.json";
-import "../styles/globals.css";
 
 use(LanguageDetector)
   .use(initReactI18next)

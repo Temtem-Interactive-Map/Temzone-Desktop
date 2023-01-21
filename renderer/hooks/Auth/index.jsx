@@ -1,7 +1,7 @@
 import { signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
-import { auth } from "../../services";
+import { auth } from "services";
 
 export function useAuth() {
   // Internationalization

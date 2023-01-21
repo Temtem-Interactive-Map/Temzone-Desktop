@@ -1,6 +1,6 @@
-import keyIcon from "../public/images/key_icon.png";
-import landmarkIcon from "../public/images/landmark_icon.png";
-import temcardIcon from "../public/images/temcard_icon.png";
+import keyIcon from "public/images/key_icon.png";
+import landmarkIcon from "public/images/landmark_icon.png";
+import temcardIcon from "public/images/temcard_icon.png";
 
 // Map properties
 export const ZOOM = 6;
