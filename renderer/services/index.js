@@ -39,6 +39,8 @@ temzoneApi.interceptors.response.use(
   (error) => {
     if (error.code === "ERR_NETWORK") {
       error.message = t("error.network");
+    } else if (error.code === 500) {
+      error.message = t("error.unavailable");
     }
 
     throw error;
