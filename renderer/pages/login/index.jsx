@@ -1,18 +1,15 @@
 import { InputField } from "components/Fields/InputField";
 import { LoadingButton } from "components/LoadingButton";
 import { useAuth } from "hooks/Auth";
+import { t } from "locales";
 import { useRouter } from "next/router";
 import { useCallback, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 
 export default function Login() {
   // Navigation
   const router = useRouter();
-
-  // Internationalization
-  const { t } = useTranslation();
 
   // Validation
   const methods = useForm({ mode: "onSubmit", reValidateMode: "onSubmit" });

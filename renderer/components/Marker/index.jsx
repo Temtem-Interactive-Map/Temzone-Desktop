@@ -3,9 +3,9 @@ import { InputField } from "components/Fields/InputField";
 import { LoadingButton } from "components/LoadingButton";
 import { useAccordion } from "hooks/Accordion";
 import { useMap } from "hooks/Map";
+import { t } from "locales";
 import { useCallback, useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
-import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 import {
   MARKER_MAX_HORIZONTAL,
@@ -15,9 +15,6 @@ import {
 } from "utils";
 
 export function ConditionField({ condition, placeholder }) {
-  // Internationalization
-  const { t } = useTranslation();
-
   return (
     <InputField
       id="condition"
@@ -33,9 +30,6 @@ export function ConditionField({ condition, placeholder }) {
 }
 
 export function LocationField({ location, placeholder }) {
-  // Internationalization
-  const { t } = useTranslation();
-
   return (
     <InputField
       id="location"
@@ -53,9 +47,6 @@ export function LocationField({ location, placeholder }) {
 }
 
 export function CoordinatesField({ marker }) {
-  // Internationalization
-  const { t } = useTranslation();
-
   // Validation
   const { getValues, setValue } = useFormContext();
 
@@ -122,9 +113,6 @@ export function CoordinatesField({ marker }) {
 }
 
 export function Marker({ handleMarkerUpdate, marker, children }) {
-  // Internationalization
-  const { t } = useTranslation();
-
   // Validation
   const { handleSubmit } = useFormContext();
 

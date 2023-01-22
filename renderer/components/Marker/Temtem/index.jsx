@@ -1,12 +1,10 @@
 import { ConditionField, LocationField, Marker } from "components/Marker";
 import { useTemzone } from "hooks/Temzone";
+import { t } from "locales";
 import { useCallback } from "react";
-import { useTranslation } from "react-i18next";
 
 export function TemtemMarker({ marker }) {
-  // Internationalization
-  const { t } = useTranslation();
-
+  // State
   const { updateTemtemMarker } = useTemzone();
 
   const handleMarkerUpdate = useCallback(

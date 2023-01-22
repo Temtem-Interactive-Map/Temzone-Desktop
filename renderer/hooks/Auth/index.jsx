@@ -1,12 +1,9 @@
 import { signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { t } from "locales";
 import { useCallback } from "react";
-import { useTranslation } from "react-i18next";
 import { auth } from "services";
 
 export function useAuth() {
-  // Internationalization
-  const { t } = useTranslation();
-
   const login = useCallback(
     (email, password) =>
       signInWithEmailAndPassword(auth, email, password).catch((error) => {
@@ -33,7 +30,7 @@ export function useAuth() {
 
         throw error;
       }),
-    [t]
+    []
   );
 
   const logout = useCallback(() => signOut(auth), []);
