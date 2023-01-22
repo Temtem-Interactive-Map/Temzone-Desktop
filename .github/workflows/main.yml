@@ -1,10 +1,11 @@
-name: Continuous integration
+name: CI/CD
 on:
   push:
     branches: [main, develop]
 jobs:
   test:
     runs-on: ubuntu-22.04
+    name: Testing
     strategy:
       matrix:
         node-version: [18]
