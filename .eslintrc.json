@@ -1,8 +1,7 @@
 {
   "env": {
     "browser": true,
-    "es2021": true,
-    "node": true,
+    "es2022": true,
     "jest": true
   },
   "settings": {
@@ -13,10 +12,9 @@
   "extends": [
     "standard",
     "next",
-    "prettier",
-    "plugin:import/recommended",
     "plugin:json/recommended",
-    "plugin:yml/standard"
+    "plugin:yml/standard",
+    "prettier"
   ],
   "parserOptions": {
     "ecmaFeatures": {

@@ -1,0 +1,16 @@
+name: CI/CD
+on:
+  push:
+    branches: [main, develop]
+jobs:
+  test:
+    runs-on: ubuntu-22.04
+    name: Testing
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18.13.0
+          cache: npm
+      - run: npm install
+      - run: npm test

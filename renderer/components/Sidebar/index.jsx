@@ -1,19 +1,16 @@
+import { NavLink } from "components/NavLink";
+import { Tooltip } from "components/Tooltip";
+import { useAuth } from "hooks/Auth";
+import { t } from "locales";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import performanceIcon from "public/images/performance_icon.png";
 import { useCallback } from "react";
-import { useTranslation } from "react-i18next";
-import { useAuth } from "../../hooks/Auth";
-import performanceIcon from "../../public/images/performance_icon.png";
-import { sidebar } from "../../utils";
-import { NavLink } from "../NavLink";
-import { Tooltip } from "../Tooltip";
+import { sidebar } from "utils";
 
 export function Sidebar() {
   // Navigation
   const router = useRouter();
-
-  // Internationalization
-  const { t } = useTranslation();
 
   // Authentication
   const { logout } = useAuth();

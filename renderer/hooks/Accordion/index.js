@@ -1,7 +1,7 @@
+import { AccordionContext } from "context/Accordion";
+import { useMap } from "hooks/Map";
 import { useCallback, useContext } from "react";
 import { useFormContext } from "react-hook-form";
-import { AccordionContext } from "../../context/Accordion";
-import { useMap } from "../../hooks/Map";
 
 export function useAccordion() {
   // Context

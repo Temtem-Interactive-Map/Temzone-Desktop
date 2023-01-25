@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import { LoadingButton } from ".";
+import { LoadingButton } from "components/LoadingButton";
 
 describe("<LoadingButton />", () => {
   it("should render with loading icon", () => {

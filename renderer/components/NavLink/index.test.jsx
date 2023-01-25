@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import { NavLink } from ".";
+import { NavLink } from "components/NavLink";
 
 describe("<NavLink />", () => {
   it("should render with inactive styles", () => {

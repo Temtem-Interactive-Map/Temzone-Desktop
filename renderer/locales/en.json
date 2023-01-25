@@ -1,36 +1,34 @@
 {
-  "translation": {
-    "branding": {
-      "login": "Log in to your account"
-    },
-    "button": {
-      "login": "Log In",
-      "save": "Save Changes"
-    },
-    "tooltip": {
-      "all_markers": "All markers",
-      "temtem_markers": "Temtem markers",
-      "landmark_markers": "Landmark markers",
-      "logout": "Log out"
-    },
-    "field": {
-      "email": "Enter your email",
-      "password": "Enter your password",
-      "location": "Location",
-      "condition": "Condition",
-      "coordinate_horizontal": "Coordinate X",
-      "coordinate_vertical": "Coordinate Y",
-      "placeholder": {
-        "email": "name@company.com",
-        "location": "South of Praise Coast",
-        "condition": "Requires Fishing Rod"
-      }
-    },
-    "error": {
-      "unavailable": "Service is currently unavailable. Please try again later",
-      "network": "Network connectivity limited or unavailable",
-      "required": "This field is required.",
-      "login": "Email or password is invalid."
+  "branding": {
+    "login": "Log in to your account"
+  },
+  "button": {
+    "login": "Log In",
+    "save": "Save Changes"
+  },
+  "tooltip": {
+    "all_markers": "All markers",
+    "temtem_markers": "Temtem markers",
+    "landmark_markers": "Landmark markers",
+    "logout": "Log out"
+  },
+  "field": {
+    "email": "Enter your email",
+    "password": "Enter your password",
+    "location": "Location",
+    "condition": "Condition",
+    "coordinate_horizontal": "Coordinate X",
+    "coordinate_vertical": "Coordinate Y",
+    "placeholder": {
+      "email": "name@company.com",
+      "location": "South of Praise Coast",
+      "condition": "Requires Fishing Rod"
     }
+  },
+  "error": {
+    "unavailable": "Service is currently unavailable. Please try again later",
+    "network": "Network connectivity limited or unavailable",
+    "required": "This field is required.",
+    "login": "Email or password is invalid."
   }
 }

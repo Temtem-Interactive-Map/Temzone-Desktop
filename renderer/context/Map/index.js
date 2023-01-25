@@ -8,7 +8,7 @@ import {
   MAP_MIN_VERTICAL,
   MAP_SIZE,
   ZOOM,
-} from "../../utils";
+} from "utils";
 
 export const MapContext = createContext();
 

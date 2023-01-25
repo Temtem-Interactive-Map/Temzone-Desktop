@@ -1,7 +1,7 @@
+import { InputLabel } from "components/Fields";
+import { Minus, Plus } from "components/Icons";
 import { useCallback, useEffect } from "react";
 import { useFormContext } from "react-hook-form";
-import { InputLabel } from "..";
-import { Minus, Plus } from "../../Icons";
 
 export function CounterField({ id, label, value, options, onChange }) {
   // Validation

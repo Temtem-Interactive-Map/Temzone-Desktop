@@ -1,10 +1,10 @@
 # Temzone - Desktop
 
 [![Version](https://img.shields.io/github/package-json/v/Temtem-Interactive-Map/Temzone-Desktop)](https://github.com/Temtem-Interactive-Map/Temzone-Desktop)
-[![Build](https://img.shields.io/github/actions/workflow/status/Temtem-Interactive-Map/Temzone-Desktop/tests.yml?branch=main)](https://github.com/Temtem-Interactive-Map/Temzone-Desktop/actions/workflows/tests.yml)
+[![Build](https://img.shields.io/github/actions/workflow/status/Temtem-Interactive-Map/Temzone-Desktop/main.yml?branch=main)](https://github.com/Temtem-Interactive-Map/Temzone-Desktop/actions/workflows/main.yml)
 [![Quality](https://img.shields.io/codefactor/grade/github/Temtem-Interactive-Map/Temzone-Desktop)](https://www.codefactor.io/repository/github/temtem-interactive-map/temzone-desktop)
 
-Welcome to Temzone, a cross-platform desktop application built with Electron and Next.js from Temtem Interactive Map.
+Welcome to Temzone Desktop, a cross-platform desktop application built with Electron and Next.js from Temtem Interactive Map.
 
 ## Getting started
 
@@ -14,7 +14,7 @@ This guide will help you get up and running the application in just a few minute
 
 Before getting started, make sure you have the following tools installed on your development machine:
 
-- Node.js (version [18.12.1](https://nodejs.org/es/download))
+- Node.js (version [18.13.0](https://nodejs.org/es/download))
 - npm (the Node.js package manager, which should be installed with Node.js)
 
 ### Install the dependencies
@@ -45,16 +45,13 @@ NEXT_PUBLIC_VARIABLE_NAME=value
 
 In order to expose a variable to the browser you have to prefix the variable with **NEXT_PUBLIC**. These environment variables will be available to the application through the process.env object in Node.js.
 
-The Temzone application requires certain environment variables to be set, specifically several related to Firebase such as Firebase API key, Firebase project ID, Firebase Auth Domain and others. These are the credentials necessary for the application to access Firebase services and the Temzone's backend:
+The Temzone application requires certain environment variables to be set, specifically several related to Firebase such as Firebase API key, Firebase project ID and Firebase Auth Domain. These are the credentials necessary for the application to access Firebase services and the Temzone's backend:
 
 ```
 NEXT_PUBLIC_TEMZONE_BASE_URL=
 NEXT_PUBLIC_FIREBASE_API_KEY=
 NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=
 NEXT_PUBLIC_FIREBASE_PROJECT_ID=
-NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=
-NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=
-NEXT_PUBLIC_FIREBASE_APP_ID=
 ```
 
 ### Running the development server
