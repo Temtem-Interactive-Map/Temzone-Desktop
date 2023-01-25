@@ -14,7 +14,7 @@ This guide will help you get up and running the application in just a few minute
 
 Before getting started, make sure you have the following tools installed on your development machine:
 
-- Node.js (version [18.12.1](https://nodejs.org/es/download))
+- Node.js (version [18.13.0](https://nodejs.org/es/download))
 - npm (the Node.js package manager, which should be installed with Node.js)
 
 ### Install the dependencies
