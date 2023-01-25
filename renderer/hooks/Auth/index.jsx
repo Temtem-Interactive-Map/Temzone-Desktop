@@ -6,30 +6,43 @@ import { auth } from "services";
 export function useAuth() {
   const login = useCallback(
     (email, password) =>
-      signInWithEmailAndPassword(auth, email, password).catch((error) => {
-        switch (error.code) {
-          case "auth/invalid-email":
-          case "auth/user-disabled":
-          case "auth/user-not-found":
-          case "auth/wrong-password":
-            error.code = 400;
-            error.message = t("error.login");
+      signInWithEmailAndPassword(auth, email, password)
+        .then(async (userCredential) => {
+          const tokenResult = await userCredential.user.getIdTokenResult();
 
-            break;
-          case "auth/network-request-failed":
-            error.code = "ERR_NETWORK";
-            error.message = t("error.network");
+          if (tokenResult.claims.admin) {
+            return userCredential;
+          } else {
+            const error = new Error();
+            error.code = "auth/wrong-password";
 
-            break;
-          default:
-            error.code = "ERR_UNAVAILABLE";
-            error.message = t("error.unavailable");
+            throw error;
+          }
+        })
+        .catch((error) => {
+          switch (error.code) {
+            case "auth/invalid-email":
+            case "auth/user-disabled":
+            case "auth/user-not-found":
+            case "auth/wrong-password":
+              error.code = 400;
+              error.message = t("error.login");
 
-            break;
-        }
+              break;
+            case "auth/network-request-failed":
+              error.code = "ERR_NETWORK";
+              error.message = t("error.network");
 
-        throw error;
-      }),
+              break;
+            default:
+              error.code = "ERR_UNAVAILABLE";
+              error.message = t("error.unavailable");
+
+              break;
+          }
+
+          throw error;
+        }),
     []
   );
 
