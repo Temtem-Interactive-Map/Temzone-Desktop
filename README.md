@@ -4,7 +4,7 @@
 [![Build](https://img.shields.io/github/actions/workflow/status/Temtem-Interactive-Map/Temzone-Desktop/main.yml?branch=main)](https://github.com/Temtem-Interactive-Map/Temzone-Desktop/actions/workflows/main.yml)
 [![Quality](https://img.shields.io/codefactor/grade/github/Temtem-Interactive-Map/Temzone-Desktop)](https://www.codefactor.io/repository/github/temtem-interactive-map/temzone-desktop)
 
-Welcome to Temzone, a cross-platform desktop application built with Electron and Next.js from Temtem Interactive Map.
+Welcome to Temzone Desktop, a cross-platform desktop application built with Electron and Next.js from Temtem Interactive Map.
 
 ## Getting started
 
