@@ -78,15 +78,15 @@ This will build the Next.js app and package it with Electron, creating a product
 
 In addition to the npm run build command, Nextron provides several other commands for building the application for specific platforms. These commands are:
 
-- `npm run build:all`: This command will build the application for all platforms (Windows, MacOS, and Linux).
+- `npm run build:all`: This command will build the application for all platforms (Windows, Mac, and Linux).
 - `npm run build:win32`: This command will build the application for 32-bit Windows.
 - `npm run build:win64`: This command will build the application for 64-bit Windows.
-- `npm run build:mac`: This command will build the application for MacOS.
+- `npm run build:mac`: This command will build the application for Mac.
 - `npm run build:linux`: This command will build the application for Linux.
 
 Each of these commands will create a production ready build of the application in the **dist** directory, with the specific platform as a subdirectory.
 
-Note that these commands are only available if you have the necessary tools and dependencies installed on your development machine. For example, to build for MacOS or Linux, you'll need to have the relevant tools and dependencies installed on a Mac or Linux machine.
+Note that these commands are only available if you have the necessary tools and dependencies installed on your development machine. For example, to build for Mac or Linux, you'll need to have the relevant tools and dependencies installed on a Mac or Linux machine.
 
 ## License
 
