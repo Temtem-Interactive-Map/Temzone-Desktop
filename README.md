@@ -88,6 +88,16 @@ Each of these commands will create a production ready build of the application i
 
 Note that these commands are only available if you have the necessary tools and dependencies installed on your development machine. For example, to build for Mac or Linux, you'll need to have the relevant tools and dependencies installed on a Mac or Linux machine.
 
+### Running the tests
+
+To run the tests for the application, you can use the following command:
+
+```
+npm run test
+```
+
+The tests are written using the Jest testing framework, which is included as a **devDependency** in the project's [package.json](https://github.com/Temtem-Interactive-Map/Temzone-Desktop/blob/main/package.json) file. By default, Jest will look for files with a **.test.js** or **.test.jsx** extension in the project's directory.
+
 ## License
 
 This project is licensed under the terms of the [MIT license](https://github.com/Temtem-Interactive-Map/Temzone-Desktop/blob/main/LICENSE).
