@@ -48,10 +48,10 @@ In order to expose a variable to the browser you have to prefix the variable wit
 The Temzone application requires certain environment variables to be set, specifically several related to Firebase such as Firebase API key, Firebase project ID and Firebase Auth Domain. These are the credentials necessary for the application to access Firebase services and the Temzone's backend:
 
 ```
-NEXT_PUBLIC_TEMZONE_BASE_URL=
 NEXT_PUBLIC_FIREBASE_API_KEY=
 NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=
 NEXT_PUBLIC_FIREBASE_PROJECT_ID=
+NEXT_PUBLIC_TEMZONE_BASE_URL=
 ```
 
 ### Running the development server
@@ -96,7 +96,7 @@ To run the tests for the application, you can use the following command:
 npm run test
 ```
 
-The tests are written using the Jest testing framework, which is included as a **devDependency** in the project's [package.json](https://github.com/Temtem-Interactive-Map/Temzone-Desktop/blob/main/package.json) file. By default, Jest will look for files with a **.test.js** or **.test.jsx** extension in the project's directory.
+The tests are written using the Jest testing framework, which is included as a **devDependency** in the project's [package.json](https://github.com/Temtem-Interactive-Map/Temzone-Desktop/blob/main/package.json) file. By default, Jest will look for files with a **.test.js** or **.test.jsx** extension in the project directory.
 
 ## License
 
