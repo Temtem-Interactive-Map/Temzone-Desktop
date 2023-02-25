@@ -19,7 +19,7 @@ Before getting started, make sure you have the following tools installed on your
 
 ### Install the dependencies
 
-To install the dependencies for a Nextron project, you'll need to use the npm install command. This command reads the **dependencies** and **devDependencies** sections of the [package.json](https://github.com/Temtem-Interactive-Map/Temzone-Desktop/blob/main/package.json) file and installs the packages listed there.
+To install the dependencies for a Nextron project, you'll need to use the npm install command. This command reads the _dependencies_ and _devDependencies_ sections of the [package.json](https://github.com/Temtem-Interactive-Map/Temzone-Desktop/blob/main/package.json) file and installs the packages listed there.
 
 For example, to install all of the dependencies you can run the following command in the project directory:
 
@@ -37,7 +37,7 @@ This will install the next package and add it to the dependencies section of the
 
 ### Setting up the application
 
-To start the application, the environment variables must be set. In a Nextron project, you should create a file called **.env.development** and **.env.production** at the [rendered](https://github.com/Temtem-Interactive-Map/Temzone-Desktop/tree/main/renderer) directory. In this file, you can define environment variables in the following format:
+To start the application, the environment variables must be set. In a Nextron project, you should create a file called _.env.development_ and _.env.production_ at the [rendered](https://github.com/Temtem-Interactive-Map/Temzone-Desktop/tree/main/renderer) directory. In this file, you can define environment variables in the following format:
 
 ```
 NEXT_PUBLIC_VARIABLE_NAME=value
@@ -62,9 +62,7 @@ Navigate to the project directory and run the following command to start the dev
 npm run dev
 ```
 
-This will start the Next.js development server, as well as the Electron application.
-
-As you make changes to the code, the development server will automatically reload the Electron window to reflect the changes.
+This will start the Next.js development server, as well as the Electron application. As you make changes to the code, the development server will automatically reload the Electron window to reflect the changes.
 
 ### Building for production
 
@@ -74,19 +72,19 @@ To build the application for production, run the following command:
 npm run build
 ```
 
-This will build the Next.js app and package it with Electron, creating a production ready build in the **dist** directory.
+This will build the Next.js app and package it with Electron, creating a production ready build in the dist directory.
 
 In addition to the npm run build command, Nextron provides several other commands for building the application for specific platforms. These commands are:
 
-- `npm run build:all`: This command will build the application for all platforms (Windows, Mac, and Linux).
+- `npm run build:all`: This command will build the application for all platforms (Windows, Mac and Linux).
 - `npm run build:win32`: This command will build the application for 32-bit Windows.
 - `npm run build:win64`: This command will build the application for 64-bit Windows.
 - `npm run build:mac`: This command will build the application for Mac.
 - `npm run build:linux`: This command will build the application for Linux.
 
-Each of these commands will create a production ready build of the application in the **dist** directory, with the specific platform as a subdirectory.
+Each of these commands will create a production ready build of the application in the dist directory, with the specific platform as a subdirectory.
 
-Note that these commands are only available if you have the necessary tools and dependencies installed on your development machine. For example, to build for Mac or Linux, you'll need to have the relevant tools and dependencies installed on a Mac or Linux machine.
+Note that these commands are only available if you have the necessary tools and dependencies installed on your development machine for the specified platform. For example, to build for Mac or Linux, you'll need to have the relevant tools and dependencies installed on a Mac or Linux machine.
 
 ### Running the tests
 
@@ -96,7 +94,7 @@ To run the tests for the application, you can use the following command:
 npm run test
 ```
 
-The tests are written using the Jest testing framework, which is included as a **devDependency** in the project's [package.json](https://github.com/Temtem-Interactive-Map/Temzone-Desktop/blob/main/package.json) file. By default, Jest will look for files with a **.test.js** or **.test.jsx** extension in the project directory.
+The tests are written using the Jest testing framework, which is included as a devDependency in the project's [package.json](https://github.com/Temtem-Interactive-Map/Temzone-Desktop/blob/main/package.json) file. By default, Jest will look for files with a _.test.js_ or _.test.jsx_ extension in the project directory.
 
 ## License
 
