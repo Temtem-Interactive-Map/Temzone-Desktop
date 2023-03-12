@@ -6,31 +6,25 @@ export function useTemzone() {
   const getMarkers = useCallback(
     (types) =>
       temzoneApi.get("/markers", {
-        params: { type: types.join(",") },
+        params: new URLSearchParams({ types: types.join(",") }),
       }),
     []
   );
 
-  const updateTemtemMarker = useCallback(
+  const updateSpawnMarker = useCallback(
     (id, marker) =>
-      temzoneApi.put("/markers/" + id + "/temtem", {
-        data: marker,
+      temzoneApi.put("/markers/spawns/" + id, {
+        subtitle: marker.subtitle,
+        condition: marker.condition,
+        coordinates: marker.coordinates,
       }),
     []
   );
 
   const updateSaiparkMarker = useCallback(
     (id, marker) =>
-      temzoneApi.put("/markers/" + id + "/saipark", {
-        data: marker,
-      }),
-    []
-  );
-
-  const updateLandmarkMarker = useCallback(
-    (id, marker) =>
-      temzoneApi.put("/markers/" + id + "/landmark", {
-        data: marker,
+      temzoneApi.put("/markers/saipark/" + id, {
+        coordinates: marker.coordinates,
       }),
     []
   );
@@ -38,8 +32,7 @@ export function useTemzone() {
   return {
     Type,
     getMarkers,
-    updateTemtemMarker,
+    updateSpawnMarker,
     updateSaiparkMarker,
-    updateLandmarkMarker,
   };
 }
