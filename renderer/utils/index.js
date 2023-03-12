@@ -40,17 +40,19 @@ export const sidebar = Object.freeze([
 
 // Marker types for Temzone endpoint
 export const Type = Object.freeze({
-  Temtem: "temtem",
+  Spawn: "spawn",
   Saipark: "saipark",
-  Landmark: "landmark",
 });
 
 // Returns the path of the marker image
 export function markerIconPath(marker) {
-  const name = marker.title.replace(" ", "_").toLowerCase();
+  const name = marker.title
+    .replace(/[()]/g, "")
+    .replace(" ", "_")
+    .toLowerCase();
 
   switch (marker.type) {
-    case Type.Temtem:
+    case Type.Spawn:
       try {
         // Check if image path exists
         require("../public/images/" + name + "_icon.png");
@@ -60,7 +62,6 @@ export function markerIconPath(marker) {
         return "../images/temcard_icon.png";
       }
     case Type.Saipark:
-    case Type.Landmark:
       return "../images/landmark_icon.png";
   }
 }
