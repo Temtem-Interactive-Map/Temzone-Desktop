@@ -3,16 +3,16 @@ import { useTemzone } from "hooks/Temzone";
 import { t } from "locales";
 import { useCallback } from "react";
 
-export function TemtemMarker({ marker }) {
+export function SpawnMarker({ marker }) {
   // State
-  const { updateTemtemMarker } = useTemzone();
+  const { updateSpawnMarker } = useTemzone();
 
   const handleMarkerUpdate = useCallback(
     (data, coordinates) => {
       const subtitle = data.location.trim();
-      const condition = data.condition?.trim();
+      const condition = data.condition ? data.condition.trim() : null;
 
-      return updateTemtemMarker(marker.id, {
+      return updateSpawnMarker(marker.id, {
         subtitle,
         condition,
         coordinates,
@@ -21,7 +21,7 @@ export function TemtemMarker({ marker }) {
         marker.condition = condition;
       });
     },
-    [marker, updateTemtemMarker]
+    [marker, updateSpawnMarker]
   );
 
   return (
