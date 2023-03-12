@@ -1,11 +1,9 @@
 import { PlaceholderAccordion } from "components/Accordion/Placeholder";
 import { Arrow } from "components/Icons";
-import { LandmarkMarker } from "components/Marker/Landmark";
 import { SaiparkMarker } from "components/Marker/Saipark";
-import { TemtemMarker } from "components/Marker/Temtem";
+import { SpawnMarker } from "components/Marker/Spawn";
 import { useAccordion } from "hooks/Accordion";
 import { useTemzone } from "hooks/Temzone";
-import { t } from "locales";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
@@ -32,8 +30,8 @@ export function Accordion() {
     () => {
       const types = {
         all: Object.values(Type),
-        temtem: [Type.Temtem],
-        landmark: [Type.Saipark, Type.Landmark],
+        temtem: [Type.Spawn],
+        landmark: [Type.Saipark],
       };
 
       closeAccordion();
@@ -90,14 +88,11 @@ export function Accordion() {
 
                 {/* Marker information */}
                 <div className="flex w-full flex-col text-start">
-                  <span className="text-xl font-bold leading-tight">
+                  <span className="truncate text-xl font-bold leading-tight">
                     {marker.title.split(" ")[0]}
                   </span>
-                  <span className="text-lg leading-tight text-gray-300">
-                    {typeof marker.subtitle === "string"
-                      ? marker.subtitle
-                      : marker.subtitle?.current ??
-                        t("field.placeholder.location")}
+                  <span className="truncate text-lg leading-tight text-gray-300">
+                    {marker.subtitle.current}
                   </span>
                 </div>
 
@@ -113,12 +108,10 @@ export function Accordion() {
               {/* Marker form */}
               {isMarkerOpen(marker) && (
                 <div className="p-4 pt-1">
-                  {marker.type === "temtem" ? (
-                    <TemtemMarker marker={marker} />
-                  ) : marker.type === "saipark" ? (
+                  {marker.type === Type.Spawn ? (
+                    <SpawnMarker marker={marker} />
+                  ) : marker.type === Type.Saipark ? (
                     <SaiparkMarker marker={marker} />
-                  ) : marker.type === "landmark" ? (
-                    <LandmarkMarker marker={marker} />
                   ) : null}
                 </div>
               )}
