@@ -35,7 +35,7 @@ npm install next
 
 This will install the `next` package and add it to the dependencies section of the [package.json](https://github.com/Temtem-Interactive-Map/Temzone-Desktop/blob/main/package.json) file.
 
-### Setting up the application
+### Setting up application
 
 To start the application, the environment variables must be set. In a Nextron project, you should create a file called `.env.development` and `.env.production` at the [rendered](https://github.com/Temtem-Interactive-Map/Temzone-Desktop/tree/main/renderer) directory. In this file, you can define environment variables in the following format:
 
@@ -54,7 +54,7 @@ NEXT_PUBLIC_FIREBASE_PROJECT_ID=
 NEXT_PUBLIC_TEMZONE_BASE_URL=
 ```
 
-### Running the development server
+### Running development server
 
 Navigate to the project directory and run the following command to start the development server:
 
@@ -86,7 +86,7 @@ Each of these commands will create a production ready build of the application i
 
 Note that these commands are only available if you have the necessary tools and dependencies installed on your development machine for the specified platform. For example, to build for Mac or Linux, you'll need to have the relevant tools and dependencies installed on a Mac or Linux machine.
 
-### Running the tests
+### Running tests
 
 To run the tests for the application, you can use the following command:
 
