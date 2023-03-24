@@ -17,7 +17,7 @@ export const temzoneApi = axios.create({
 temzoneApi.interceptors.request.use(async (config) => {
   try {
     const user = auth.currentUser;
-    const token = await user.getIdToken(true);
+    const token = await user.getIdToken();
 
     config.headers.Authorization = "Bearer " + token;
 
