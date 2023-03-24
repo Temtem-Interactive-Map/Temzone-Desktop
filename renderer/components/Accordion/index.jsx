@@ -87,7 +87,7 @@ export function Accordion() {
                 </div>
 
                 {/* Marker information */}
-                <div className="flex w-full flex-col text-start">
+                <div className="flex w-full max-w-xs flex-col text-start">
                   <span className="truncate text-xl font-bold leading-tight">
                     {marker.title.split(" ")[0]}
                   </span>
