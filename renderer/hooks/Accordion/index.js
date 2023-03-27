@@ -19,8 +19,6 @@ export function useAccordion() {
     unfocusMarker,
     subscribeMarkerClick,
     subscribeMarkerDrag,
-    enableMap,
-    disableMap,
   } = useMap();
 
   const scrollToMarker = useCallback((marker) => {
@@ -78,20 +76,16 @@ export function useAccordion() {
     [handleMarkerDrag, moveToMarker]
   );
 
-  const closeAccordion = useCallback(() => {
-    disableMap();
-
-    setOpenMarker((prevOpenMarker) => {
-      if (prevOpenMarker !== null) {
-        resetMarkerForm(prevOpenMarker);
-      }
-
-      return null;
-    });
-  }, [disableMap, setOpenMarker, resetMarkerForm]);
-
   const updateAccordion = useCallback(
     (newMarkers) => {
+      setOpenMarker((prevOpenMarker) => {
+        if (prevOpenMarker !== null) {
+          resetMarkerForm(prevOpenMarker);
+        }
+
+        return null;
+      });
+
       setMarkers((prevMarkers) => {
         const newMarkersWithCoordinates = newMarkers.filter(
           (marker) => marker.coordinates !== null
@@ -129,10 +123,10 @@ export function useAccordion() {
 
         return newMarkers;
       });
-
-      enableMap();
     },
     [
+      setOpenMarker,
+      resetMarkerForm,
       setMarkers,
       moveMarker,
       addMarker,
@@ -141,7 +135,6 @@ export function useAccordion() {
       subscribeMarkerDrag,
       handleMarkerDrag,
       removeMarker,
-      enableMap,
     ]
   );
 
@@ -243,7 +236,6 @@ export function useAccordion() {
 
   return {
     markers,
-    closeAccordion,
     updateAccordion,
     handleAccordionClick,
     isMarkerOpen,
