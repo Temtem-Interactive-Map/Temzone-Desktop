@@ -38,7 +38,6 @@ if (!gotTheLock) {
       await mainWindow.loadURL("http://localhost:" + port + "/login");
 
       // Define keyboard shortcuts for development
-      globalShortcut.register("CommandOrControl+R", () => mainWindow.reload());
       globalShortcut.register("CommandOrControl+Shift+I", () =>
         mainWindow.webContents.openDevTools()
       );

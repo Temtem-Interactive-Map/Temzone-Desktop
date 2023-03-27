@@ -1,11 +1,11 @@
 import { InputField } from "components/Fields/InputField";
 import { LoadingButton } from "components/LoadingButton";
-import { useAuth } from "hooks/Auth";
 import { t } from "locales";
 import { useRouter } from "next/router";
 import { useCallback, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
+import { login } from "services";
 
 export default function Login() {
   // Navigation
@@ -13,9 +13,6 @@ export default function Login() {
 
   // Validation
   const methods = useForm({ mode: "onSubmit", reValidateMode: "onSubmit" });
-
-  // Authentication
-  const { login } = useAuth();
 
   // State
   const [isLoading, setLoading] = useState(false);
@@ -27,7 +24,7 @@ export default function Login() {
 
       setLoading(true);
       login(email, password)
-        .then(() => router.push("/markers/all"))
+        .then(() => router.push("/markers"))
         .catch((error) => {
           if (error.code === 400) {
             methods.setError(
@@ -46,7 +43,7 @@ export default function Login() {
         })
         .finally(() => setLoading(false));
     },
-    [login, methods, router]
+    [methods, router]
   );
 
   return (

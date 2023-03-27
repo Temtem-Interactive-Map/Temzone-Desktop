@@ -23,34 +23,30 @@ export const MARKER_MAX_VERTICAL = MAP_MAX_VERTICAL - TILE_SIZE;
 export const sidebar = Object.freeze([
   {
     image: keyIcon,
-    label: "tooltip.all_markers",
-    href: "/markers/all",
+    tooltip: "tooltip.all_markers",
+    types: ["spawn", "saipark"],
   },
   {
     image: temcardIcon,
-    label: "tooltip.temtem_markers",
-    href: "/markers/temtem",
+    tooltip: "tooltip.temtem_markers",
+    types: ["spawn"],
   },
   {
     image: landmarkIcon,
-    label: "tooltip.landmark_markers",
-    href: "/markers/landmark",
+    tooltip: "tooltip.landmark_markers",
+    types: ["saipark"],
   },
 ]);
 
-// Marker types for Temzone endpoint
-export const Type = Object.freeze({
-  Temtem: "temtem",
-  Saipark: "saipark",
-  Landmark: "landmark",
-});
-
 // Returns the path of the marker image
 export function markerIconPath(marker) {
-  const name = marker.title.replace(" ", "_").toLowerCase();
+  const name = marker.title
+    .replace(/[()]/g, "")
+    .replace(" ", "_")
+    .toLowerCase();
 
   switch (marker.type) {
-    case Type.Temtem:
+    case "spawn":
       try {
         // Check if image path exists
         require("../public/images/" + name + "_icon.png");
@@ -59,8 +55,7 @@ export function markerIconPath(marker) {
       } catch {
         return "../images/temcard_icon.png";
       }
-    case Type.Saipark:
-    case Type.Landmark:
+    case "saipark":
       return "../images/landmark_icon.png";
   }
 }

@@ -1,18 +1,15 @@
 import { Marker } from "components/Marker";
-import { useTemzone } from "hooks/Temzone";
 import { useCallback } from "react";
+import { updateSaiparkMarker } from "services";
 
 export function SaiparkMarker({ marker }) {
-  // State
-  const { updateSaiparkMarker } = useTemzone();
-
   const handleMarkerUpdate = useCallback(
-    (_, coordinates) => {
+    (_data, coordinates) => {
       return updateSaiparkMarker(marker.id, {
         coordinates,
       });
     },
-    [marker, updateSaiparkMarker]
+    [marker]
   );
 
   return <Marker handleMarkerUpdate={handleMarkerUpdate} marker={marker} />;

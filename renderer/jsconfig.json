@@ -1,5 +1,8 @@
 {
   "compilerOptions": {
-    "baseUrl": "."
+    "baseUrl": ".",
+    "paths": {
+      "package.json": ["../package.json"]
+    }
   }
 }

@@ -1,23 +1,27 @@
-import { NavLink } from "components/NavLink";
+import { NavButton } from "components/NavButton";
 import { Tooltip } from "components/Tooltip";
-import { useAuth } from "hooks/Auth";
+import { useAccordion } from "hooks/Accordion";
 import { t } from "locales";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import performanceIcon from "public/images/performance_icon.png";
-import { useCallback } from "react";
+import { useEffect, useState } from "react";
+import { getMarkers, logout } from "services";
 import { sidebar } from "utils";
 
 export function Sidebar() {
   // Navigation
   const router = useRouter();
 
-  // Authentication
-  const { logout } = useAuth();
+  // State
+  const [selectedOption, setOption] = useState(sidebar[0]);
+  const { updateAccordion } = useAccordion();
 
-  const handleLogout = useCallback(() => {
-    logout().then(() => router.push("/login"));
-  }, [logout, router]);
+  useEffect(() => {
+    const markers = getMarkers(selectedOption.types);
+
+    updateAccordion(markers);
+  }, [selectedOption, updateAccordion]);
 
   return (
     <aside
@@ -25,20 +29,20 @@ export function Sidebar() {
       onDragStart={(event) => event.preventDefault()}
     >
       {/* Marker type filters */}
-      {sidebar.map((item, i) => (
-        <Tooltip key={i} message={t(item.label)}>
-          <NavLink
-            active={router.asPath.startsWith(item.href)}
-            onClick={() => router.push(item.href)}
+      {sidebar.map((option, i) => (
+        <Tooltip key={i} message={t(option.tooltip)}>
+          <NavButton
+            active={selectedOption === option}
+            onClick={() => setOption(option)}
           >
             <Image
-              src={item.image}
-              alt={t(item.label)}
+              src={option.image}
+              alt={t(option.tooltip)}
               width={36}
               height={36}
               quality={100}
             />
-          </NavLink>
+          </NavButton>
         </Tooltip>
       ))}
 
@@ -47,7 +51,10 @@ export function Sidebar() {
 
       {/* Logout button */}
       <Tooltip message={t("tooltip.logout")}>
-        <NavLink active={false} onClick={handleLogout}>
+        <NavButton
+          active={false}
+          onClick={() => logout().then(() => router.push("/login"))}
+        >
           <Image
             src={performanceIcon}
             alt={t("tooltip.logout")}
@@ -55,7 +62,7 @@ export function Sidebar() {
             height={36}
             quality={100}
           />
-        </NavLink>
+        </NavButton>
       </Tooltip>
     </aside>
   );
