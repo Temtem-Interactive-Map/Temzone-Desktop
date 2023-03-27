@@ -16,6 +16,10 @@
   --toastify-color-warning: #fcd63a;
 }
 
-#airborne_archipelago {
+body {
+  background: #001e3c;
+}
+
+#map {
   background: #001e3c;
 }
