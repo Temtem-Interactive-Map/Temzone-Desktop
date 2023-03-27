@@ -1,4 +1,4 @@
-export function NavLink({ active, onClick, children }) {
+export function NavButton({ active, onClick, children }) {
   return (
     <div className="group relative block">
       {/* Left arrow */}
