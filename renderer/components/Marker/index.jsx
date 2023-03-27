@@ -55,7 +55,7 @@ export function CoordinatesField({ marker }) {
   const coordinates = getMarkerCoordinates(marker);
 
   useEffect(() => {
-    subscribeMarkerDrag(marker, (_, coordinates) => {
+    subscribeMarkerDrag(marker, (_marker, coordinates) => {
       setValue("coordinate_horizontal", coordinates.x);
       setValue("coordinate_vertical", coordinates.y);
     });
