@@ -21,6 +21,23 @@ export function useAccordion() {
     subscribeMarkerDrag,
   } = useMap();
 
+  const isMarkerOpen = useCallback(
+    (marker) => openMarker?.id === marker.id,
+    [openMarker]
+  );
+
+  const updateMarker = useCallback(
+    (newMarker) => {
+      setOpenMarker(newMarker);
+      setMarkers((prevMarkers) =>
+        prevMarkers.map((prevMarker) =>
+          prevMarker.id === newMarker.id ? newMarker : prevMarker
+        )
+      );
+    },
+    [setOpenMarker, setMarkers]
+  );
+
   const scrollToMarker = useCallback((marker) => {
     const element = document.getElementById("#" + marker.id);
 
@@ -217,28 +234,11 @@ export function useAccordion() {
     ]
   );
 
-  const isMarkerOpen = useCallback(
-    (marker) => openMarker?.id === marker.id,
-    [openMarker]
-  );
-
-  const updateMarker = useCallback(
-    (newMarker) => {
-      setOpenMarker(newMarker);
-      setMarkers((prevMarkers) =>
-        prevMarkers.map((prevMarker) =>
-          prevMarker.id === newMarker.id ? newMarker : prevMarker
-        )
-      );
-    },
-    [setOpenMarker, setMarkers]
-  );
-
   return {
     markers,
-    updateAccordion,
-    handleAccordionClick,
     isMarkerOpen,
     updateMarker,
+    updateAccordion,
+    handleAccordionClick,
   };
 }
