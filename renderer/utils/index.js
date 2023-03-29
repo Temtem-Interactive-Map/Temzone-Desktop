@@ -20,37 +20,153 @@ export const MARKER_MIN_VERTICAL = MAP_MIN_VERTICAL + TILE_SIZE;
 export const MARKER_MAX_VERTICAL = MAP_MAX_VERTICAL - TILE_SIZE;
 
 // Sidebar button data
-export const sidebar = Object.freeze([
+export const SIDEBAR = Object.freeze([
   {
     image: keyIcon,
-    label: "tooltip.all_markers",
-    href: "/markers/all",
+    tooltip: "tooltip.all_markers",
+    types: ["spawn", "saipark"],
   },
   {
     image: temcardIcon,
-    label: "tooltip.temtem_markers",
-    href: "/markers/temtem",
+    tooltip: "tooltip.temtem_markers",
+    types: ["spawn"],
   },
   {
     image: landmarkIcon,
-    label: "tooltip.landmark_markers",
-    href: "/markers/landmark",
+    tooltip: "tooltip.landmark_markers",
+    types: ["saipark"],
   },
 ]);
 
-// Marker types for Temzone endpoint
-export const Type = Object.freeze({
-  Temtem: "temtem",
-  Saipark: "saipark",
-  Landmark: "landmark",
-});
+export const TEMTEM = Object.freeze([
+  "0b1",
+  "Adoroboros",
+  "Akranox",
+  "Ampling",
+  "Arachnyte",
+  "Azuroc",
+  "Babawa",
+  "Banapi",
+  "Barnshe",
+  "Blooze",
+  "Broccoblin",
+  "Broccolem",
+  "Bunbun",
+  "Capyre",
+  "Chimurian",
+  "Chromeon",
+  "Chubee",
+  "Crystle",
+  "Cycrox",
+  "Deendre",
+  "Drakash",
+  "Droply",
+  "Fomu",
+  "Galvanid",
+  "Ganki",
+  "Garyo",
+  "Gazuma",
+  "Gharunder",
+  "Golzy",
+  "Gorong",
+  "Goty",
+  "Grumper",
+  "Grumvel",
+  "Gyalis",
+  "Halzhi",
+  "Hazrat",
+  "Hidody",
+  "Hocus",
+  "Hoglip",
+  "Houchic",
+  "Innki",
+  "Kaku",
+  "Kalabyss",
+  "Kalazu",
+  "Kinu",
+  "Koish",
+  "Kuri",
+  "Lapinite",
+  "Loali",
+  "Magmis",
+  "Maoala",
+  "Mastione",
+  "Mawtle",
+  "Mimit",
+  "Minttle",
+  "Mitty",
+  "Momo",
+  "Mosu",
+  "Mudrid",
+  "Mushi",
+  "Mushook",
+  "Nessla",
+  "Occlura",
+  "Oceara",
+  "Oree",
+  "Orphyll",
+  "Osuchi",
+  "Osukai",
+  "Osukan",
+  "Owlhe",
+  "Paharac",
+  "Paharo",
+  "Pewki",
+  "Pigepic",
+  "Piraniant",
+  "Platimous",
+  "Platox",
+  "Platypet",
+  "Pupoise",
+  "Pycko",
+  "Raiber",
+  "Raican",
+  "Raize",
+  "Reval",
+  "Rhoulder",
+  "Saipark",
+  "Saipat",
+  "Saku",
+  "Scarawatt",
+  "Shaolite",
+  "Shuine",
+  "Skail",
+  "Skunch",
+  "Smazee",
+  "Sparzy",
+  "Spriole",
+  "Swali",
+  "Taifu",
+  "Tateru",
+  "Thaiko",
+  "Towly",
+  "Toxolotl",
+  "Tuwai",
+  "Ukama",
+  "Umishi",
+  "Valash",
+  "Valiar",
+  "Venx",
+  "Volarend",
+  "Vulffy",
+  "Vulor",
+  "Vulvir",
+  "Wiplump",
+  "Yowlar",
+  "Zenoreth",
+  "Zephyruff",
+  "Zizare",
+]);
 
 // Returns the path of the marker image
 export function markerIconPath(marker) {
-  const name = marker.title.replace(" ", "_").toLowerCase();
+  const name = marker.title
+    .replace(/[()]/g, "")
+    .replace(" ", "_")
+    .toLowerCase();
 
   switch (marker.type) {
-    case Type.Temtem:
+    case "spawn":
       try {
         // Check if image path exists
         require("../public/images/" + name + "_icon.png");
@@ -59,8 +175,7 @@ export function markerIconPath(marker) {
       } catch {
         return "../images/temcard_icon.png";
       }
-    case Type.Saipark:
-    case Type.Landmark:
+    case "saipark":
       return "../images/landmark_icon.png";
   }
 }

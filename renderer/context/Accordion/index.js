@@ -10,10 +10,18 @@ export function AccordionProvider({ children }) {
   // State
   const [markers, setMarkers] = useState([]);
   const [openMarker, setOpenMarker] = useState(null);
+  const [isLoading, setLoading] = useState(false);
 
   return (
     <AccordionContext.Provider
-      value={{ markers, setMarkers, openMarker, setOpenMarker }}
+      value={{
+        markers,
+        setMarkers,
+        openMarker,
+        setOpenMarker,
+        isLoading,
+        setLoading,
+      }}
     >
       <FormProvider {...methods}>{children}</FormProvider>
     </AccordionContext.Provider>

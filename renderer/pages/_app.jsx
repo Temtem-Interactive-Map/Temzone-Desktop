@@ -1,9 +1,9 @@
 import Head from "next/head";
+import packageJson from "package.json";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "styles/globals.css";
 import { SWRConfig } from "swr";
-import packageJson from "../../package.json";
 
 export default function App({ Component, pageProps }) {
   return (

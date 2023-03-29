@@ -1,4 +1,4 @@
-export function NavLink({ active, onClick, children }) {
+export function NavButton({ active, disabled = false, onClick, children }) {
   return (
     <div className="group relative block">
       {/* Left arrow */}
@@ -16,7 +16,8 @@ export function NavLink({ active, onClick, children }) {
       {/* Main button */}
       <button
         tabIndex={-1}
-        className="outline-none group-active:translate-y-px"
+        className="cursor-pointer outline-none group-active:translate-y-px"
+        disabled={disabled}
         onClick={onClick}
       >
         <div

@@ -136,11 +136,7 @@ export function useMap() {
     (markerRef, onClick) => {
       const marker = markers.current.get(markerRef.id);
 
-      marker.on("click", () => {
-        if (marker.dragging.enabled()) {
-          onClick(markerRef);
-        }
-      });
+      marker.on("click", () => onClick(markerRef));
     },
     [markers]
   );
@@ -160,30 +156,20 @@ export function useMap() {
     [map, markers]
   );
 
-  const enableMap = useCallback(() => {
-    map.current.dragging.enable();
-    map.current.touchZoom.enable();
-    map.current.doubleClickZoom.enable();
-    map.current.scrollWheelZoom.enable();
+  const subscribeMarkerDragStart = useCallback(
+    (markerRef, onDrag) => {
+      const marker = markers.current.get(markerRef.id);
 
-    markers.current.forEach((marker) => {
-      marker.dragging.enable();
-    });
-  }, [map, markers]);
+      marker.on("dragstart", (event) => {
+        const marker = event.target;
+        const latlng = marker.getLatLng();
+        const coordinates = map.current.project(latlng, ZOOM);
 
-  const disableMap = useCallback(() => {
-    if (map.current === undefined) return;
-
-    map.current.dragging.disable();
-    map.current.touchZoom.disable();
-    map.current.doubleClickZoom.disable();
-    map.current.scrollWheelZoom.disable();
-
-    markers.current.forEach((marker) => {
-      marker.dragging.disable();
-      marker.setOpacity(MARKER_OPACITY);
-    });
-  }, [map, markers]);
+        onDrag(markerRef, coordinates);
+      });
+    },
+    [map, markers]
+  );
 
   return {
     addMarker,
@@ -195,7 +181,6 @@ export function useMap() {
     getMarkerCoordinates,
     subscribeMarkerClick,
     subscribeMarkerDrag,
-    enableMap,
-    disableMap,
+    subscribeMarkerDragStart,
   };
 }
