@@ -47,7 +47,7 @@ export function useAccordion() {
   const scrollToMarker = useCallback((marker) => {
     const element = document.getElementById("#" + marker.id);
 
-    element.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    element.scrollIntoView({ behavior: "smooth" });
   }, []);
 
   const resetMarkerForm = useCallback(
