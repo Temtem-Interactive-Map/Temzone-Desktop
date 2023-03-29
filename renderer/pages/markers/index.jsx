@@ -9,13 +9,6 @@ const MapProvider = dynamic(
   }
 );
 
-const Sidebar = dynamic(
-  () => import("components/Sidebar").then((module) => module.Sidebar),
-  {
-    ssr: false,
-  }
-);
-
 const Accordion = dynamic(
   () => import("components/Accordion").then((module) => module.Accordion),
   {
@@ -27,9 +20,6 @@ export default function Markers() {
   return (
     <MapProvider>
       <AccordionProvider>
-        {/* Sidebar menu */}
-        <Sidebar />
-
         {/* Markers accordion */}
         <Accordion />
 
