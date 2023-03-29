@@ -43,10 +43,8 @@ temzoneApi.interceptors.response.use(
   }
 );
 
-let markers = [];
-
 export async function login(email, password) {
-  const userCredential = await signInWithEmailAndPassword(auth, email, password)
+  return signInWithEmailAndPassword(auth, email, password)
     .then(async (userCredential) => {
       const tokenResult = await userCredential.user.getIdTokenResult();
 
@@ -83,61 +81,28 @@ export async function login(email, password) {
 
       throw error;
     });
-
-  markers = await temzoneApi.get("/markers", {
-    params: new URLSearchParams({ types: "spawn,saipark" }),
-  });
-
-  return userCredential;
 }
 
 export async function logout() {
   return signOut(auth);
 }
 
-export function getMarkers(types) {
-  return markers.filter((marker) => types.includes(marker.type));
+export async function getMarkers() {
+  return temzoneApi.get("/markers", {
+    params: new URLSearchParams({ types: "spawn,saipark" }),
+  });
 }
 
 export async function updateSpawnMarker(id, marker) {
-  return temzoneApi
-    .put("/markers/spawns/" + id, {
-      subtitle: marker.subtitle,
-      condition: marker.condition,
-      coordinates: marker.coordinates,
-    })
-    .then((response) => {
-      const index = markers.findIndex((marker) => marker.id === id);
-
-      markers[index] = {
-        id: marker.id,
-        type: marker.type,
-        title: marker.title,
-        subtitle: marker.subtitle,
-        condition: marker.condition,
-        coordinates: marker.coordinates,
-      };
-
-      return response;
-    });
+  return temzoneApi.put("/markers/spawns/" + id, {
+    subtitle: marker.subtitle,
+    condition: marker.condition,
+    coordinates: marker.coordinates,
+  });
 }
 
 export async function updateSaiparkMarker(id, marker) {
-  return temzoneApi
-    .put("/markers/saipark/" + id, {
-      coordinates: marker.coordinates,
-    })
-    .then((response) => {
-      const index = markers.findIndex((marker) => marker.id === id);
-
-      markers[index] = {
-        id: marker.id,
-        type: marker.type,
-        title: marker.title,
-        subtitle: marker.subtitle,
-        coordinates: marker.coordinates,
-      };
-
-      return response;
-    });
+  return temzoneApi.put("/markers/saipark/" + id, {
+    coordinates: marker.coordinates,
+  });
 }
