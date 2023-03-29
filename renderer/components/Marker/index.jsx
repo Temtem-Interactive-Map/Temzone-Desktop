@@ -4,7 +4,7 @@ import { LoadingButton } from "components/LoadingButton";
 import { useAccordion } from "hooks/Accordion";
 import { useMap } from "hooks/Map";
 import { t } from "locales";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect } from "react";
 import { useFormContext } from "react-hook-form";
 import { toast } from "react-toastify";
 import {
@@ -117,8 +117,7 @@ export function Marker({ handleMarkerUpdate, marker, children }) {
   const { handleSubmit } = useFormContext();
 
   // State
-  const [isLoading, setLoading] = useState(false);
-  const { updateMarker } = useAccordion();
+  const { updateMarker, isLoading, setLoading } = useAccordion();
 
   const handleMarkerUpdateSubmit = useCallback(
     (data) => {
@@ -135,7 +134,7 @@ export function Marker({ handleMarkerUpdate, marker, children }) {
         .catch((error) => toast.warn(error.message))
         .finally(() => setLoading(false));
     },
-    [marker, handleMarkerUpdate, updateMarker]
+    [setLoading, handleMarkerUpdate, marker, updateMarker]
   );
 
   return (
