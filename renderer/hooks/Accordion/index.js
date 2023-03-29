@@ -6,8 +6,14 @@ import { useFormContext } from "react-hook-form";
 export function useAccordion() {
   // Context
   const { reset } = useFormContext();
-  const { markers, setMarkers, openMarker, setOpenMarker } =
-    useContext(AccordionContext);
+  const {
+    markers,
+    setMarkers,
+    openMarker,
+    setOpenMarker,
+    isLoading,
+    setLoading,
+  } = useContext(AccordionContext);
 
   // State
   const {
@@ -236,6 +242,8 @@ export function useAccordion() {
 
   return {
     markers,
+    isLoading,
+    setLoading,
     isMarkerOpen,
     updateMarker,
     updateAccordion,
