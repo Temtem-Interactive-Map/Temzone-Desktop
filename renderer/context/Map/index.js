@@ -119,9 +119,11 @@ export function MapProvider({ children }) {
     });
 
     // Fix the map size on the first render
-    setTimeout(() => {
-      map.current.invalidateSize();
-    }, 200);
+    const timer = setTimeout(() => map.current.invalidateSize(), 200);
+
+    return () => {
+      clearTimeout(timer);
+    };
   }, []);
 
   return (
