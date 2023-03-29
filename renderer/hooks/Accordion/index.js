@@ -24,7 +24,7 @@ export function useAccordion() {
     focusMarker,
     unfocusMarker,
     subscribeMarkerClick,
-    subscribeMarkerDrag,
+    subscribeMarkerDragStart,
   } = useMap();
 
   const isMarkerOpen = useCallback(
@@ -47,7 +47,14 @@ export function useAccordion() {
   const scrollToMarker = useCallback((marker) => {
     const element = document.getElementById("#" + marker.id);
 
-    element.scrollIntoView({ behavior: "smooth" });
+    setTimeout(
+      () =>
+        element.scrollIntoView({
+          behavior: "smooth",
+          block: "nearest",
+        }),
+      200
+    );
   }, []);
 
   const resetMarkerForm = useCallback(
@@ -68,7 +75,7 @@ export function useAccordion() {
   );
 
   const handleMarkerDrag = useCallback(
-    (marker, _) => {
+    (marker, _coordinates) => {
       setOpenMarker((prevOpenMarker) => {
         // Change the opacity of the selected marker
         focusMarker(marker);
@@ -129,7 +136,7 @@ export function useAccordion() {
           } else {
             addMarker(newMarker);
             subscribeMarkerClick(newMarker, handleMarkerClick);
-            subscribeMarkerDrag(newMarker, handleMarkerDrag);
+            subscribeMarkerDragStart(newMarker, handleMarkerDrag);
           }
         });
 
@@ -155,7 +162,7 @@ export function useAccordion() {
       addMarker,
       subscribeMarkerClick,
       handleMarkerClick,
-      subscribeMarkerDrag,
+      subscribeMarkerDragStart,
       handleMarkerDrag,
       removeMarker,
     ]
@@ -171,7 +178,7 @@ export function useAccordion() {
           if (marker.coordinates === null) {
             addMarker(marker);
             subscribeMarkerClick(marker, handleMarkerClick);
-            subscribeMarkerDrag(marker, handleMarkerDrag);
+            subscribeMarkerDragStart(marker, handleMarkerDrag);
           }
 
           // Reset the marker form state
@@ -203,7 +210,7 @@ export function useAccordion() {
             if (marker.coordinates === null) {
               addMarker(marker);
               subscribeMarkerClick(marker, handleMarkerClick);
-              subscribeMarkerDrag(marker, handleMarkerDrag);
+              subscribeMarkerDragStart(marker, handleMarkerDrag);
             }
 
             // Reset the form state
@@ -228,7 +235,7 @@ export function useAccordion() {
       addMarker,
       subscribeMarkerClick,
       handleMarkerClick,
-      subscribeMarkerDrag,
+      subscribeMarkerDragStart,
       handleMarkerDrag,
       reset,
       moveToMarker,
