@@ -156,6 +156,21 @@ export function useMap() {
     [map, markers]
   );
 
+  const subscribeMarkerDragStart = useCallback(
+    (markerRef, onDrag) => {
+      const marker = markers.current.get(markerRef.id);
+
+      marker.on("dragstart", (event) => {
+        const marker = event.target;
+        const latlng = marker.getLatLng();
+        const coordinates = map.current.project(latlng, ZOOM);
+
+        onDrag(markerRef, coordinates);
+      });
+    },
+    [map, markers]
+  );
+
   return {
     addMarker,
     removeMarker,
@@ -166,5 +181,6 @@ export function useMap() {
     getMarkerCoordinates,
     subscribeMarkerClick,
     subscribeMarkerDrag,
+    subscribeMarkerDragStart,
   };
 }
