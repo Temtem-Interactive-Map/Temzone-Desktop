@@ -20,8 +20,13 @@ export function Accordion() {
   const router = useRouter();
 
   // State
-  const { markers, isMarkerOpen, handleAccordionClick, updateAccordion } =
-    useAccordion();
+  const {
+    markers,
+    isMarkerOpen,
+    handleAccordionClick,
+    updateAccordion,
+    isLoading: isLocked,
+  } = useAccordion();
   const [sidebarOption, setSidebarOption] = useState(SIDEBAR[0]);
   const [selectOption, setSelectOption] = useState(TEMTEM_SELECT[0]);
 
@@ -71,6 +76,7 @@ export function Accordion() {
           <Tooltip key={i} message={t(option.tooltip)}>
             <NavButton
               active={sidebarOption === option}
+              disabled={isLocked}
               onClick={() => setSidebarOption(option)}
             >
               <Image
@@ -114,8 +120,9 @@ export function Accordion() {
           <div className="rounded-lg bg-gray-800 p-4 text-gray-100 shadow">
             <select
               tabIndex={-1}
-              className="block w-full rounded-md border border-gray-600 bg-gray-700 p-2.5 font-medium focus:outline focus:outline-2 focus:outline-blue-400"
+              className="block w-full rounded-md border border-gray-600 bg-gray-700 p-2.5 font-medium focus:outline focus:outline-2 focus:outline-blue-400 disabled:opacity-100"
               value={selectOption}
+              disabled={isLocked}
               onChange={(event) => setSelectOption(event.target.value)}
             >
               {TEMTEM_SELECT.map((option, i) => (
@@ -140,7 +147,8 @@ export function Accordion() {
               >
                 <button
                   tabIndex={-1}
-                  className="flex w-full items-center space-x-3 p-4 outline-none active:translate-y-px"
+                  className="flex w-full cursor-pointer items-center space-x-3 p-4 outline-none active:translate-y-px"
+                  disabled={isLocked}
                   onClick={() => handleAccordionClick(marker)}
                 >
                   {/* Marker portrait */}
