@@ -8,18 +8,36 @@
     -webkit-appearance: none;
     margin: 0;
   }
-}
 
-:root {
-  --toastify-color-dark: #202225;
-  --toastify-text-color-dark: #dcddde;
-  --toastify-color-warning: #fcd63a;
-}
+  select {
+    -webkit-appearance: none;
+  }
 
-body {
-  background: #001e3c;
-}
+  *::-webkit-scrollbar {
+    width: 15px;
+  }
 
-#map {
-  background: #001e3c;
+  *::-webkit-scrollbar-track {
+    background: #2f3136;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color: #dcddde;
+    border-radius: 14px;
+    border: 3px solid #2f3136;
+  }
+
+  :root {
+    --toastify-color-dark: #202225;
+    --toastify-text-color-dark: #dcddde;
+    --toastify-color-warning: #fcd63a;
+  }
+
+  body {
+    background: #001e3c;
+  }
+
+  #map {
+    background: #001e3c;
+  }
 }
