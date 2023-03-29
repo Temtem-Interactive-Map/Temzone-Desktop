@@ -88,9 +88,18 @@ export async function logout() {
 }
 
 export async function getMarkers() {
-  return temzoneApi.get("/markers", {
-    params: new URLSearchParams({ types: "spawn,saipark" }),
-  });
+  const responses = await Promise.all(
+    [0, 200, 400].map((offset) =>
+      temzoneApi.get("/markers", {
+        params: new URLSearchParams({
+          limit: 200,
+          offset,
+        }),
+      })
+    )
+  );
+
+  return responses.map((response) => response.items).flat();
 }
 
 export async function updateSpawnMarker(id, marker) {
