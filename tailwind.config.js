@@ -4,7 +4,6 @@ module.exports = {
     "./renderer/pages/**/*.{js,jsx}",
     "./renderer/components/**/*.{js,jsx}",
   ],
-  plugins: [require("tailwind-scrollbar-hide")],
   theme: {
     extend: {
       colors: {
