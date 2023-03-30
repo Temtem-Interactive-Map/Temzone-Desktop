@@ -76,7 +76,7 @@ export function Accordion() {
           <Tooltip key={i} message={t(option.tooltip)}>
             <NavButton
               active={sidebarOption === option}
-              disabled={isLocked}
+              disabled={isLocked || isLoading || isValidating || error}
               onClick={() => setSidebarOption(option)}
             >
               <Image
