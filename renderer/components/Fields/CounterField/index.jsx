@@ -59,7 +59,7 @@ export function CounterField({ id, label, value, options, onChange }) {
           id={id}
           type="number"
           disabled={true}
-          className="pointer-events-none block w-full border-t border-b border-gray-600 bg-gray-700 p-2.5 text-center text-gray-100 placeholder-gray-400 outline-none"
+          className="pointer-events-none block w-full border-b border-t border-gray-600 bg-gray-700 p-2.5 text-center text-gray-100 placeholder-gray-400 outline-none"
           {...register(id, options)}
         />
 
