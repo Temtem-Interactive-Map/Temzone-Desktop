@@ -23,7 +23,7 @@ export function ConditionField({ condition, placeholder }) {
       value={condition}
       placeholder={placeholder}
       options={{
-        maxLength: { value: 40 },
+        maxLength: { value: 80 },
       }}
     />
   );
@@ -40,7 +40,7 @@ export function LocationField({ location, placeholder }) {
       options={{
         required: t("error.required"),
         validate: (value) => (value.trim() ? true : t("error.required")),
-        maxLength: { value: 40 },
+        maxLength: { value: 80 },
       }}
     />
   );
