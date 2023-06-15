@@ -136,7 +136,11 @@ export function useMap() {
     (markerRef, onClick) => {
       const marker = markers.current.get(markerRef.id);
 
-      marker.on("click", () => onClick(markerRef));
+      marker.on("click", () => {
+        if (marker.dragging.enabled()) {
+          onClick(markerRef);
+        }
+      });
     },
     [markers]
   );
@@ -171,6 +175,18 @@ export function useMap() {
     [map, markers]
   );
 
+  const disableMap = useCallback(() => {
+    markers.current.forEach((marker) => {
+      marker.dragging.disable();
+    });
+  }, [markers]);
+
+  const enableMap = useCallback(() => {
+    markers.current.forEach((marker) => {
+      marker.dragging.enable();
+    });
+  }, [markers]);
+
   return {
     addMarker,
     removeMarker,
@@ -182,5 +198,7 @@ export function useMap() {
     subscribeMarkerClick,
     subscribeMarkerDrag,
     subscribeMarkerDragStart,
+    disableMap,
+    enableMap,
   };
 }
