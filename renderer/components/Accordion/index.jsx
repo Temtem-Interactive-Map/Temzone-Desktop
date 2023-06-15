@@ -13,7 +13,7 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { getMarkers, logout } from "services";
 import useSWR from "swr";
-import { SIDEBAR, TEMTEM as TEMTEM_SELECT, markerIconPath } from "utils";
+import { SIDEBAR, TEMTEM_LIST, markerIconPath } from "utils";
 
 export function Accordion() {
   // Navigation
@@ -28,7 +28,7 @@ export function Accordion() {
     isLoading: isLocked,
   } = useAccordion();
   const [sidebarOption, setSidebarOption] = useState(SIDEBAR[0]);
-  const [selectOption, setSelectOption] = useState(TEMTEM_SELECT[0]);
+  const [selectOption, setSelectOption] = useState(TEMTEM_LIST[0]);
 
   const { data, isLoading, isValidating, error } = useSWR(
     "markers",
@@ -125,7 +125,7 @@ export function Accordion() {
               disabled={isLocked}
               onChange={(event) => setSelectOption(event.target.value)}
             >
-              {TEMTEM_SELECT.map((option, i) => (
+              {TEMTEM_LIST.map((option, i) => (
                 <option key={i} className="text-md">
                   {option}
                 </option>

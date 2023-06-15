@@ -117,6 +117,7 @@ export function Marker({ handleMarkerUpdate, marker, children }) {
   const { handleSubmit } = useFormContext();
 
   // State
+  const { disableMap, enableMap } = useMap();
   const { updateMarker, isLoading, setLoading } = useAccordion();
 
   const handleMarkerUpdateSubmit = useCallback(
@@ -124,6 +125,7 @@ export function Marker({ handleMarkerUpdate, marker, children }) {
       const x = data.coordinate_horizontal;
       const y = data.coordinate_vertical;
 
+      disableMap();
       setLoading(true);
       handleMarkerUpdate(data, { x, y })
         .then(() => {
@@ -132,9 +134,19 @@ export function Marker({ handleMarkerUpdate, marker, children }) {
           updateMarker(marker);
         })
         .catch((error) => toast.warn(error.message))
-        .finally(() => setLoading(false));
+        .finally(() => {
+          enableMap();
+          setLoading(false);
+        });
     },
-    [setLoading, handleMarkerUpdate, marker, updateMarker]
+    [
+      setLoading,
+      handleMarkerUpdate,
+      marker,
+      updateMarker,
+      disableMap,
+      enableMap,
+    ]
   );
 
   return (

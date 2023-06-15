@@ -38,7 +38,7 @@ export const SIDEBAR = Object.freeze([
   },
 ]);
 
-export const TEMTEM = Object.freeze([
+export const TEMTEM_LIST = Object.freeze([
   "0b1",
   "Adoroboros",
   "Akranox",
