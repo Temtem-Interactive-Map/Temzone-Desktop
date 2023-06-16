@@ -99,7 +99,12 @@ export async function getMarkers() {
     )
   );
 
-  return responses.map((response) => response.items).flat();
+  return responses
+    .map((response) => response.items)
+    .flat()
+    .sort(
+      (a, b) => sortByLocation(a, b) || sortByArea(a, b) || sortByTitle(a, b)
+    );
 }
 
 export async function updateSpawnMarker(id, marker) {
@@ -114,4 +119,39 @@ export async function updateSaiparkMarker(id, marker) {
   return temzoneApi.put("/markers/saipark/" + id, {
     coordinates: marker.coordinates,
   });
+}
+
+function sortByLocation(a, b) {
+  const aLocation =
+    a.type === "saipark" ? a.title : a.subtitle.original.split(",")[0];
+  const bLocation =
+    b.type === "saipark" ? b.title : b.subtitle.original.split(",")[0];
+
+  if (aLocation < bLocation) {
+    return -1;
+  } else if (aLocation > bLocation) {
+    return 1;
+  } else {
+    return 0;
+  }
+}
+
+function sortByArea(a, b) {
+  const aArea = parseInt(a.subtitle.original.split(" ").slice(-1)) || 0;
+  const bArea = parseInt(b.subtitle.original.split(" ").slice(-1)) || 0;
+
+  return aArea - bArea;
+}
+
+function sortByTitle(a, b) {
+  const aTitle = a.title;
+  const bTitle = b.title;
+
+  if (aTitle < bTitle) {
+    return -1;
+  } else if (aTitle > bTitle) {
+    return 1;
+  } else {
+    return 0;
+  }
 }
