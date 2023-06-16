@@ -13,7 +13,7 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { getMarkers, logout } from "services";
 import useSWR from "swr";
-import { SIDEBAR, TEMTEM_LIST, markerIconPath } from "utils";
+import { SIDEBAR, markerIconPath } from "utils";
 
 export function Accordion() {
   // Navigation
@@ -28,13 +28,19 @@ export function Accordion() {
     isLoading: isLocked,
   } = useAccordion();
   const [sidebarOption, setSidebarOption] = useState(SIDEBAR[0]);
-  const [selectOption, setSelectOption] = useState(TEMTEM_LIST[0]);
+  const [temtemList, setTemtemList] = useState([]);
+  const [selectedTemtem, setSelectedTemtem] = useState(null);
 
   const { data, isLoading, isValidating, error } = useSWR(
     "markers",
     () => getMarkers(),
     {
       onSuccess: (markers) => {
+        const options = [
+          ...new Set(data.map((marker) => marker.title.split(" ")[0])),
+        ];
+        setTemtemList(options);
+        setSelectedTemtem(options[0]);
         updateAccordion(markers);
       },
       onError: (error) => {
@@ -51,7 +57,7 @@ export function Accordion() {
         updateAccordion(
           data.filter(
             (marker) =>
-              marker.title.includes(selectOption) &&
+              marker.title.includes(selectedTemtem) &&
               sidebarOption.types.includes(marker.type)
           )
         );
@@ -62,7 +68,7 @@ export function Accordion() {
         );
         break;
     }
-  }, [data, selectOption, sidebarOption, updateAccordion]);
+  }, [data, selectedTemtem, sidebarOption, updateAccordion]);
 
   return (
     <>
@@ -121,11 +127,11 @@ export function Accordion() {
             <select
               tabIndex={-1}
               className="block w-full rounded-md border border-gray-600 bg-gray-700 p-2.5 font-medium focus:outline focus:outline-2 focus:outline-blue-400 disabled:opacity-100"
-              value={selectOption}
+              value={selectedTemtem}
               disabled={isLocked}
-              onChange={(event) => setSelectOption(event.target.value)}
+              onChange={(event) => setSelectedTemtem(event.target.value)}
             >
-              {TEMTEM_LIST.map((option, i) => (
+              {temtemList.map((option, i) => (
                 <option key={i} className="text-md">
                   {option}
                 </option>
@@ -136,7 +142,7 @@ export function Accordion() {
 
         {/* Markers accordion */}
         {isLoading || isValidating || error
-          ? [...Array(10).keys()].map((key) => (
+          ? [...Array(20).keys()].map((key) => (
               <PlaceholderAccordion key={key} />
             ))
           : markers.map((marker) => (
@@ -178,7 +184,7 @@ export function Accordion() {
                         {marker.title.split(" ")[0]}
                       </span>
                       <span className="truncate text-lg font-medium leading-tight text-gray-300">
-                        {marker.subtitle.current}
+                        {marker.subtitle.original}
                       </span>
                     </div>
                   </div>
