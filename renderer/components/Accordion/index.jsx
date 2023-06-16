@@ -29,7 +29,7 @@ export function Accordion() {
   } = useAccordion();
   const [sidebarOption, setSidebarOption] = useState(SIDEBAR[0]);
   const [temtemList, setTemtemList] = useState([]);
-  const [selectedTemtem, setSelectedTemtem] = useState(null);
+  const [selectedTemtem, setSelectedTemtem] = useState("");
 
   const { data, isLoading, isValidating, error } = useSWR(
     "markers",
@@ -37,8 +37,16 @@ export function Accordion() {
     {
       onSuccess: (markers) => {
         const options = [
-          ...new Set(data.map((marker) => marker.title.split(" ")[0])),
-        ];
+          ...new Set(markers.map((marker) => marker.title.split(" ")[0])),
+        ].sort((a, b) => {
+          if (a < b) {
+            return -1;
+          } else if (a > b) {
+            return 1;
+          } else {
+            return 0;
+          }
+        });
         setTemtemList(options);
         setSelectedTemtem(options[0]);
         updateAccordion(markers);
@@ -142,7 +150,7 @@ export function Accordion() {
 
         {/* Markers accordion */}
         {isLoading || isValidating || error
-          ? [...Array(20).keys()].map((key) => (
+          ? [...Array(14).keys()].map((key) => (
               <PlaceholderAccordion key={key} />
             ))
           : markers.map((marker) => (
