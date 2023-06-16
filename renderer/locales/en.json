@@ -21,7 +21,7 @@
     "coordinate_vertical": "Coordinate Y",
     "placeholder": {
       "email": "name@company.com",
-      "condition": "Requires Fishing Rod"
+      "condition": "Requires event to spawn"
     }
   },
   "error": {
