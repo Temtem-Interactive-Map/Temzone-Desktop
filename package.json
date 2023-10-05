@@ -46,7 +46,7 @@
     "leaflet": "1.9.4",
     "next": "13.4.6",
     "nextron": "8.5.0",
-    "postcss": "8.4.24",
+    "postcss": "8.4.31",
     "prettier": "2.8.8",
     "prettier-eslint": "15.0.1",
     "prettier-plugin-tailwindcss": "0.3.0",
